@@ -1,5 +1,5 @@
 // Authors: 
-// ...
+// C
 // ...
 
 // Problem description:
