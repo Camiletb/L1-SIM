@@ -53,6 +53,17 @@ final float Gc = 9.801;   // Gravity constant (m/(s*s))
 final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*s))
 final float C2 = -200; //Altura del muelle C2 
 final float C1 = 200; //Longitud al muelle C1
+final float h = C2; //altura del triángulo
+final float w = C1; //base del triángulo
+final float K_e1=0;
+final float l_01=0;
+final float K_e2=0;
+final float l_02=0;
+final float theta=atan2(C2, C1);
+//final float K_d, mu;
+  //K_d=0;
+  //mu=0;
+
 // ...
 // ...
 // ...
@@ -79,8 +90,8 @@ float _energy;   // Total energy of the particle (J)
 // Variables to be solved:
 
 PVector _s = new PVector();   // Position of the particle (m)
-PVector _v = new PVector();   // Velocity of the particle (m/s)
-PVector _a = new PVector();   // Accleration of the particle (m/(s*s))
+PVector _v = new PVector(0, 0);   // Velocity of the particle (m/s)
+PVector _a = new PVector(0, 0);   // Accleration of the particle (m/(s*s))
 
 
 // Main code:
@@ -129,8 +140,9 @@ void drawStaticEnvironment()
   line(screenPos.x, screenPos.y, screenPos.x + DISPLAY_SIZE_X, screenPos.y);
   line(screenPos.x, screenPos.y, screenPos.x, screenPos.y - DISPLAY_SIZE_Y);
   //C2 y C1
-  circle(screenPos.x, screenPos.y + C2, 20);
-  circle(screenPos.x + C1, screenPos.y, 20);
+  circle(screenPos.x, screenPos.y + C2, 20); //Muelle 2
+  fill(150);
+  circle(screenPos.x + C1, screenPos.y, 20); //Muelle 1
   //Pendiente
   line(screenPos.x, screenPos.y + C2, screenPos.x + C1, screenPos.y);
 }
@@ -143,9 +155,12 @@ void drawMovingElements()
   PVector screenPos = new PVector();
   worldToScreen(_s, screenPos);
   //Partícula
-  float yp = screenPos.y + C2/2;
+  float yp = screenPos.y + C2/2; //Luego tenemos que poder cambiar P1 y P2 (h y w)
   float xp = screenPos.x + C1/2;
-  circle(xp, yp, worldToPixels(OBJECTS_SIZE)); // Luego la posición cambiará
+  _s.y = screenPos.y + C2/2;
+  _s.x = screenPos.x + C1/2;
+  circle(_s.x, _s.y, worldToPixels(OBJECTS_SIZE)); // Luego la posición cambiará
+  line(w/2, h/2, _s.x, _s.y);
   line(screenPos.x, screenPos.y + C2, xp, yp);
   line(xp,  yp, screenPos.x + C1, screenPos.y);
 }
@@ -197,6 +212,10 @@ void updateSimulation()
 
 void updateSimulationExplicitEuler()
 {
+  _a = calculateAcceleration(_s, _v);
+  _s.add(PVector.mult(_v, SIM_STEP)); //dt = SIM_STEP
+  _v.add(PVector.mult(_a, SIM_STEP));
+  
   // ...
   // ... use calculateAcceleration()
   // ...
@@ -232,7 +251,39 @@ void updateSimulationRK4()
 
 PVector calculateAcceleration(PVector s, PVector v)
 {
-  PVector a = new PVector();
+  PVector a = new PVector(0, 0);
+  
+  PVector screenPos = new PVector();
+  worldToScreen(_s, screenPos);
+  
+  PVector vFe1, vFe2, vFw, vFn;
+  PVector pen1, pen2, peso, normal;
+  float Fe1, Fe2, Fw, Fn;
+
+  
+  /*Parámetros de fuerzas*/
+  Fe1 = K_e1 * l_01;
+  Fe2 = K_e2 * l_02;
+  Fw = M * Gc;
+  Fn = M * Gc * cos(theta);
+  
+  /*Vectores dirección*/
+  pen1 = new PVector(w-w/2, 0-h/2);
+  pen2 = new PVector(0-w/2, h-h/2);
+  peso = new PVector(0, 1);
+  normal = new PVector(h/2, -w/2);
+  
+    /*Vectores de fuerzas*/
+  vFe1 = (PVector.mult((pen1), Fe1));
+  vFe2 = (PVector.mult((pen2), Fe2));
+  vFw = (PVector.mult((peso), Fw));
+  vFn = (PVector.mult((normal), Fn));
+  
+  /*Sumatorio de fuerzas*/
+  a.add(vFe1);
+  a.add(vFe2);
+  a.add(vFw);
+  a.add(vFn);
   // ...
   // ...
   // ...
