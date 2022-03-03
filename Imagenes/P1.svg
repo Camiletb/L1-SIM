@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   sodipodi:docname="P1.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.81134749"
+     inkscape:cx="639.06033"
+     inkscape:cy="180.56382"
+     inkscape:window-width="1765"
+     inkscape:window-height="1057"
+     inkscape:window-x="154"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;fill:context-stroke;stroke:context-stroke;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path17894" />
+    </marker>
+    <rect
+       x="493.25345"
+       y="-4.8780507"
+       width="533.23941"
+       height="98.135484"
+       id="rect10558" />
+    <rect
+       x="670.44185"
+       y="360.51388"
+       width="124.75598"
+       height="110.99282"
+       id="rect3671" />
+    <rect
+       x="670.44185"
+       y="360.51388"
+       width="124.75598"
+       height="110.99282"
+       id="rect5409" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;stroke:#1a1a1a;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:bevel"
+       id="rect947"
+       width="278.32574"
+       height="230.04526"
+       x="-11.685536"
+       y="-30.755772" />
+    <path
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       d="m 121.53636,-15.927568 c -0.07,99.504277 -0.07,99.504277 -0.07,99.504277 L 244.10542,84.0913"
+       id="path982" />
+    <ellipse
+       style="fill:#00ff00;stroke:#1a1a1a;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:bevel"
+       id="path1130"
+       cx="122.64213"
+       cy="41.601635"
+       rx="5.3498259"
+       ry="5.0260582" />
+    <ellipse
+       style="fill:#ff0000;stroke:#1a1a1a;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:bevel"
+       id="path1132"
+       cx="185.52605"
+       cy="83.56459"
+       rx="5.1914573"
+       ry="5.0915594" />
+    <path
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#00ffff;fill-opacity:0.3498024;stroke:#000000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       d="m 121.46636,83.576707 63.46467,-0.02074 -63.56469,-43.745681 z"
+       id="path1266" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-45.0116,-7.4437879)"
+       id="text3669"
+       style="font-size:48px;line-height:1.25;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';text-align:center;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect3671);fill:#000000;fill-opacity:1;stroke:none;stroke-width:7.80472;stroke-linecap:round;stroke-linejoin:bevel"><tspan
+         x="683.37939"
+         y="402.51367"
+         id="tspan18340">c1 = W</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-90.721803,-40.464926)"
+       id="text5407"
+       style="font-size:48px;line-height:1.25;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';text-align:center;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect5409);fill:#000000;fill-opacity:1;stroke:none;stroke-width:7.80472;stroke-linecap:round;stroke-linejoin:bevel"><tspan
+         x="686.66742"
+         y="402.51367"
+         id="tspan18342">c2 = H</tspan></text>
+    <path
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#00ffff;fill-opacity:0.349802;stroke:#000000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       d="m -11.585516,13.010618 63.46467,-0.0207 -63.56469,-43.74569 z"
+       id="path6693" />
+    <ellipse
+       style="fill:#0000ff;stroke:#1a1a1a;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:bevel"
+       id="ellipse6695"
+       cx="149.78798"
+       cy="59.316387"
+       rx="5.1914573"
+       ry="5.0915594" />
+    <path
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff00ff;fill-opacity:0.487701;stroke:#000000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       d="m -11.685536,-30.755772 0.0716,22.592805 34.82026,1.024858 z"
+       id="path6828" />
+    <path
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ff00ff;fill-opacity:0.487701;stroke:#000000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       d="m 150.03917,59.938304 0.0716,22.592805 34.82026,1.024858 z"
+       id="path7174" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text10556"
+       style="font-size:48px;line-height:1.25;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue';text-align:center;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect10558);fill:#0200ff;fill-opacity:1;stroke:none;stroke-width:7.80472;stroke-linecap:round;stroke-linejoin:bevel"><tspan
+         x="567.08176"
+         y="37.121094"
+         id="tspan18344">PENDIENTE = (XF-XI, YF-YI)</tspan></text>
+    <path
+       style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow1Lend);stop-color:#000000;stop-opacity:1"
+       d="m 171.41153,55.96725 c 31.73596,21.409763 33.32633,22.250598 33.32633,22.250598"
+       id="path17809" />
+    <path
+       style="font-variation-settings:normal;opacity:1;fill:none;fill-opacity:1;stroke:#00ff00;stroke-width:0.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow1Lend);stop-color:#000000;stop-opacity:1"
+       d="M 151.41012,43.945619 C 119.67416,22.535856 118.08379,21.695021 118.08379,21.695021"
+       id="path18159" />
+    <ellipse
+       style="fill:#0000ff;stroke:#1a1a1a;stroke-width:2.065;stroke-linecap:round;stroke-linejoin:bevel"
+       id="ellipse18295"
+       cx="23.951506"
+       cy="-7.1508336"
+       rx="5.1914573"
+       ry="5.0915594" />
+  </g>
+</svg>
