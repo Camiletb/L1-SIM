@@ -26,7 +26,7 @@ enum IntegratorType
 
 // Parameters of the numerical integration:
 
-final boolean REAL_TIME = true;
+final boolean REAL_TIME = false;
 final float SIM_STEP = 0.01;   // Simulation time-step (s)
 IntegratorType _integrator = IntegratorType.EXPLICIT_EULER;   // ODE integration method
 
@@ -51,15 +51,20 @@ final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that c
 final float M = 1.0;   // Particle mass (kg)
 final float Gc = 9.801;   // Gravity constant (m/(s*s))
 final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*s))
-final float C2 = -200; //Altura del muelle C2 
-final float C1 = 200; //Longitud al muelle C1
-final float h = C2; //altura del triángulo
-final float w = C1; //base del triángulo
-final float K_e1=0;
-final float l_01=0;
-final float K_e2=0;
-final float l_02=0;
-final float theta=atan2(C2, C1);
+//final PVector C2 = (0, -200); //Altura del muelle C2 
+
+//final float C1 = 200; //Longitud al muelle C1
+
+
+final float K_e1=20; //La força amb la que espija
+final float l_01=5;//A la que li agrada estar
+final float K_e2=5;
+final float l_02=20;
+final float theta=30;
+final float L = 10; //Longitut rampa
+final PVector C1 = new PVector(cos(radians(theta))* L, 0);
+final PVector C2 = new PVector(0, sin(radians(theta))* L);
+final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
 //final float K_d, mu;
   //K_d=0;
   //mu=0;
@@ -86,6 +91,8 @@ final String FILE_NAME = "data.txt";
 // Auxiliary variables:
 
 float _energy;   // Total energy of the particle (J)
+final float h = C2.y; //altura del triángulo
+final float w = C1.x; //base del triángulo
 
 // Variables to be solved:
 
@@ -136,33 +143,32 @@ void drawStaticEnvironment()
 
   PVector screenPos = new PVector();
   worldToScreen(new PVector(), screenPos);
-  circle(screenPos.x, screenPos.y, 20);
+  //circle(screenPos.x, screenPos.y, 20);
   line(screenPos.x, screenPos.y, screenPos.x + DISPLAY_SIZE_X, screenPos.y);
   line(screenPos.x, screenPos.y, screenPos.x, screenPos.y - DISPLAY_SIZE_Y);
   //C2 y C1
-  circle(screenPos.x, screenPos.y + C2, 20); //Muelle 2
+  PVector c1screen = new PVector();
+  PVector c2screen = new PVector();
+  worldToScreen(C1, c1screen);
+  worldToScreen(C2, c2screen);
+  circle(c2screen.x, c2screen.y, 20); //Muelle 2
   fill(150);
-  circle(screenPos.x + C1, screenPos.y, 20); //Muelle 1
+  circle(c1screen.x, c1screen.y, 20); //Muelle 1
+  //println(C1);
   //Pendiente
-  line(screenPos.x, screenPos.y + C2, screenPos.x + C1, screenPos.y);
+  line(c1screen.x, c1screen.y, c2screen.x, c2screen.y);
 }
 
 void drawMovingElements()
 {
-  fill(OBJECTS_COLOR[0], OBJECTS_COLOR[1], OBJECTS_COLOR[2]);
+  
+    fill(OBJECTS_COLOR[0], OBJECTS_COLOR[1], OBJECTS_COLOR[2]);
   strokeWeight(1);
 
   PVector screenPos = new PVector();
   worldToScreen(_s, screenPos);
-  //Partícula
-  float yp = screenPos.y + C2/2; //Luego tenemos que poder cambiar P1 y P2 (h y w)
-  float xp = screenPos.x + C1/2;
-  _s.y = screenPos.y + C2/2;
-  _s.x = screenPos.x + C1/2;
-  circle(_s.x, _s.y, worldToPixels(OBJECTS_SIZE)); // Luego la posición cambiará
-  line(w/2, h/2, _s.x, _s.y);
-  line(screenPos.x, screenPos.y + C2, xp, yp);
-  line(xp,  yp, screenPos.x + C1, screenPos.y);
+
+  circle(screenPos.x, screenPos.y, worldToPixels(OBJECTS_SIZE));
 }
 
 void PrintInfo()
@@ -176,7 +182,7 @@ void initSimulation()
 {
   _simTime = 0.0;
   _elapsedTime = 0.0;
-  
+  _s = s0.copy();
   // ...
   // ...
   // ...
@@ -270,7 +276,7 @@ PVector calculateAcceleration(PVector s, PVector v)
   /*Vectores dirección*/
   pen1 = new PVector(w-w/2, 0-h/2);
   pen2 = new PVector(0-w/2, h-h/2);
-  peso = new PVector(0, 1);
+  peso = new PVector(0, -1);
   normal = new PVector(h/2, -w/2);
   
     /*Vectores de fuerzas*/
@@ -284,6 +290,7 @@ PVector calculateAcceleration(PVector s, PVector v)
   a.add(vFe2);
   a.add(vFw);
   a.add(vFn);
+
   // ...
   // ...
   // ...
@@ -324,7 +331,7 @@ void draw()
   _elapsedTime += _deltaTimeDraw;
   _lastTimeDraw = now;
 
-  println("\nDraw step = " + _deltaTimeDraw + " s - " + 1.0/_deltaTimeDraw + " Hz");
+  //println("\nDraw step = " + _deltaTimeDraw + " s - " + 1.0/_deltaTimeDraw + " Hz");
 
   if (REAL_TIME)
   {
@@ -352,7 +359,7 @@ void draw()
   drawMovingElements();
 
   calculateEnergy();
-  PrintInfo();
+  //PrintInfo();
 }
 
 void mouseClicked() 
