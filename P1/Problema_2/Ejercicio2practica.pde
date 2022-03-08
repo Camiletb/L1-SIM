@@ -1,4 +1,4 @@
-// Authors: 
+// Authors:  //<>//
 // ...
 // ...
 
@@ -44,13 +44,16 @@ final int [] REFERENCE_COLOR = {0, 255, 0};
 final int [] OBJECTS_COLOR = {255, 0, 0};
 final float OBJECTS_SIZE = 1.0;   // Size of the objects (m)
 final float PIXELS_PER_METER = 20.0;   // Display length that corresponds with 1 meter (pixels)
-final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m)
+final PVector DISPLAY_CENTER = new PVector(25.0, 5.0);   // World position that corresponds with the center of the display (m)
 
 // Parameters of the problem:
 
-final float M = 1.0;   // Particle mass (kg)
+final float M = 2.0;   // Particle mass (kg)
 final float Gc = 9.801;   // Gravity constant (m/(s*s))
 final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*s))
+final float kad = 0.5; //Constante de fricción lineal con el aire.
+final float h = 5; //Altura a la que se encuentra el cañon
+final PVector s0 = new PVector(0.0, 25.0);
 // ...
 // ...
 // ...
@@ -125,8 +128,8 @@ void drawStaticEnvironment()
   PVector screenPos = new PVector();
   worldToScreen(new PVector(), screenPos);
   circle(screenPos.x, screenPos.y, 20);
-  //line(screenPos.x, screenPos.y, screenPos.x + DISPLAY_SIZE_X, screenPos.y);
-  //line(screenPos.x, screenPos.y, screenPos.x, screenPos.y - DISPLAY_SIZE_Y);
+  line(screenPos.x, screenPos.y, screenPos.x + DISPLAY_SIZE_X, screenPos.y);
+  line(screenPos.x, screenPos.y, screenPos.x, screenPos.y - DISPLAY_SIZE_Y);
 }
 
 void drawMovingElements()
@@ -152,8 +155,9 @@ void initSimulation()
   _simTime = 0.0;
   _elapsedTime = 0.0;
   
-  // ...
-  // ...
+  _s = s0.copy(); //Inicializamos la posicion inicial
+  _v.set(1.0, 1.0, 0.0); //Inicializamos la velocidad inicila
+  _a.set(0.0, 0.0, 0.0); //Inicializamos la aceleración inicial
   // ...
 }
 
@@ -187,9 +191,9 @@ void updateSimulation()
 
 void updateSimulationExplicitEuler()
 {
-  // ...
-  // ... use calculateAcceleration()
-  // ...
+  _a = calculateAcceleration(_s, _v);
+  _s.add(PVector.mult(_v,SIM_STEP));
+  _v.add(PVector.mult(_a, SIM_STEP));
 }
 
 void updateSimulationSimplecticEuler()
@@ -222,10 +226,13 @@ void updateSimulationRK4()
 
 PVector calculateAcceleration(PVector s, PVector v)
 {
-  PVector a = new PVector();
-  // ...
-  // ...
-  // ...
+  PVector Fw = PVector.mult(G, M);
+  PVector Fr = PVector.mult(v, -kad);
+  
+  PVector F = PVector.add(Fw, Fr);
+  
+  PVector a = PVector.div(F, M);
+
   return a;
 }
 
