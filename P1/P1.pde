@@ -60,10 +60,10 @@ final float K_e1=20; //La força amb la que espija
 final float l_01=5;//A la que li agrada estar
 final float K_e2=5;
 final float l_02=20;
-final float theta=30;
+final float theta= radians(45);
 final float L = 10; //Longitut rampa
-final PVector C1 = new PVector(cos(radians(theta))* L, 0);
-final PVector C2 = new PVector(0, sin(radians(theta))* L);
+final PVector C1 = new PVector(cos(theta)* L, 0);
+final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
 //final float K_d, mu;
   //K_d=0;
@@ -91,6 +91,8 @@ final String FILE_NAME = "data.txt";
 // Auxiliary variables:
 
 float _energy;   // Total energy of the particle (J)
+
+
 final float h = C2.y; //altura del triángulo
 final float w = C1.x; //base del triángulo
 
@@ -161,14 +163,20 @@ void drawStaticEnvironment()
 
 void drawMovingElements()
 {
+  PVector c1screen = new PVector();
+  PVector c2screen = new PVector();
+  worldToScreen(C1, c1screen);
+  worldToScreen(C2, c2screen);
   
-    fill(OBJECTS_COLOR[0], OBJECTS_COLOR[1], OBJECTS_COLOR[2]);
+  fill(OBJECTS_COLOR[0], OBJECTS_COLOR[1], OBJECTS_COLOR[2]);
   strokeWeight(1);
 
   PVector screenPos = new PVector();
   worldToScreen(_s, screenPos);
 
   circle(screenPos.x, screenPos.y, worldToPixels(OBJECTS_SIZE));
+  line(c2screen.x, c2screen.y, screenPos.x, screenPos.y); //Muelle
+  line(c1screen.x, c1screen.y, screenPos.x, screenPos.y); //Muelle
 }
 
 void PrintInfo()
@@ -268,33 +276,55 @@ PVector calculateAcceleration(PVector s, PVector v)
 
   
   /*Parámetros de fuerzas*/
+  PVector L1, L2, vl1, vl2, vk1;
+  L1 = PVector.sub(C1,_s);
+  L2 = PVector.sub(C2,_s);
+  vl1 = PVector.mult(L1.copy().normalize(), l_01); //elongacion del muelle en reposo hecha vector
+  vl2 = PVector.mult(L2.copy().normalize(), l_02);
   
-  Fe1 = K_e1 * (l_01);
-  Fe2 = K_e2 * (l_02);
+  //vl1.mag();
+  //vl2.mag();
+  
+  vFe1 = PVector.mult(PVector.sub(L1, vl1), K_e1);
+  vFe2 = PVector.mult(PVector.sub(L2, vl2), K_e2);
+  
+  //Fe2 = K_e2 * (L2-l_02);
   Fw = M * Gc;
-  Fn = M * Gc * cos(theta);
+  Fn = M * Gc * cos(theta); // 90
+
+  
   
   /*Vectores dirección*/
   pen1 = new PVector(w-w/2, 0-h/2);
   pen2 = new PVector(0-w/2, h-h/2);
-  peso = new PVector(0, -1);
-  normal = new PVector(h/2, -w/2);
+  normal = new PVector(h/2, w/2);
   
     /*Vectores de fuerzas*/
-  vFe1 = (PVector.mult((pen1), Fe1));
-  vFe2 = (PVector.mult((pen2), Fe2));
-  vFw = (PVector.mult((peso), Fw));
+  //vFe1 = (PVector.mult((pen1), Fe1));
+  //vFe2 = (PVector.mult((pen2), Fe2));
+  vFw = G.copy();
   vFn = (PVector.mult((normal), Fn));
+
+  vFn.setMag(Fn);// borrar
   
   /*Sumatorio de fuerzas*/
-  //a.add(vFe1);
-  //a.add(vFe2);
-  a.add(vFw);
-  a.add(vFn);
-  F = vFw.copy();
-  F.add(vFn.copy());
+  //F = vFw.copy();
+  //F.add(vFn);
+  F = new PVector();
+  F.add(vFe1);
+  F.add(vFe2);
   
-  a = PVector.div(F, Gc);
+  a = PVector.div(F, M);
+
+  //PVector s_to_px = new PVector();
+  //PVector f_to_px = new PVector();
+    
+
+  //worldToScreen(_s, s_to_px);
+  //worldToScreen(PVector.add(_s, vFn), f_to_px);
+
+  //line(s_to_px.x, s_to_px.y, f_to_px.x, f_to_px.y);
+
 
   // ...
   // ...
@@ -331,6 +361,9 @@ void setup()
 
 void draw()
 {
+  drawStaticEnvironment();
+  drawMovingElements();
+  
   int now = millis();
   _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
   _elapsedTime += _deltaTimeDraw;
@@ -360,8 +393,8 @@ void draw()
   else
     updateSimulation();
 
-  drawStaticEnvironment();
-  drawMovingElements();
+  // drawStaticEnvironment();
+  // drawMovingElements();
 
   calculateEnergy();
   //PrintInfo();
