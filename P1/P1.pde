@@ -262,14 +262,15 @@ PVector calculateAcceleration(PVector s, PVector v)
   PVector screenPos = new PVector();
   worldToScreen(_s, screenPos);
   
-  PVector vFe1, vFe2, vFw, vFn;
+  PVector vFe1, vFe2, vFw, vFn, F;
   PVector pen1, pen2, peso, normal;
   float Fe1, Fe2, Fw, Fn;
 
   
   /*Parámetros de fuerzas*/
-  Fe1 = K_e1 * l_01;
-  Fe2 = K_e2 * l_02;
+  
+  Fe1 = K_e1 * (l_01);
+  Fe2 = K_e2 * (l_02);
   Fw = M * Gc;
   Fn = M * Gc * cos(theta);
   
@@ -286,10 +287,14 @@ PVector calculateAcceleration(PVector s, PVector v)
   vFn = (PVector.mult((normal), Fn));
   
   /*Sumatorio de fuerzas*/
-  a.add(vFe1);
-  a.add(vFe2);
+  //a.add(vFe1);
+  //a.add(vFe2);
   a.add(vFw);
   a.add(vFn);
+  F = vFw.copy();
+  F.add(vFn.copy());
+  
+  a = PVector.div(F, Gc);
 
   // ...
   // ...
