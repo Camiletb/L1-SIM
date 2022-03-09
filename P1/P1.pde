@@ -65,6 +65,7 @@ final float L = 10; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
 final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
+boolean plano = true;
 //final float K_d, mu;
   //K_d=0;
   //mu=0;
@@ -139,6 +140,7 @@ void drawStaticEnvironment()
   text("Sim. Step = " + SIM_STEP + " (Real Time = " + REAL_TIME + ")", width*0.025, height*0.075);  
   text("Integrator = " + _integrator, width*0.025, height*0.1);
   text("Energy = " + _energy + " J", width*0.025, height*0.125);
+  text("Plano (P): " + plano, width*0.025, height*0.15);
   
   fill(REFERENCE_COLOR[0], REFERENCE_COLOR[1], REFERENCE_COLOR[2]);
   strokeWeight(1);
@@ -158,7 +160,9 @@ void drawStaticEnvironment()
   circle(c1screen.x, c1screen.y, 20); //Muelle 1
   //println(C1);
   //Pendiente
-  line(c1screen.x, c1screen.y, c2screen.x, c2screen.y);
+  if(plano){
+    line(c1screen.x, c1screen.y, c2screen.x, c2screen.y);
+  }
 }
 
 void drawMovingElements()
@@ -184,6 +188,7 @@ void PrintInfo()
   println("Energy: " + _energy + " J");
   println("Elapsed time = " + _elapsedTime + " s");
   println("Simulated time = " + _simTime + " s \n");
+  println("Plano (P): " + plano);
 }
 
 void initSimulation()
@@ -355,10 +360,13 @@ PVector calculateAcceleration(PVector s, PVector v)
   //vFe1 = (PVector.mult((pen1), Fe1));
   //vFe2 = (PVector.mult((pen2), Fe2));
   vFw = G.copy();
-  vFn = (PVector.mult((normal), Fn));
-
-  vFn.setMag(Fn);// borrar
   
+  if(!plano){
+    vFn=new PVector(0, 0); 
+  }else{
+    vFn = (PVector.mult((normal), Fn));
+    vFn.setMag(Fn);// borrar
+  }
   /*Sumatorio de fuerzas*/
   F = vFw.copy();
   F.add(vFn);
@@ -461,6 +469,9 @@ void mouseClicked()
 
 void keyPressed()
 {
+  if(key=='P' || key=='p'){
+    plano = !plano;
+  }
   // ...
   // ...
   // ...
