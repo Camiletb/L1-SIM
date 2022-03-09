@@ -1,5 +1,5 @@
 // Authors: 
-// Ca
+// Cam
 // ...
 
 // Problem description:
@@ -27,7 +27,7 @@ enum IntegratorType
 // Parameters of the numerical integration:
 
 final boolean REAL_TIME = false;
-final float SIM_STEP = 0.01;   // Simulation time-step (s)
+final float SIM_STEP = 0.1;   // Simulation time-step (s)
 IntegratorType _integrator = IntegratorType.EXPLICIT_EULER;   // ODE integration method
 
 // Display values:
@@ -65,6 +65,8 @@ final float L = 10; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
 final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
+final float Ra = 0.4; //Rozamiento aire
+final float Rp = 1; //Rozamiento plano
 boolean plano = true;
 //final float K_d, mu;
   //K_d=0;
@@ -329,7 +331,7 @@ PVector calculateAcceleration(PVector s, PVector v)
   PVector screenPos = new PVector();
   worldToScreen(_s, screenPos);
   
-  PVector vFe1, vFe2, vFw, vFn, F;
+  PVector vFe1, vFe2, vFw, vFn, F, vRp, vRa;
   PVector pen1, pen2, peso, normal;
   float Fe1, Fe2, Fw, Fn;
 
@@ -344,6 +346,8 @@ PVector calculateAcceleration(PVector s, PVector v)
   
   vFe1 = PVector.mult(PVector.sub(L1, vl1), K_e1);
   vFe2 = PVector.mult(PVector.sub(L2, vl2), K_e2);
+  
+   
   
   //Fe2 = K_e2 * (L2-l_02);
   Fw = M * Gc;
@@ -363,9 +367,11 @@ PVector calculateAcceleration(PVector s, PVector v)
   
   if(!plano){
     vFn=new PVector(0, 0); 
+    vRp=new PVector(0, 0);
   }else{
     vFn = (PVector.mult((normal), Fn));
-    vFn.setMag(Fn);// borrar
+    vFn.setMag(Fn);
+    vRp= (PVector.mult((_v.copy().normalize()), Rp));
   }
   /*Sumatorio de fuerzas*/
   F = vFw.copy();
@@ -373,7 +379,7 @@ PVector calculateAcceleration(PVector s, PVector v)
   //F = new PVector();
   F.add(vFe1);
   //F.add(vFe2);
-  
+  F.sub(vRp);
   a = PVector.div(F, M);
 
   //PVector s_to_px = new PVector();
