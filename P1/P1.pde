@@ -373,6 +373,9 @@ PVector calculateAcceleration(PVector s, PVector v)
     vFn.setMag(Fn);
     vRp= (PVector.mult((_v.copy().normalize()), Rp));
   }
+  
+  //vRa = new PVector(0, 0);
+  vRa= (PVector.mult((_v.copy().normalize()), Ra));
   /*Sumatorio de fuerzas*/
   F = vFw.copy();
   F.add(vFn);
@@ -380,6 +383,8 @@ PVector calculateAcceleration(PVector s, PVector v)
   F.add(vFe1);
   //F.add(vFe2);
   F.sub(vRp);
+  F.sub(vRa);
+
   a = PVector.div(F, M);
 
   //PVector s_to_px = new PVector();
