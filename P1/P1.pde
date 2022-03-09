@@ -56,10 +56,10 @@ final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*
 //final float C1 = 200; //Longitud al muelle C1
 
 
-final float K_e1=20; //La força amb la que espija
-final float l_01=5;//A la que li agrada estar
-final float K_e2=5;
-final float l_02=20;
+final float K_e1=10; //La força amb la que espija
+final float l_01=4;//A la que li agrada estar
+final float K_e2=8;
+final float l_02=5;
 final float theta= radians(45);
 final float L = 10; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
@@ -227,40 +227,94 @@ void updateSimulation()
 void updateSimulationExplicitEuler()
 {
   _a = calculateAcceleration(_s, _v);
-  _s.add(PVector.mult(_v, SIM_STEP)); //dt = SIM_STEP
+  _s.add(PVector.mult(_v, SIM_STEP));
   _v.add(PVector.mult(_a, SIM_STEP));
-  
-  // ...
-  // ... use calculateAcceleration()
-  // ...
 }
 
 void updateSimulationSimplecticEuler()
 {
-  // ...
-  // ... use calculateAcceleration()
-  // ...
+  _a = calculateAcceleration(_s, _v);
+  _v.add(PVector.mult(_a, SIM_STEP));
+  _s.add(PVector.mult(_v, SIM_STEP));
 }
 
 void updateSimulationHeun()
 {
-  // ...
-  // ... use calculateAcceleration()
-  // ...
+  PVector v_promedio = new PVector();
+  PVector _a2 = new PVector();
+  PVector a_promedio = new PVector();
+
+  _a = calculateAcceleration(_s, _v);
+
+  PVector s2 = PVector.add( _s, PVector.mult(_v, SIM_STEP));
+  PVector v2 = PVector.add( _v, PVector.mult(_a, SIM_STEP));
+
+  v_promedio = PVector.mult(PVector.add(_v, v2), 0.5);
+  _s.add(PVector.mult(v_promedio, SIM_STEP));
+
+
+  _a2 = calculateAcceleration(s2, v2);
+
+  a_promedio = PVector.mult(PVector.add(_a, _a2), 0.5);
+
+  _v.add(PVector.mult(a_promedio, SIM_STEP));
 }
 
 void updateSimulationRK2()
 {
-  // ...
-  // ... use calculateAcceleration()
-  // ...
+  _a = calculateAcceleration(_s, _v);
+
+  PVector k1s = PVector.mult(_v, SIM_STEP);
+  PVector k1v = PVector.mult(_a, SIM_STEP);
+
+  PVector s2 = PVector.add(_s, PVector.mult(k1s, 0.5)); //(s(t)+k1s/2)
+  PVector v2 = PVector.add(_v, PVector.mult(k1v, 0.5));
+
+  PVector a2 = calculateAcceleration (s2, v2); //aceleración al final del intervalo
+
+  PVector k2v = PVector.mult(a2, SIM_STEP); //velocidad al final del intervalo
+  PVector k2s = PVector.mult(PVector.add(_v, PVector.mult(k1v, 0.5)), SIM_STEP); //(v + k1v/2)*h
+
+  _v.add(k2v);
+  _s.add(k2s);
 }
 
 void updateSimulationRK4()
 {
-  // ...
-  // ... use calculateAcceleration()
-  // ...
+  _a = calculateAcceleration(_s, _v); 
+  PVector k1s = PVector.mult(_v, SIM_STEP);// k1s = v(t)*h
+  PVector k1v = PVector.mult(_a, SIM_STEP);// k1v = a(s(t),v(t))*h
+
+  PVector s2  = PVector.add(_s, PVector.mult(k1s, 0.5));                         
+  PVector v2  = PVector.add(_v, PVector.mult(k1v, 0.5));
+  PVector a2 = calculateAcceleration(s2, v2);
+  PVector k2v = PVector.mult(a2, SIM_STEP);// k2v = a(s(t)+k1s/2, v(t)+k1v/2)*h
+  PVector k2s = PVector.mult(v2, SIM_STEP); // k2s = (v(t)+k1v/2)*h
+
+  PVector s3  = PVector.add(_s, PVector.mult(k2s, 0.5));                         
+  PVector v3  = PVector.add(_v, PVector.mult(k2v, 0.5));
+  PVector a3 = calculateAcceleration(s3, v3);
+  PVector k3v = PVector.mult(a3, SIM_STEP); // k3v = a(s(t)+k2s/2, v(t)+k2v/2)*h
+  PVector k3s = PVector.mult(v3, SIM_STEP); // k3s = (v(t)+k2v/2)*h
+
+  PVector s4  = PVector.add(_s, k3s);                         
+  PVector v4  = PVector.add(_v, k3v);
+  PVector a4 = calculateAcceleration(s4, v4);
+  PVector k4v = PVector.mult(a4, SIM_STEP); // k4v = a(s(t)+k3s, v(t)+k3v)*h
+  PVector k4s = PVector.mult(v4, SIM_STEP); // k4s = (v(t)+k3v)*h
+
+
+  // v(t+h) = v(t) + (1/6)*k1v + (1/3)*k2v + (1/3)*k3v +(1/6)*k4v  
+  _v.add(PVector.mult(k1v, 1/6.0));
+  _v.add(PVector.mult(k2v, 1/3.0));
+  _v.add(PVector.mult(k3v, 1/3.0));
+  _v.add(PVector.mult(k4v, 1/6.0));
+
+  // s(t+h) = s(t) + (1/6)*k1s + (1/3)*k2s + (1/3)*k3s +(1/6)*k4s  
+  _s.add(PVector.mult(k1s, 1/6.0));
+  _s.add(PVector.mult(k2s, 1/3.0));
+  _s.add(PVector.mult(k3s, 1/3.0));
+  _s.add(PVector.mult(k4s, 1/6.0));
 }
 
 PVector calculateAcceleration(PVector s, PVector v)
@@ -282,8 +336,6 @@ PVector calculateAcceleration(PVector s, PVector v)
   vl1 = PVector.mult(L1.copy().normalize(), l_01); //elongacion del muelle en reposo hecha vector
   vl2 = PVector.mult(L2.copy().normalize(), l_02);
   
-  //vl1.mag();
-  //vl2.mag();
   
   vFe1 = PVector.mult(PVector.sub(L1, vl1), K_e1);
   vFe2 = PVector.mult(PVector.sub(L2, vl2), K_e2);
@@ -308,11 +360,11 @@ PVector calculateAcceleration(PVector s, PVector v)
   vFn.setMag(Fn);// borrar
   
   /*Sumatorio de fuerzas*/
-  //F = vFw.copy();
-  //F.add(vFn);
-  F = new PVector();
+  F = vFw.copy();
+  F.add(vFn);
+  //F = new PVector();
   F.add(vFe1);
-  F.add(vFe2);
+  //F.add(vFe2);
   
   a = PVector.div(F, M);
 
