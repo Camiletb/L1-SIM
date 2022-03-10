@@ -1,6 +1,6 @@
 // Authors: 
-// Cam
-// P
+// Camilo Enguix
+// Pablo Gómez
 // ...
 
 // Problem description:
@@ -27,9 +27,9 @@ enum IntegratorType
 
 // Parameters of the numerical integration:
 
-final boolean REAL_TIME = true;
+final boolean REAL_TIME = false;
 float SIM_STEP = 0.01;   // Simulation time-step (s)
-IntegratorType _integrator = IntegratorType.RK4;   // ODE integration method
+IntegratorType _integrator = IntegratorType.HEUN;   // ODE integration method
 
 // Display values:
 
@@ -66,16 +66,11 @@ final float L = 25; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
 final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
-final float Ra = 1.6; //Rozamiento aire
-final float Rp = 2.6; //Rozamiento plano
-boolean plano = true;
+final float Ra = 0.0; //Rozamiento aire
+final float Rp = 0.0; //Rozamiento plano
+boolean plano = false;
 float L1, L2;
 
-// ...
-// ...
-// ...
-// ...
-// ...
 
 
 // Time control:
@@ -86,9 +81,11 @@ float _simTime = 0.0;   // Simulated time (s)
 float _elapsedTime = 0.0;   // Elapsed (real) time (s)
 
 // Output control:
-
+// Documento para las gráficas
 PrintWriter _output;
-final String FILE_NAME = "data.txt";
+final String FILE_NAME = "data.csv";
+String t, s, v, e;
+
 
 // Auxiliary variables:
 
@@ -204,10 +201,7 @@ void initSimulation()
   _s = s0.copy();
   _v = new PVector(0, 0);
   _a = new PVector(0, 0);
-  
-  // ...
-  // ...
-  // ...
+  _output = createWriter(FILE_NAME);
 }
 
 void updateSimulation()
@@ -216,24 +210,43 @@ void updateSimulation()
   {
   case EXPLICIT_EULER:
     updateSimulationExplicitEuler();
+    if(_simTime == 0)
+      _output.println("dt;Posicion;V Eul-Expl;Energia");
     break;
 
   case SIMPLECTIC_EULER:
     updateSimulationSimplecticEuler();
+    if(_simTime == 0)
+      _output.println("dt;Posicion;V Eul-Simpl;Energia");
     break;
 
   case HEUN:
     updateSimulationHeun();
+    if(_simTime == 0)
+      _output.println("dt;Posicion;V Heun;Energia");
     break;
 
   case RK2:
     updateSimulationRK2();
+    if(_simTime == 0)
+      _output.println("dt;Posicion;V RK2;Energia");
     break;
 
   case RK4:
     updateSimulationRK4();
+    if(_simTime == 0)
+      _output.println("dt;Posicion;V RK4;Energia");
     break;
   }
+  
+  
+  t = nf(_simTime, 0, 2);
+  s = nf(_s.mag(), 0, 2);
+  v = nf(_v.mag(), 0, 2);
+  e = nf(_energy, 0, 2);
+  
+  
+  _output.println(t + ";" + s + ";" + v + ";" + e);
   
   _simTime += SIM_STEP;
 }
@@ -429,7 +442,7 @@ void calculateEnergy()
   Ep = 0.5 * Gc * _s.y;
   Ee1 = 0.5 * K_e1* pow((L1-l_01), 2);
   Ee2 = 0.5 * K_e2* pow((L2-l_02), 2);
-  _energy= Ek + Ep + Ee1 + Ee2
+  _energy= Ek + Ep + Ee1 + Ee2;
   // ...
   // ...
   // ...
@@ -552,7 +565,6 @@ void keyPressed()
 
 void stop()
 {
-  // ...
-  // ...
-  // ...  
+  _output.flush();
+  _output.close();
 }
