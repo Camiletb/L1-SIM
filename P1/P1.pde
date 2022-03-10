@@ -1,5 +1,6 @@
 // Authors: 
 // Cam
+// P
 // ...
 
 // Problem description:
@@ -26,9 +27,9 @@ enum IntegratorType
 
 // Parameters of the numerical integration:
 
-final boolean REAL_TIME = false;
-final float SIM_STEP = 0.1;   // Simulation time-step (s)
-IntegratorType _integrator = IntegratorType.EXPLICIT_EULER;   // ODE integration method
+final boolean REAL_TIME = true;
+final float SIM_STEP = 0.01;   // Simulation time-step (s)
+IntegratorType _integrator = IntegratorType.RK4;   // ODE integration method
 
 // Display values:
 
@@ -65,8 +66,8 @@ final float L = 10; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
 final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
-final float Ra = 0.4; //Rozamiento aire
-final float Rp = 1; //Rozamiento plano
+final float Ra = 0.6; //Rozamiento aire
+final float Rp = 1.6; //Rozamiento plano
 boolean plano = true;
 //final float K_d, mu;
   //K_d=0;
@@ -338,14 +339,26 @@ PVector calculateAcceleration(PVector s, PVector v)
   
   /*Parámetros de fuerzas*/
   PVector L1, L2, vl1, vl2, vk1;
-  L1 = PVector.sub(C1,_s);
-  L2 = PVector.sub(C2,_s);
-  vl1 = PVector.mult(L1.copy().normalize(), l_01); //elongacion del muelle en reposo hecha vector
-  vl2 = PVector.mult(L2.copy().normalize(), l_02);
+  float aux1, aux2;
   
+  //L1 = PVector.sub(C1,_s); //ACTUAL
+  aux1 = C1.copy().dist(_s);
+  //L2 = PVector.sub(C2,_s); //Actual
+  aux2 = C2.copy().dist(_s);
+  //k_muelle * (Elongacion_actual - Elongacion_reposo)
+  //Sacamos los módulos de las fuerzas elásticas
+  Fe1 = K_e1 * (aux1- l_01);
+  Fe2 = K_e2 * (aux2- l_02);
+  //Dirección elastic.
+  vFe1 = PVector.mult(C1.copy().sub(_s).normalize(), Fe1);
+  vFe2 = PVector.mult(C2.copy().sub(_s).normalize(), Fe2);
+  //C1-s ->lo normalizas, y ese vector lo multiplicas por la fuerza del muelle.
   
-  vFe1 = PVector.mult(PVector.sub(L1, vl1), K_e1);
-  vFe2 = PVector.mult(PVector.sub(L2, vl2), K_e2);
+  //vl1 = PVector.mult(L1.copy().normalize(), l_01); //elongacion del muelle en reposo hecha vector
+  //vl2 = PVector.mult(L2.copy().normalize(), l_02);
+  
+  //vFe1 = PVector.mult(PVector.sub(L1, vl1), K_e1);
+  //vFe2 = PVector.mult(PVector.sub(L2, vl2), K_e2);
   
    
   
@@ -376,13 +389,16 @@ PVector calculateAcceleration(PVector s, PVector v)
   
   //vRa = new PVector(0, 0);
   vRa= (PVector.mult((_v.copy().normalize()), Ra));
+  
+  vFe1.sub(vRp);
+  vFe1.sub(vRp);
   /*Sumatorio de fuerzas*/
   F = vFw.copy();
   F.add(vFn);
   //F = new PVector();
   F.add(vFe1);
-  //F.add(vFe2);
-  F.sub(vRp);
+  F.add(vFe2);
+  //F.sub(vRp);
   F.sub(vRa);
 
   a = PVector.div(F, M);
