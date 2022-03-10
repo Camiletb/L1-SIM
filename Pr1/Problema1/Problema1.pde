@@ -28,13 +28,13 @@ enum IntegratorType
 // Parameters of the numerical integration:
 
 final boolean REAL_TIME = true;
-final float SIM_STEP = 0.01;   // Simulation time-step (s)
+float SIM_STEP = 0.01;   // Simulation time-step (s)
 IntegratorType _integrator = IntegratorType.RK4;   // ODE integration method
 
 // Display values:
 
 final boolean FULL_SCREEN = false;
-final int DRAW_FREQ = 50;   // Draw frequency (Hz or Frame-per-second)
+final int DRAW_FREQ = 60;   // Draw frequency (Hz or Frame-per-second)
 int DISPLAY_SIZE_X = 1000;   // Display width (pixels)
 int DISPLAY_SIZE_Y = 1000;   // Display height (pixels)
 
@@ -57,21 +57,18 @@ final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*
 //final float C1 = 200; //Longitud al muelle C1
 
 
-final float K_e1=10; //La força amb la que espija
-final float l_01=4;//A la que li agrada estar
-final float K_e2=8;
-final float l_02=5;
+final float K_e1=20; //La força amb la que espenta
+final float l_01=8;//A la que li agrada estar
+final float K_e2=12;
+final float l_02=10;
 final float theta= radians(45);
-final float L = 10; //Longitut rampa
+final float L = 20; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
 final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
-final float Ra = 0.6; //Rozamiento aire
-final float Rp = 1.6; //Rozamiento plano
+final float Ra = 1.6; //Rozamiento aire
+final float Rp = 2.6; //Rozamiento plano
 boolean plano = true;
-//final float K_d, mu;
-  //K_d=0;
-  //mu=0;
 
 // ...
 // ...
@@ -95,8 +92,6 @@ final String FILE_NAME = "data.txt";
 // Auxiliary variables:
 
 float _energy;   // Total energy of the particle (J)
-
-
 final float h = C2.y; //altura del triángulo
 final float w = C1.x; //base del triángulo
 
@@ -140,10 +135,16 @@ void drawStaticEnvironment()
   background(BACKGROUND_COLOR[0], BACKGROUND_COLOR[1], BACKGROUND_COLOR[2]);
 
   textSize(20);
-  text("Sim. Step = " + SIM_STEP + " (Real Time = " + REAL_TIME + ")", width*0.025, height*0.075);  
+  text("Sim. Step = " + SIM_STEP + " (Real Time = " + REAL_TIME + ")(+/-)", width*0.025, height*0.075);  
   text("Integrator = " + _integrator, width*0.025, height*0.1);
   text("Energy = " + _energy + " J", width*0.025, height*0.125);
   text("Plano (P): " + plano, width*0.025, height*0.15);
+  text("Teclas para cambiar de integrador", width*0.025, height*0.2);
+  text("      E: Euler Explícito", width*0.025, height*0.225);
+  text("      S: Euler Simpléctico", width*0.025, height*0.25);
+  text("      H: Heun", width*0.025, height*0.275);
+  text("      2: RK2", width*0.025, height*0.3);
+  text("      4: RK4", width*0.025, height*0.325);
   
   fill(REFERENCE_COLOR[0], REFERENCE_COLOR[1], REFERENCE_COLOR[2]);
   strokeWeight(1);
@@ -192,6 +193,7 @@ void PrintInfo()
   println("Elapsed time = " + _elapsedTime + " s");
   println("Simulated time = " + _simTime + " s \n");
   println("Plano (P): " + plano);
+  println("Integrador: " + _integrator);
 }
 
 void initSimulation()
@@ -199,6 +201,8 @@ void initSimulation()
   _simTime = 0.0;
   _elapsedTime = 0.0;
   _s = s0.copy();
+  _v = new PVector(0, 0);
+  _a = new PVector(0, 0);
   // ...
   // ...
   // ...
@@ -421,6 +425,7 @@ PVector calculateAcceleration(PVector s, PVector v)
 
 void calculateEnergy()
 {  
+  float Ek, Ep, Ee;
   // ...
   // ...
   // ...
@@ -455,7 +460,7 @@ void draw()
   _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
   _elapsedTime += _deltaTimeDraw;
   _lastTimeDraw = now;
-
+  
   //println("\nDraw step = " + _deltaTimeDraw + " s - " + 1.0/_deltaTimeDraw + " Hz");
 
   if (REAL_TIME)
@@ -484,14 +489,30 @@ void draw()
   // drawMovingElements();
 
   calculateEnergy();
-  //PrintInfo();
+  PrintInfo();
 }
 
 void mouseClicked() 
 {
-  // ...
-  // ...
-  // ...
+  initSimulation();
+
+  PVector raton = new PVector(mouseX, mouseY, 0.0);
+
+  PVector screenPos = new PVector();
+
+  screenToWorld(raton, screenPos);
+  _s = screenPos.copy();
+}
+
+void mouseDragged() 
+{
+  initSimulation();
+  PVector raton = new PVector(mouseX, mouseY, 0.0);
+
+  PVector screenPos = new PVector();
+
+  screenToWorld(raton, screenPos);
+  _s = screenPos.copy();
 }
 
 void keyPressed()
@@ -499,9 +520,30 @@ void keyPressed()
   if(key=='P' || key=='p'){
     plano = !plano;
   }
-  // ...
-  // ...
-  // ...
+  if(key=='-'){
+    SIM_STEP *=0.8;
+  }
+  if(key=='+'){
+    SIM_STEP *=1.2;
+  }
+  if(key=='E' || key=='e'){
+    _integrator = IntegratorType.EXPLICIT_EULER;
+  }
+  if(key=='S' || key=='s'){
+    _integrator = IntegratorType.SIMPLECTIC_EULER;
+  }
+  if(key=='H' || key=='h'){
+    _integrator = IntegratorType.HEUN;
+  }
+  if(key=='2'){
+    _integrator = IntegratorType.RK2;
+  }
+  if(key=='4'){
+    _integrator = IntegratorType.RK4;
+  }
+  if(key=='R' || key=='r'){
+    initSimulation();
+  }
 }
 
 void stop()
