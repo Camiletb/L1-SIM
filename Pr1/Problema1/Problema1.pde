@@ -58,17 +58,18 @@ final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*
 
 
 final float K_e1=20; //La força amb la que espenta
-final float l_01=8;//A la que li agrada estar
-final float K_e2=12;
-final float l_02=10;
+final float l_01=15;//A la que li agrada estar
+final float K_e2=10;
+final float l_02=8;
 final float theta= radians(45);
-final float L = 20; //Longitut rampa
+final float L = 25; //Longitut rampa
 final PVector C1 = new PVector(cos(theta)* L, 0);
 final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
 final float Ra = 1.6; //Rozamiento aire
 final float Rp = 2.6; //Rozamiento plano
 boolean plano = true;
+float L1, L2;
 
 // ...
 // ...
@@ -203,6 +204,7 @@ void initSimulation()
   _s = s0.copy();
   _v = new PVector(0, 0);
   _a = new PVector(0, 0);
+  
   // ...
   // ...
   // ...
@@ -342,17 +344,14 @@ PVector calculateAcceleration(PVector s, PVector v)
 
   
   /*Parámetros de fuerzas*/
-  PVector L1, L2, vl1, vl2, vk1;
-  float aux1, aux2;
+  //float L1, L2;
   
-  //L1 = PVector.sub(C1,_s); //ACTUAL
-  aux1 = C1.copy().dist(_s);
-  //L2 = PVector.sub(C2,_s); //Actual
-  aux2 = C2.copy().dist(_s);
+  L1 = C1.copy().dist(_s);
+  L2 = C2.copy().dist(_s);
   //k_muelle * (Elongacion_actual - Elongacion_reposo)
   //Sacamos los módulos de las fuerzas elásticas
-  Fe1 = K_e1 * (aux1- l_01);
-  Fe2 = K_e2 * (aux2- l_02);
+  Fe1 = K_e1 * (L1 - l_01);
+  Fe2 = K_e2 * (L2 - l_02);
   //Dirección elastic.
   vFe1 = PVector.mult(C1.copy().sub(_s).normalize(), Fe1);
   vFe2 = PVector.mult(C2.copy().sub(_s).normalize(), Fe2);
@@ -425,7 +424,12 @@ PVector calculateAcceleration(PVector s, PVector v)
 
 void calculateEnergy()
 {  
-  float Ek, Ep, Ee;
+  float Ek, Ep, Ee1, Ee2;
+  Ek = 0.5 * M * pow(_v.mag(),2);
+  Ep = 0.5 * Gc * _s.y;
+  Ee1 = 0.5 * K_e1* pow((L1-l_01), 2);
+  Ee2 = 0.5 * K_e2* pow((L2-l_02), 2);
+  _energy= Ek + Ep + Ee1 + Ee2
   // ...
   // ...
   // ...
