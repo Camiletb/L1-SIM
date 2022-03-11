@@ -68,8 +68,7 @@ final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
 final float Ra = 0.0; //Rozamiento aire
 final float Rp = 0.0; //Rozamiento plano
-boolean plano = false;
-float L1, L2;
+boolean plano = true;;
 
 
 
@@ -351,34 +350,24 @@ PVector calculateAcceleration(PVector s, PVector v)
   PVector screenPos = new PVector();
   worldToScreen(_s, screenPos);
   
+    /*Parámetros de fuerzas*/
+    
   PVector vFe1, vFe2, vFw, vFn, F, vRp, vRa;
   PVector pen1, pen2, peso, normal;
   float Fe1, Fe2, Fw, Fn;
 
-  
-  /*Parámetros de fuerzas*/
-  //float L1, L2;
-  
   L1 = C1.copy().dist(_s);
   L2 = C2.copy().dist(_s);
+  
   //k_muelle * (Elongacion_actual - Elongacion_reposo)
   //Sacamos los módulos de las fuerzas elásticas
   Fe1 = K_e1 * (L1 - l_01);
   Fe2 = K_e2 * (L2 - l_02);
+  
   //Dirección elastic.
   vFe1 = PVector.mult(C1.copy().sub(_s).normalize(), Fe1);
   vFe2 = PVector.mult(C2.copy().sub(_s).normalize(), Fe2);
-  //C1-s ->lo normalizas, y ese vector lo multiplicas por la fuerza del muelle.
   
-  //vl1 = PVector.mult(L1.copy().normalize(), l_01); //elongacion del muelle en reposo hecha vector
-  //vl2 = PVector.mult(L2.copy().normalize(), l_02);
-  
-  //vFe1 = PVector.mult(PVector.sub(L1, vl1), K_e1);
-  //vFe2 = PVector.mult(PVector.sub(L2, vl2), K_e2);
-  
-   
-  
-  //Fe2 = K_e2 * (L2-l_02);
   Fw = M * Gc;
   Fn = M * Gc * cos(theta); // 90
 
@@ -389,9 +378,6 @@ PVector calculateAcceleration(PVector s, PVector v)
   pen2 = new PVector(0-w/2, h-h/2);
   normal = new PVector(h/2, w/2);
   
-    /*Vectores de fuerzas*/
-  //vFe1 = (PVector.mult((pen1), Fe1));
-  //vFe2 = (PVector.mult((pen2), Fe2));
   vFw = G.copy();
   
   if(!plano){
@@ -403,7 +389,6 @@ PVector calculateAcceleration(PVector s, PVector v)
     vRp= (PVector.mult((_v.copy().normalize()), Rp));
   }
   
-  //vRa = new PVector(0, 0);
   vRa= (PVector.mult((_v.copy().normalize()), Ra));
   
   vFe1.sub(vRp);
@@ -411,27 +396,13 @@ PVector calculateAcceleration(PVector s, PVector v)
   /*Sumatorio de fuerzas*/
   F = vFw.copy();
   F.add(vFn);
-  //F = new PVector();
   F.add(vFe1);
   F.add(vFe2);
-  //F.sub(vRp);
+  F.sub(vRp);
   F.sub(vRa);
 
   a = PVector.div(F, M);
 
-  //PVector s_to_px = new PVector();
-  //PVector f_to_px = new PVector();
-    
-
-  //worldToScreen(_s, s_to_px);
-  //worldToScreen(PVector.add(_s, vFn), f_to_px);
-
-  //line(s_to_px.x, s_to_px.y, f_to_px.x, f_to_px.y);
-
-
-  // ...
-  // ...
-  // ...
   return a;
 }
 
@@ -443,9 +414,7 @@ void calculateEnergy()
   Ee1 = 0.5 * K_e1* pow((L1-l_01), 2);
   Ee2 = 0.5 * K_e2* pow((L2-l_02), 2);
   _energy= Ek + Ep + Ee1 + Ee2;
-  // ...
-  // ...
-  // ...
+
 }
 
 void settings()

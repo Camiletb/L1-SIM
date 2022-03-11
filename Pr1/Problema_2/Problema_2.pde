@@ -26,9 +26,9 @@ enum IntegratorType
 
 // Parameters of the numerical integration:
 
-final boolean REAL_TIME = true;
+final boolean REAL_TIME = false;
 final float SIM_STEP = 0.01;   // Simulation time-step (s)
-IntegratorType _integrator = IntegratorType.EXPLICIT_EULER;   // ODE integration method
+IntegratorType _integrator = IntegratorType.RK4;   // ODE integration method
 
 // Display values:
 
@@ -52,7 +52,7 @@ final float M = 1.0;   // Particle mass (kg)
 final float Gc = 9.801;   // Gravity constant (m/(s*s))
 final PVector G = new PVector(0.0, -Gc);   // Acceleration due to gravity (m/(s*s))
 final float kad = 2; //Constante de fricción lineal con el aire.
-final float h = 10; //Altura a la que se encuentra el cañon
+final float h = 5; //Altura a la que se encuentra el cañon
 final PVector s0 = new PVector(0, h);
 final float theta = radians(60);
 final float v0 = 25;
@@ -174,7 +174,7 @@ void updateSimulation()
   String energia = nf(_energy,0,3);
 
 
-  _output.println(tiempo + ":" + posicionx + ":" + posiciony + ":" + velocidadx + ":" + velocidady + ":" + energia);
+  _output.println(tiempo + ";" + posicionx + ";" + posiciony + ";" + velocidadx + ";" + velocidady + ";" + energia);
   switch (_integrator)
   {
   case EXPLICIT_EULER:
