@@ -83,7 +83,12 @@ void drawWind()
   PVector velocidad = new PVector();
   velocidad = _windVelocity.copy();
   velocidad.normalize();
-
+  velocidad.mult(30);
+  
+  PVector centroBrujula = new PVector(width/2, height*0.7);
+  PVector punta = new PVector(centroBrujula.x + velocidad.x, centroBrujula.y + velocidad.y);
+  stroke(255);
+  line(centroBrujula.x, centroBrujula.y, punta.x, punta.y);
 }
 
 void draw()
