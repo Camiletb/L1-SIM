@@ -30,23 +30,57 @@ public class Rocket
   void createCasing()
   {
     // Codigo para crear la carcasa
-    // ...
-    // ...
-    // ...
+    float m = 3.0;
+    int ttl = 60;
+    
+    _casing = new Particle(ParticleType.CASING, _launchPoint, _launchVel, m, ttl, _color);
+    _numParticles++;
   }
 
   void explosion() 
   {
     // Codigo para utilizar el vector de partículas, creando particulas en él con diferentes velocidades para recrear distintos tipos de palmeras
-    // ...
-    // ...
-    // ...
+    float m = 0.5;
+    int ttl = 250;
+    PVector v = new PVector();
 
     switch (_type)
     {
-      // ...
-      // ...
-      // ...
+      case CIRCULO:
+        for (int i = 0; i < 150; i++){
+          float angulo = random(0,TWO_PI);
+          v = new PVector(random(5,6),random(5,6));
+          v.x = 10*v.x*cos(angulo);
+          v.y = 10*v.y*sin(angulo);
+          
+          _particles.add(new Particle(ParticleType.REGULAR_PARTICLE, _explosionPoint, v, m, ttl, _color));
+          
+          _numParticles ++;
+        }
+        break;
+      case ESPIRAL:
+        for (int i = 0; i < 150; i++){
+          float angulo = random(0,TWO_PI);
+          v = new PVector(2*angulo,2*angulo);
+          v.x = 10*v.x*cos(angulo);
+          v.y = 10*v.y*sin(angulo);
+          
+          _particles.add(new Particle(ParticleType.REGULAR_PARTICLE, _explosionPoint, v, m, ttl, _color));
+          
+          _numParticles ++;
+        }
+        break;
+      case CORAZON:
+        for (int i = 0; i < 150; i++){
+          float angulo = random(0,2*TWO_PI);
+          v.x = -20*(3*sin(angulo)-1*sin(3*angulo));
+          v.y = -20*(3.25*cos(angulo)-1.25*cos(2*angulo)-0.5*cos(3*angulo)-0.25*cos(4*angulo));
+          
+          _particles.add(new Particle(ParticleType.REGULAR_PARTICLE, _explosionPoint, v, m, ttl, _color));
+          
+          _numParticles ++;
+        }
+        break;
     }
   }
 

@@ -1,9 +1,9 @@
 enum RocketType 
 {
   // Introducir aquí los tipos de palmera que se implementarán
-  // ...
-  // ...
-  // ...  
+  CIRCULO,
+  ESPIRAL,
+  CORAZON;
 }
 
 final int NUM_ROCKET_TYPES = RocketType.values().length;
@@ -70,14 +70,23 @@ void printInfo()
   text("Frame rate = " + 1.0/_deltaTimeDraw + " fps", width*0.025, height*0.075);
   text("Elapsed time = " + _elapsedTime + " s", width*0.025 , height*0.1);
   text("Simulated time = " + _simTime + " s ", width*0.025, height*0.125);
+  text("Simulated time = " );
 }
 
 void drawWind()
 {
   // Código para dibujar el vector que representa el viento
-  // ...
-  // ...
-  // ...  
+  text("Velocidad viento: x = "+ _windVelocity.x + "y = " + _windVelocity.y, width*0.025, height*0.165);
+  fill(255);
+  PVector velocidad = _windVelocity.copy();
+  velocidad.normalize();
+  line(width/2, height*0.85, width/2 +00*velocidad.x, height*0.85 + 100*velocidad.y);
+  pushMatrix();
+    translate(width/2 + 100*velocidad.x, height*0.85 + 100*velocidad.y);
+    float angulo = atan2(width/2-(width/2 + 100*velocidad.x), (height*0.85 + 100*velocidad.y)-height*0.85);
+    rotate(angulo);
+  popMatrix();
+  stroke(1);
 }
 
 void draw()
