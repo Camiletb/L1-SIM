@@ -11,7 +11,7 @@ public class Particle
   int _ttl;   // Time to live (iterations)
   color _color;   // Color (RGB)
   
-  final static int _particleSize = 2;   // Size (pixels)
+  final static int _particleSize = 4;   // Size (pixels)
   final static int _casingLength = 25;   // Length (pixels)
 
   Particle(ParticleType type, PVector s, PVector v, float m, int ttl, color c) 

@@ -80,6 +80,8 @@ void printInfo()
   text("Flecha arriba abajo para modificar velocidad en y." , width*0.025, height*0.15);
   text("Flecha derecha izquierda para modificar velocidad en x." , width*0.025, height*0.175);
   
+  text("Para parar la simulación presiona la x", width*0.025, height*0.225);
+  
   String frames = nf(1.0 / _deltaTimeDraw, 0, 3);
   _output.println(_numParticles + ";" + frames);
 }
@@ -88,7 +90,7 @@ void drawWind()
 {
   // Código para dibujar el vector que representa el viento
   fill(255);
-  text("Velocidad viento: x = "+ _windVelocity.x + "y = " + -1*_windVelocity.y, width*0.025, height*0.2);
+  text("Velocidad viento: x = "+ _windVelocity.x + ", y = " + -1*_windVelocity.y, width*0.025, height*0.2);
   //stroke(126);
   PVector velocidad = new PVector();
   velocidad = _windVelocity.copy();
