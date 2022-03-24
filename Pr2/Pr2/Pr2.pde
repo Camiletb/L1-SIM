@@ -42,6 +42,10 @@ float _simTime = 0.0;   // Simulated time (s)
 float _elapsedTime = 0.0;   // Elapsed (real) time (s)
 final float SIM_STEP = 0.02;   // Simulation step (s)
 
+//Fichero
+PrintWriter _output;
+final String FILE_NAME = "data.csv";
+
 void settings()
 {
   if (FULL_SCREEN)
@@ -61,6 +65,9 @@ void setup()
 
   _fw = new FireWorks();
   _numParticles = 0;
+  
+  _output = createWriter(FILE_NAME);
+  _output.println("Número de partículas;Tiempo medio");
 }
 
 void printInfo()
@@ -72,6 +79,9 @@ void printInfo()
   text("Simulated time = " + _simTime + " s ", width*0.025, height*0.125);
   text("Flecha arriba abajo para modificar velocidad en y." , width*0.025, height*0.15);
   text("Flecha derecha izquierda para modificar velocidad en x." , width*0.025, height*0.175);
+  
+  String frames = nf(1.0 / _deltaTimeDraw, 0, 3);
+  _output.println(_numParticles + ";" + frames);
 }
 
 void drawWind()
@@ -131,5 +141,13 @@ void keyPressed()
     else if (keyCode == LEFT) {
       _windVelocity = new PVector (_windVelocity.x - 1.0, _windVelocity.y);
     }
+    if (key == 'x' || key == 'X') {
+      stop();
+    }
   }
+}
+void stop()
+{
+  _output.flush();
+  _output.close();
 }
