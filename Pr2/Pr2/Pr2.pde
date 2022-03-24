@@ -23,7 +23,7 @@ int _numParticles = 0;   // Number of particles of the simulation
 
 final float Gc = 9.801;   // Gravity constant (m/(s*s))
 final PVector G = new PVector(0.0, Gc);   // Acceleration due to gravity (m/(s*s))
-PVector _windVelocity = new PVector(10.0, 0.0);   // Wind velocity (m/s)
+PVector _windVelocity = new PVector(0.0, 0.0);   // Wind velocity (m/s)
 final float WIND_CONSTANT = 1.0;   // Constant to convert apparent wind speed into wind force (Kg/s)
 
 // Display values:
@@ -70,23 +70,20 @@ void printInfo()
   text("Frame rate = " + 1.0/_deltaTimeDraw + " fps", width*0.025, height*0.075);
   text("Elapsed time = " + _elapsedTime + " s", width*0.025 , height*0.1);
   text("Simulated time = " + _simTime + " s ", width*0.025, height*0.125);
-  text("Simulated time = " );
+  text("Flecha arriba abajo para modificar velocidad en y." , width*0.025, height*0.15);
+  text("Flecha derecha izquierda para modificar velocidad en x." , width*0.025, height*0.175);
 }
 
 void drawWind()
 {
   // Código para dibujar el vector que representa el viento
-  text("Velocidad viento: x = "+ _windVelocity.x + "y = " + _windVelocity.y, width*0.025, height*0.165);
   fill(255);
-  PVector velocidad = _windVelocity.copy();
+  text("Velocidad viento: x = "+ _windVelocity.x + "y = " + _windVelocity.y, width*0.025, height*0.2);
+  stroke(126);
+  PVector velocidad = new PVector();
+  velocidad = _windVelocity.copy();
   velocidad.normalize();
-  line(width/2, height*0.85, width/2 +00*velocidad.x, height*0.85 + 100*velocidad.y);
-  pushMatrix();
-    translate(width/2 + 100*velocidad.x, height*0.85 + 100*velocidad.y);
-    float angulo = atan2(width/2-(width/2 + 100*velocidad.x), (height*0.85 + 100*velocidad.y)-height*0.85);
-    rotate(angulo);
-  popMatrix();
-  stroke(1);
+
 }
 
 void draw()
@@ -116,7 +113,18 @@ void mousePressed()
 void keyPressed()
 {
   // Código para manejar la interfaz de teclado
-  // ...
-  // ...
-  // ...
+  if (key == CODED) {
+    if (keyCode == UP) {
+      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y + 1.0);
+    }
+    else if (keyCode == DOWN) {
+      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y - 1.0);
+    }
+    else if (keyCode == RIGHT) {
+      _windVelocity = new PVector (_windVelocity.x + 1.0, _windVelocity.y);
+    }
+    else if (keyCode == LEFT) {
+      _windVelocity = new PVector (_windVelocity.x - 1.0, _windVelocity.y);
+    }
+  }
 }
