@@ -67,7 +67,7 @@ void setup()
   _numParticles = 0;
   
   _output = createWriter(FILE_NAME);
-  _output.println("Número de partículas;Tiempo medio");
+  _output.println("Numero de partículas;Tiempo medio");
 }
 
 void printInfo()
@@ -88,17 +88,19 @@ void drawWind()
 {
   // Código para dibujar el vector que representa el viento
   fill(255);
-  text("Velocidad viento: x = "+ _windVelocity.x + "y = " + _windVelocity.y, width*0.025, height*0.2);
-  stroke(126);
+  text("Velocidad viento: x = "+ _windVelocity.x + "y = " + -1*_windVelocity.y, width*0.025, height*0.2);
+  //stroke(126);
   PVector velocidad = new PVector();
   velocidad = _windVelocity.copy();
   velocidad.normalize();
   velocidad.mult(30);
   
-  PVector centroBrujula = new PVector(width/2, height*0.7);
-  PVector punta = new PVector(centroBrujula.x + velocidad.x, centroBrujula.y + velocidad.y);
+  PVector centroBrujula = new PVector(width/2, height*0.8);
+  //PVector punta = new PVector(centroBrujula.x + velocidad.x, centroBrujula.y + velocidad.y);
   stroke(255);
-  line(centroBrujula.x, centroBrujula.y, punta.x, punta.y);
+  line(centroBrujula.x, centroBrujula.y,_windVelocity.x+centroBrujula.x, _windVelocity.y+centroBrujula.y);
+  //line(centroBrujula.x, centroBrujula.y, punta.x, punta.y);
+  noStroke();
 }
 
 void draw()
@@ -130,10 +132,10 @@ void keyPressed()
   // Código para manejar la interfaz de teclado
   if (key == CODED) {
     if (keyCode == UP) {
-      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y + 1.0);
+      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y - 1.0);
     }
     else if (keyCode == DOWN) {
-      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y - 1.0);
+      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y + 1.0);
     }
     else if (keyCode == RIGHT) {
       _windVelocity = new PVector (_windVelocity.x + 1.0, _windVelocity.y);

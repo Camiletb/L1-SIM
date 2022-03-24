@@ -50,8 +50,8 @@ public class Rocket
         for (int i = 0; i < 150; i++){
           float angulo = random(0,TWO_PI);
           v = new PVector(random(5,6),random(5,6));
-          v.x = 10*v.x*cos(angulo);
-          v.y = 10*v.y*sin(angulo);
+          v.x = 50*v.x*cos(angulo);
+          v.y = 50*v.y*sin(angulo);
           
           _particles.add(new Particle(ParticleType.REGULAR_PARTICLE, _explosionPoint, v, m, ttl, _color));
           
@@ -62,8 +62,8 @@ public class Rocket
         for (int i = 0; i < 150; i++){
           float angulo = random(0,TWO_PI);
           v = new PVector(2*angulo,2*angulo);
-          v.x = 10*v.x*cos(angulo);
-          v.y = 10*v.y*sin(angulo);
+          v.x = 50*v.x*cos(angulo);
+          v.y = 50*v.y*sin(angulo);
           
           _particles.add(new Particle(ParticleType.REGULAR_PARTICLE, _explosionPoint, v, m, ttl, _color));
           
@@ -73,8 +73,8 @@ public class Rocket
       case CORAZON:
         for (int i = 0; i < 150; i++){
           float angulo = random(0,2*TWO_PI);
-          v.x = -20*(3*sin(angulo)-1*sin(3*angulo));
-          v.y = -20*(3.25*cos(angulo)-1.25*cos(2*angulo)-0.5*cos(3*angulo)-0.25*cos(4*angulo));
+          v.x = -100*(3*sin(angulo)-1*sin(3*angulo));
+          v.y = -100*(3.25*cos(angulo)-1.25*cos(2*angulo)-0.5*cos(3*angulo)-0.25*cos(4*angulo));
           
           _particles.add(new Particle(ParticleType.REGULAR_PARTICLE, _explosionPoint, v, m, ttl, _color));
           
