@@ -67,7 +67,7 @@ void setup()
   _numParticles = 0;
   
   _output = createWriter(FILE_NAME);
-  _output.println("Numero de partículas;Tiempo medio");
+  _output.println("Numero de particulas;Tiempo medio");
 }
 
 void printInfo()
@@ -81,8 +81,9 @@ void printInfo()
   text("Flecha derecha izquierda para modificar velocidad en x." , width*0.025, height*0.175);
   
   text("Para parar la simulación presiona la x", width*0.025, height*0.225);
-  
-  String frames = nf(1.0 / _deltaTimeDraw, 0, 3);
+  //String secs = nf(_simTime/_elapsedTime, 0, 3); //tiempo medio
+  //_output.println(_numParticles + ";" + secs);
+  String frames = nf(1.0 / _deltaTimeDraw, 0, 3); //frames
   _output.println(_numParticles + ";" + frames);
 }
 
@@ -145,13 +146,17 @@ void keyPressed()
     else if (keyCode == LEFT) {
       _windVelocity = new PVector (_windVelocity.x - 1.0, _windVelocity.y);
     }
-    if (key == 'x' || key == 'X') {
-      stop();
-    }
   }
+  if (key == 'x' || key == 'X') {
+    println("a");
+    stop();
+  }
+  
 }
 void stop()
 {
+  println("b");
   _output.flush();
   _output.close();
+  println("c");
 }
