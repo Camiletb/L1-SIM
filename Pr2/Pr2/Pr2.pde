@@ -1,9 +1,9 @@
 enum RocketType 
 {
   // Introducir aquí los tipos de palmera que se implementarán
-  // ...
-  // ...
-  // ...  
+  CIRCULO,
+  ESPIRAL,
+  CORAZON;
 }
 
 final int NUM_ROCKET_TYPES = RocketType.values().length;
@@ -23,7 +23,7 @@ int _numParticles = 0;   // Number of particles of the simulation
 
 final float Gc = 9.801;   // Gravity constant (m/(s*s))
 final PVector G = new PVector(0.0, Gc);   // Acceleration due to gravity (m/(s*s))
-PVector _windVelocity = new PVector(10.0, 0.0);   // Wind velocity (m/s)
+PVector _windVelocity = new PVector(0.0, 0.0);   // Wind velocity (m/s)
 final float WIND_CONSTANT = 1.0;   // Constant to convert apparent wind speed into wind force (Kg/s)
 
 // Display values:
@@ -41,6 +41,10 @@ float _deltaTimeDraw = 0.0;   // Time between draw() calls (s)
 float _simTime = 0.0;   // Simulated time (s)
 float _elapsedTime = 0.0;   // Elapsed (real) time (s)
 final float SIM_STEP = 0.02;   // Simulation step (s)
+
+//Fichero
+PrintWriter _output;
+final String FILE_NAME = "data.csv";
 
 void settings()
 {
@@ -61,6 +65,9 @@ void setup()
 
   _fw = new FireWorks();
   _numParticles = 0;
+  
+  _output = createWriter(FILE_NAME);
+  _output.println("Numero de particulas;Tiempo medio");
 }
 
 void printInfo()
@@ -70,14 +77,33 @@ void printInfo()
   text("Frame rate = " + 1.0/_deltaTimeDraw + " fps", width*0.025, height*0.075);
   text("Elapsed time = " + _elapsedTime + " s", width*0.025 , height*0.1);
   text("Simulated time = " + _simTime + " s ", width*0.025, height*0.125);
+  text("Flecha arriba abajo para modificar velocidad en y." , width*0.025, height*0.15);
+  text("Flecha derecha izquierda para modificar velocidad en x." , width*0.025, height*0.175);
+  
+  text("Para parar la simulación presiona la x", width*0.025, height*0.225);
+  //String secs = nf(_simTime/_elapsedTime, 0, 3); //tiempo medio
+  //_output.println(_numParticles + ";" + secs);
+  String frames = nf(1.0 / _deltaTimeDraw, 0, 3); //frames
+  _output.println(_numParticles + ";" + frames);
 }
 
 void drawWind()
 {
   // Código para dibujar el vector que representa el viento
-  // ...
-  // ...
-  // ...  
+  fill(255);
+  text("Velocidad viento: x = "+ _windVelocity.x + ", y = " + -1*_windVelocity.y, width*0.025, height*0.2);
+  //stroke(126);
+  PVector velocidad = new PVector();
+  velocidad = _windVelocity.copy();
+  velocidad.normalize();
+  velocidad.mult(30);
+  
+  PVector centroBrujula = new PVector(width/2, height*0.8);
+  //PVector punta = new PVector(centroBrujula.x + velocidad.x, centroBrujula.y + velocidad.y);
+  stroke(255);
+  line(centroBrujula.x, centroBrujula.y,_windVelocity.x+centroBrujula.x, _windVelocity.y+centroBrujula.y);
+  //line(centroBrujula.x, centroBrujula.y, punta.x, punta.y);
+  noStroke();
 }
 
 void draw()
@@ -107,7 +133,30 @@ void mousePressed()
 void keyPressed()
 {
   // Código para manejar la interfaz de teclado
-  // ...
-  // ...
-  // ...
+  if (key == CODED) {
+    if (keyCode == UP) {
+      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y - 1.0);
+    }
+    else if (keyCode == DOWN) {
+      _windVelocity = new PVector (_windVelocity.x, _windVelocity.y + 1.0);
+    }
+    else if (keyCode == RIGHT) {
+      _windVelocity = new PVector (_windVelocity.x + 1.0, _windVelocity.y);
+    }
+    else if (keyCode == LEFT) {
+      _windVelocity = new PVector (_windVelocity.x - 1.0, _windVelocity.y);
+    }
+  }
+  if (key == 'x' || key == 'X') {
+    println("a");
+    stop();
+  }
+  
+}
+void stop()
+{
+  println("b");
+  _output.flush();
+  _output.close();
+  println("c");
 }
