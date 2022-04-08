@@ -6,6 +6,7 @@ final float SIM_STEP = 0.01;   // Simulation time-step (s)
 float _simTime = 0.0;   // Simulated time (s)
 
 ParticleSystem _system;   // Particle system
+Particle p1;
 ArrayList<PlaneSection> _planes;    // Planes representing the limits
 boolean _computePlaneCollisions = true;
 
@@ -32,6 +33,8 @@ void initSimulation()
 {
   _system = new ParticleSystem(/* ???? */);
   _planes = new ArrayList<PlaneSection>();
+  p1 = new Particle(_system, 1, new PVector(200, 200), new PVector(0, 0), 1, 5);
+  _system.addParticle(1, new PVector(200, 200), new PVector(0, 0), 1.0, 5.0);
 
   // ...
   // ...
@@ -47,6 +50,7 @@ void drawStaticEnvironment()
 
 void draw() 
 {
+  p1.display();
   // ...
   // ...
   // ...
