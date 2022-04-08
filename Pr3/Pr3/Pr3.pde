@@ -43,6 +43,7 @@ void initSimulation()
 
 void drawStaticEnvironment()
 {
+  plane0 = n
   fill(27, 147, 183);
   strokeWeight(2);
   rect(50, 50, 1100, 600);
@@ -50,7 +51,6 @@ void drawStaticEnvironment()
 
 void draw() 
 {
-  p1.display();
   // ...
   // ...
   // ...
