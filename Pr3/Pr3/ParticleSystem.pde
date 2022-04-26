@@ -12,7 +12,7 @@ class ParticleSystem
   ParticleSystem(Boolean m)  
   {
     _particles = new ArrayList<Particle>();
-    _n = 5;
+    _n = tam;
     PVector initVel;
     PVector posicion_inicial;
     
@@ -22,7 +22,6 @@ class ParticleSystem
         initVel =new PVector(0, 0);
         posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
         addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
-        println("estático");
       }
     }else{
       for(int  i=0 ; i < _n;i++)
@@ -30,7 +29,6 @@ class ParticleSystem
         initVel =new PVector(random(-200,300),random(-200,300));
         posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
         addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
-        println("dinámico");
       }
     }
   }

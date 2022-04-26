@@ -20,8 +20,9 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
+int tam = 5;
 Boolean randMov = false;
-
+Boolean[] triggers = new Boolean[tam];
 
 // Converts distances from world length to pixel length
 float worldToPixels(float dist)
@@ -62,11 +63,15 @@ void setup()
   
   //initSimulation();
   
-  initSimulation(true);
+  initSimulation(false);
 }
 
 void initSimulation(Boolean m)
 {
+  int u;
+  for (u = 0; u < tam; u++){
+    triggers[u] = false;
+  }
   _system = new ParticleSystem(m);
   _planes = new ArrayList<PlaneSection>();
   p1 = new Particle(_system, 1, new PVector(200, 200), new PVector(0, 0), 1, 5);
@@ -78,6 +83,8 @@ void initSimulation(Boolean m)
   _planes.add(new PlaneSection(50, 650, 1150, 650, false)); //S
   _planes.add(new PlaneSection(50, 50, 50, 650, false)); //W
 
+  //triggers
+  
   // ...
   // ...
   // ...
@@ -121,6 +128,29 @@ void mouseClicked()
 {
   //se selecciona la bola
   //si mouseX, mouse Y coincide con el área de esa bola
+  for(int i = 0; i < _system.getNumParticles(); i++){
+    
+    Particle p = _system._particles.get(i);
+    
+    //PVector vsum = new PVector(1, 1); //Para mover la partícula en caso de v = 0
+    //PVector newVel = PVector.mult(PVector.add(p._v, vsum), 3);
+    if(mouseX >= p._s.x - p._radius && mouseX <= p._s.x + p._radius){ //El puntero coincide con la bola en el eje x
+      if(mouseY>= p._s.y - p._radius && mouseY <= p._s.y + p._radius){
+        int u;
+        print("0...");
+        printArray(triggers);
+        for (u = 0; u < tam; u++){
+          
+          triggers[u] = false;
+          
+        }
+        triggers[i]=true;
+        print("1...");
+        printArray(triggers);
+        p.display();
+      }
+    }
+  }
 }
 
 void mouseDragged()
