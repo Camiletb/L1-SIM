@@ -19,7 +19,7 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
-
+Boolean randMov;
 
 
 // Converts distances from world length to pixel length
@@ -59,8 +59,8 @@ void setup()
   frameRate(DRAW_FREQ);
   _lastTimeDraw = millis();
   
-  initSimulation();
-  
+  //initSimulation();
+  randMov = false;
   initSimulation();
 }
 
@@ -103,11 +103,11 @@ void draw()
   // ...
   
   drawStaticEnvironment();
-    
-  _system.run();
-  _system.computeCollisions(_planes, _computePlaneCollisions);  
-  _system.display();  
-
+  if(randMov){
+    _system.run();
+    _system.computeCollisions(_planes, _computePlaneCollisions);  
+    _system.display();  
+  }
   _simTime += SIM_STEP;
 
   // ...
@@ -129,6 +129,11 @@ void mouseDragged()
 
 void keyPressed()
 {
+  if(key=='M' || key=='m'){
+    if(!randMov)
+      initSimulation();
+    randMov = !randMov;
+  }
   if(key=='R' || key=='r'){
     initSimulation();
   }
