@@ -163,7 +163,8 @@ void mouseDragged()
 void keyPressed()
 {
   if(key=='M' || key=='m'){
-    
+    randMov = !randMov;
+    print(randMov);
     if(!randMov)
       initSimulation(false);
     
@@ -171,7 +172,7 @@ void keyPressed()
       initSimulation(true);
       //randMov=false;
     }
-    randMov = !randMov;
+    
   }
   if(key=='R' || key=='r'){
     initSimulation(false);

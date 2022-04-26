@@ -151,7 +151,6 @@ class Particle  //<>//
       circle(_s.x, _s.y, 2.0*_radius);
     }
     fill(255);
-    //circle(_s.x, _s.y, 2.0*_radius);
   }
   
   // ...
