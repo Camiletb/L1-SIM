@@ -56,6 +56,10 @@ class PlaneSection
   {
     return _normal;
   }
+  
+  //void rebote(){
+  // if(_pos1.x < _pos2) 
+  //}
 
   void draw() 
   {
