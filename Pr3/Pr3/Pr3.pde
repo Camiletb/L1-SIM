@@ -23,6 +23,7 @@ final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that c
 int tam = 5;
 Boolean randMov = false;
 Boolean[] triggers = new Boolean[tam];
+int[] marca = new int[tam];
 
 // Converts distances from world length to pixel length
 float worldToPixels(float dist)

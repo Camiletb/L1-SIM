@@ -140,15 +140,18 @@ class Particle  //<>//
   void display() 
   {
     /*** ¡¡Esta función se debe modificar si la simulación necesita conversión entre coordenadas del mundo y coordenadas de pantalla!! ***/
-    
+    noStroke();
     if(triggers[_id]){
-      strokeWeight(2);
-      print("_id: " + _id);
+      marca[_id]=_id;
+      fill(180, 0, 60);
+      circle(_s.x, _s.y, 2.0*_radius);
     }else{
-      noStroke();
+      
+      fill(255);
+      circle(_s.x, _s.y, 2.0*_radius);
     }
     fill(255);
-    circle(_s.x, _s.y, 2.0*_radius);
+    //circle(_s.x, _s.y, 2.0*_radius);
   }
   
   // ...
