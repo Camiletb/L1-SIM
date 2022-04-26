@@ -33,10 +33,18 @@ class Particle  //<>//
 
   void update() 
   {  
+    //updateForce();
+    //
+    PVector fuerza = _f.copy();
+    _a = PVector.div(fuerza, _m);
+    _v.add(PVector.mult(_a, SIM_STEP));
+    _s.add(PVector.mult(_v, SIM_STEP));
   }
 
   void updateForce()
   {  
+    //Fuerza normal
+    //
   }
 
   void planeCollision(ArrayList<PlaneSection> planes)
@@ -56,6 +64,7 @@ class Particle  //<>//
     /*** ¡¡Esta función se debe modificar si la simulación necesita conversión entre coordenadas del mundo y coordenadas de pantalla!! ***/
     
     noStroke();
+    fill(255);
     circle(_s.x, _s.y, 2.0*_radius);
   }
   

@@ -6,19 +6,26 @@ class ParticleSystem
   // ... (G, Kd, Ke, Cr, etc.)
   // ...
   // ...
+  float m_bola=0.21;
+  float r_bola=worldToPixels(0.0305);
 
   ParticleSystem(/* ¿¿¿¿arguments???? */)  
   {
     _particles = new ArrayList<Particle>();
-    _n = 0;
+    _n = 5;
     
-    // ...
-    // ...
-    // ...    
+    for(int  i=0 ; i < _n;i++)
+    {
+      PVector initVel =new PVector(random(-200,300),random(-200,300));
+      PVector posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
+      addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
+      println(i);
+    }   
   }
 
   void addParticle(int id, PVector initPos, PVector initVel, float mass, float radius) 
   { 
+    _particles.add(new Particle( this, id,  initPos,  initVel,  mass,  radius));
   }
   
   void restart()
