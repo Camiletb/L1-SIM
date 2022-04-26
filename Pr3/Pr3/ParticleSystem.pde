@@ -12,7 +12,7 @@ class ParticleSystem
   ParticleSystem(/* ¿¿¿¿arguments???? */)  
   {
     _particles = new ArrayList<Particle>();
-    _n = 5;
+    _n = 2;
     
     for(int  i=0 ; i < _n;i++)
     {

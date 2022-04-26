@@ -121,6 +121,9 @@ void mouseClicked()
 
 void keyPressed()
 {
+  if(key=='R' || key=='r'){
+    initSimulation();
+  }
 }
   
 void stop()

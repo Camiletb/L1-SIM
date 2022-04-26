@@ -48,7 +48,9 @@ class Particle  //<>//
   }
 
   void planeCollision(ArrayList<PlaneSection> planes)
-  { 
+  {
+    //hay colisión?
+    
   } 
 
   void particleCollisionVelocityModel()
