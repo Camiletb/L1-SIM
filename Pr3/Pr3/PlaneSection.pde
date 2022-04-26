@@ -5,6 +5,7 @@ class PlaneSection
   PVector _normal;
   float[] _coefs = new float[4];
   
+  
   // Constructor to make a plane from two points (assuming Z = 0)
   // The two points define the edges of the finite plane section
   PlaneSection(float x1, float y1, float x2, float y2, boolean invert) 
@@ -57,9 +58,7 @@ class PlaneSection
     return _normal;
   }
   
-  //void rebote(){
-  // if(_pos1.x < _pos2) 
-  //}
+  
 
   void draw() 
   {

@@ -117,6 +117,14 @@ void draw()
 
 void mouseClicked() 
 {
+  //se selecciona la bola
+  //si mouseX, mouse Y coincide con el área de esa bola
+}
+
+void mouseDragged()
+{
+  //se usa el taco
+  
 }
 
 void keyPressed()

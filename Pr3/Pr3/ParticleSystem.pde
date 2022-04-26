@@ -12,7 +12,7 @@ class ParticleSystem
   ParticleSystem(/* ¿¿¿¿arguments???? */)  
   {
     _particles = new ArrayList<Particle>();
-    _n = 2;
+    _n = 5;
     
     for(int  i=0 ; i < _n;i++)
     {
@@ -53,6 +53,12 @@ class ParticleSystem
   
   void computeCollisions(ArrayList<PlaneSection> planes, boolean computeParticleCollision) 
   { 
+    for(Particle p : _particles){
+      p.planeCollision(planes);
+
+      if (computeParticleCollision)
+        p.particleCollisionVelocityModel();
+    }
   }
     
   void display() 
