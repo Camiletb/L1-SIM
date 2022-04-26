@@ -7,6 +7,7 @@ float _simTime = 0.0;   // Simulated time (s)
 int _lastTimeDraw = 0;   // Last measure of time in draw() function (ms)
 
 ParticleSystem _system;   // Particle system
+//ParticleSystem _s2;
 Particle p1;
 ArrayList<PlaneSection> _planes;    // Planes representing the limits
 boolean _computePlaneCollisions = true;
@@ -19,7 +20,7 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
-Boolean randMov;
+Boolean randMov = false;
 
 
 // Converts distances from world length to pixel length
@@ -60,13 +61,13 @@ void setup()
   _lastTimeDraw = millis();
   
   //initSimulation();
-  randMov = false;
-  initSimulation();
+  
+  initSimulation(true);
 }
 
-void initSimulation()
+void initSimulation(Boolean m)
 {
-  _system = new ParticleSystem(/* ???? */);
+  _system = new ParticleSystem(m);
   _planes = new ArrayList<PlaneSection>();
   p1 = new Particle(_system, 1, new PVector(200, 200), new PVector(0, 0), 1, 5);
   _system.addParticle(1, new PVector(200, 200), new PVector(0, 0), 1.0, 5.0);
@@ -103,11 +104,12 @@ void draw()
   // ...
   
   drawStaticEnvironment();
-  if(randMov){
+  //if(randMov){ //esto dentro de init
+  
     _system.run();
     _system.computeCollisions(_planes, _computePlaneCollisions);  
     _system.display();  
-  }
+  //}
   _simTime += SIM_STEP;
 
   // ...
@@ -130,12 +132,19 @@ void mouseDragged()
 void keyPressed()
 {
   if(key=='M' || key=='m'){
+    
     if(!randMov)
-      initSimulation();
+      initSimulation(false);
+    
+    if(randMov){
+      initSimulation(true);
+      //randMov=false;
+    }
     randMov = !randMov;
   }
   if(key=='R' || key=='r'){
-    initSimulation();
+    initSimulation(false);
+    randMov=false;
   }
 }
   

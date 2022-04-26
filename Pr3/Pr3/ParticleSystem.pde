@@ -9,18 +9,30 @@ class ParticleSystem
   float m_bola=0.21;
   float r_bola=worldToPixels(0.0305);
 
-  ParticleSystem(/* ¿¿¿¿arguments???? */)  
+  ParticleSystem(Boolean m)  
   {
     _particles = new ArrayList<Particle>();
     _n = 5;
+    PVector initVel;
+    PVector posicion_inicial;
     
-    for(int  i=0 ; i < _n;i++)
-    {
-      PVector initVel =new PVector(random(-200,300),random(-200,300));
-      PVector posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
-      addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
-      println(i);
-    }   
+    if(!m){
+      for(int  i=0 ; i < _n;i++)
+      {
+        initVel =new PVector(0, 0);
+        posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
+        addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
+        println("estático");
+      }
+    }else{
+      for(int  i=0 ; i < _n;i++)
+      {
+        initVel =new PVector(random(-200,300),random(-200,300));
+        posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
+        addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
+        println("dinámico");
+      }
+    }
   }
 
   void addParticle(int id, PVector initPos, PVector initVel, float mass, float radius) 
