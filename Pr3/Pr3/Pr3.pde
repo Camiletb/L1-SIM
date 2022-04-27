@@ -20,7 +20,7 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
-int tam = 5;
+int tam = 100;
 Boolean randMov; //Movimiento random
 Boolean[] triggers = new Boolean[tam]; //Qué bolas se clican
 Boolean cargado = false; //Si el taco está cargado
@@ -124,7 +124,7 @@ void printInfo(){
   fill(0);
   textSize(18);
   textAlign(LEFT);
-  text("Reiniciar (R)  -  Movimiento aleatorio (M): "+randMov, 75, worldToPixels(1.42)-40);
+  text("Reiniciar (R)  -  Movimiento aleatorio (M): " + randMov + "Habilitación de colisiones (C): " + _computePlaneCollisions, 75, worldToPixels(1.42)-40);
   text("Seleccionar bola (Click izquierdo)  -  Disparar (Seleccionar bola + Click y arrastre)", 75, worldToPixels(1.42)-20);
 }
 
@@ -211,7 +211,7 @@ void mousePressed(){
 void mouseReleased(){
   for(Particle p : _system._particles){
     if(p._id == marca){
-      p.setVel(vtaco.mult(-10));
+      p.setVel(vtaco.mult(-5));
     }
   }
 }
@@ -226,9 +226,14 @@ void keyPressed()
     if(randMov){
       initSimulation(true);
     }
-    
-    
   }
+  if(key == 'C' || key == 'c'){
+    if(_computePlaneCollisions)
+      _computePlaneCollisions = false;
+    else
+      _computePlaneCollisions = true;
+  }
+  
   if(key=='R' || key=='r'){
     _system._particles.clear();
     setup();
