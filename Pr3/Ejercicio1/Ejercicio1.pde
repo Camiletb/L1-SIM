@@ -20,7 +20,7 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
-int tam = 100;
+int tam =  5; //Numero de particulas
 Boolean randMov; //Movimiento random
 Boolean[] triggers = new Boolean[tam]; //Qué bolas se clican
 Boolean cargado = false; //Si el taco está cargado
@@ -130,10 +130,6 @@ void printInfo(){
 
 void draw() 
 {
-  // ...
-  // ...
-  // ...
-  
   drawStaticEnvironment();
   printInfo();
   

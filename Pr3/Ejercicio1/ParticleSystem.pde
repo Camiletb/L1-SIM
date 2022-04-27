@@ -3,9 +3,6 @@ class ParticleSystem
   ArrayList<Particle> _particles;
   int _n;
   
-  // ... (G, Kd, Ke, Cr, etc.)
-  // ...
-  // ...
   float m_bola=0.21;
   float r_bola=worldToPixels(0.0305);
 
@@ -79,8 +76,4 @@ class ParticleSystem
       p.display();
     }    
   }
-  
-  // ...
-  // ...
-  // ...
 }
