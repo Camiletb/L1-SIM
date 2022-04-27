@@ -65,7 +65,7 @@ void setup()
   fill(35,68,78);
   frameRate(DRAW_FREQ);
   _lastTimeDraw = millis();
-  
+  randMov=false;
   //initSimulation();
   
   initSimulation(false);
@@ -79,7 +79,7 @@ void initSimulation(Boolean m)
   }
   
   //Modo de movimiento
-  randMov=false;
+  
   
   //Sistema
   _system = new ParticleSystem(m);
@@ -216,6 +216,7 @@ void keyPressed()
       initSimulation(true);
       //randMov=false;
     }
+    
     
   }
   if(key=='R' || key=='r'){
