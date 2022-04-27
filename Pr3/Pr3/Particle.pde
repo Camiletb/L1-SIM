@@ -100,7 +100,7 @@ class Particle  //<>//
            PVector n1 = PVector.mult(dist, (_v.dot(vcol) / distance));
            PVector n2 = PVector.mult(dist, (p._v.dot(vcol) / distance));
           
-          //Vectores Tangenciales
+           //Vectores Tangenciales
            PVector t1 = PVector.sub(_v, n1);
            PVector t2 = PVector.sub(p._v, n2);
           
@@ -141,26 +141,20 @@ class Particle  //<>//
   {
     /*** ¡¡Esta función se debe modificar si la simulación necesita conversión entre coordenadas del mundo y coordenadas de pantalla!! ***/
     noStroke();
-    if(triggers[_id]){
+    if(triggers[_id]){ //Si se ha seleccionado esa bola
       for(int u = 0; u < tam; u++)
         marca[u] = tam+1;
       marca[_id]=_id;
-      marcar(_id);
-      fill(180, 0, 60);
+      fill(180, 0, 60); //píntamela de rojo
       circle(_s.x, _s.y, 2.0*_radius);
       line(this._s.x, this._s.y, this._s.x - 160, this._s.y + 160);
-    }else{
-      
+    }else{ //sino, de blanco
       fill(255);
       circle(_s.x, _s.y, 2.0*_radius);
     }
     fill(255);
   }
   
-  void marcar(int id){
-    //strokeWeight(2);
-    //line(this._s.x, this._s.y, this._s.x - 160, this._s.y + 160);
-  }
   
   // ...
   // ...

@@ -104,6 +104,9 @@ void initSimulation(Boolean m)
 
 void drawStaticEnvironment()
 {
+  fill(0);
+  textSize(20);
+  
   //Mesa de billar
   fill(27, 100, 150);
   strokeWeight(2);
@@ -116,6 +119,14 @@ void drawStaticEnvironment()
   }
 }
 
+void printInfo(){
+  fill(0);
+  textSize(18);
+  textAlign(LEFT);
+  text("Reiniciar (R)  -  Movimiento aleatorio (M)", width*0.05, height*0.87);
+  text("Seleccionar bola (Click izquierdo)  -  Disparar (Seleccionar bola + Click y arrastre)", width*0.05, height*0.90);
+}
+
 void draw() 
 {
   // ...
@@ -123,6 +134,7 @@ void draw()
   // ...
   
   drawStaticEnvironment();
+  printInfo();
   
   _system.run();
   _system.computeCollisions(_planes, _computePlaneCollisions);  
@@ -145,7 +157,6 @@ void draw()
       }
     }
   }
-
   // ...
   // ...
   // ...
@@ -191,9 +202,6 @@ Boolean clicada(Particle p){
 
 void mousePressed(){
   initaco = new PVector(mouseX, mouseY);
-  //strokeWeight(3);
-  //fill(255);
-  //line(initaco.x, initaco.y, initaco.x - 160, initaco.y + 160);
 }
 
 void keyPressed()
