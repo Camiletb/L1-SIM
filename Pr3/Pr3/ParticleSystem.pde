@@ -20,14 +20,14 @@ class ParticleSystem
       for(int  i=0 ; i < _n;i++)
       {
         initVel =new PVector(0, 0);
-        posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
+        posicion_inicial = new PVector(random(50, worldToPixels(2.85)), random(50, worldToPixels(1.42)));
         addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
       }
     }else{
       for(int  i=0 ; i < _n;i++)
       {
         initVel =new PVector(random(-200,300),random(-200,300));
-        posicion_inicial = new PVector(random(320, worldToPixels(2.85)), random(250, worldToPixels(1.42)));
+        posicion_inicial = new PVector(random(50, worldToPixels(2.85)), random(50, worldToPixels(1.42)));
         addParticle(i,posicion_inicial,initVel,m_bola,r_bola);
       }
     }

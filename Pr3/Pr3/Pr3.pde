@@ -13,8 +13,8 @@ ArrayList<PlaneSection> _planes;    // Planes representing the limits
 boolean _computePlaneCollisions = true;
 
 final int DRAW_FREQ = 50;   // Draw frequency (Hz or Frame-per-second)
-int DISPLAY_SIZE_X = 1200;   // Display width (pixels)
-int DISPLAY_SIZE_Y = 700;   // Display height (pixels)
+int DISPLAY_SIZE_X = 900;   // Display width (pixels)
+int DISPLAY_SIZE_Y = 500;   // Display height (pixels)
 final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 
@@ -88,10 +88,10 @@ void initSimulation(Boolean m)
   _system.addParticle(1, new PVector(200, 200), new PVector(0, 0), 1.0, 5.0);
 
   //planes
-  _planes.add(new PlaneSection(50, 50, 1150, 50, true)); //N
-  _planes.add(new PlaneSection(1150, 50, 1150, 650, true)); //E
-  _planes.add(new PlaneSection(50, 650, 1150, 650, false)); //S
-  _planes.add(new PlaneSection(50, 50, 50, 650, false)); //W
+  _planes.add(new PlaneSection(50, 50, worldToPixels(2.85), 50, true)); //N
+  _planes.add(new PlaneSection(worldToPixels(2.85), 50, worldToPixels(2.85), worldToPixels(1.42), true)); //E
+  _planes.add(new PlaneSection(50, worldToPixels(1.42), worldToPixels(2.85), worldToPixels(1.42), false)); //S
+  _planes.add(new PlaneSection(50, 50, 50, worldToPixels(1.42), false)); //W
 
   //Taco
   initaco = new PVector(mouseX, mouseY);
@@ -110,21 +110,19 @@ void drawStaticEnvironment()
   //Mesa de billar
   fill(27, 100, 150);
   strokeWeight(2);
-  rect(50, 50, 1100, 600);
+  rect(50, 50, worldToPixels(2.85) - 50, worldToPixels(1.42) - 50);
   
-  for(int i = 0; i < _planes.size(); i++)
-  {
-      PlaneSection p = _planes.get(i);
+  for(PlaneSection p : _planes)
       p.draw();
-  }
+  
 }
 
 void printInfo(){
   fill(0);
   textSize(18);
   textAlign(LEFT);
-  text("Reiniciar (R)  -  Movimiento aleatorio (M)", width*0.05, height*0.87);
-  text("Seleccionar bola (Click izquierdo)  -  Disparar (Seleccionar bola + Click y arrastre)", width*0.05, height*0.90);
+  text("Reiniciar (R)  -  Movimiento aleatorio (M): "+randMov, 75, worldToPixels(1.42)-40);
+  text("Seleccionar bola (Click izquierdo)  -  Disparar (Seleccionar bola + Click y arrastre)", 75, worldToPixels(1.42)-20);
 }
 
 void draw() 
@@ -208,13 +206,11 @@ void keyPressed()
 {
   if(key=='M' || key=='m'){
     randMov = !randMov;
-    print(randMov);
     if(!randMov)
       initSimulation(false);
     
     if(randMov){
       initSimulation(true);
-      //randMov=false;
     }
     
     
