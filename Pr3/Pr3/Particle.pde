@@ -33,6 +33,10 @@ class Particle  //<>//
     _radius = radius;
     _color = color(0, 100, 255, 150);
   }
+  
+  void setVel(PVector v){
+    _v = v.copy();
+  }
 
   void update() 
   {  
@@ -142,9 +146,9 @@ class Particle  //<>//
     /*** ¡¡Esta función se debe modificar si la simulación necesita conversión entre coordenadas del mundo y coordenadas de pantalla!! ***/
     noStroke();
     if(triggers[_id]){ //Si se ha seleccionado esa bola
-      for(int u = 0; u < tam; u++)
-        marca[u] = tam+1;
-      marca[_id]=_id;
+      //for(int u = 0; u < tam; u++)
+        //marca[u] = tam+1;
+      //marca[_id]=_id;
       fill(180, 0, 60); //píntamela de rojo
       circle(_s.x, _s.y, 2.0*_radius);
       line(this._s.x, this._s.y, this._s.x - 160, this._s.y + 160);

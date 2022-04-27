@@ -21,9 +21,12 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
 int tam = 5;
-Boolean randMov;
-Boolean[] triggers = new Boolean[tam];
-int[] marca = new int[tam];
+Boolean randMov; //Movimiento random
+Boolean[] triggers = new Boolean[tam]; //Qué bolas se clican
+Boolean cargado = false; //Si el taco está cargado
+PVector vtaco;
+int marca = tam; //bola seleccionada
+
 
 //taco
 PVector initaco;
@@ -75,7 +78,7 @@ void initSimulation(Boolean m)
 {
   for (int u = 0; u < tam; u++){
     triggers[u] = false;
-    marca[u] = tam + 1;
+    //marca[u] = tam + 1;
   }
   
   //Modo de movimiento
@@ -95,7 +98,7 @@ void initSimulation(Boolean m)
 
   //Taco
   initaco = new PVector(mouseX, mouseY);
-  
+  vtaco = new PVector(0, 0);
   
   // ...
   // ...
@@ -151,6 +154,8 @@ void draw()
           strokeWeight(4);
           stroke(255, 80, 80, abs(mouseX+mouseY));
           line(initaco.x, initaco.y, mouseX, mouseY);
+          cargado = true;
+          vtaco = new PVector(mouseX - initaco.x, mouseY - initaco.y);
         }
       }
     }
@@ -193,6 +198,7 @@ Boolean clicada(Particle p){
     if(mouseX >= p._s.x - p._radius && mouseX <= p._s.x + p._radius){ //El puntero coincide con la bola en el eje x
       if(mouseY>= p._s.y - p._radius && mouseY <= p._s.y + p._radius){ //El puntero coincide con la bola en el eje y
         aux = true;
+        marca = p._id;
       }
     }
   return aux;
@@ -200,6 +206,14 @@ Boolean clicada(Particle p){
 
 void mousePressed(){
   initaco = new PVector(mouseX, mouseY);
+}
+
+void mouseReleased(){
+  for(Particle p : _system._particles){
+    if(p._id == marca){
+      p.setVel(vtaco.mult(-10));
+    }
+  }
 }
 
 void keyPressed()
