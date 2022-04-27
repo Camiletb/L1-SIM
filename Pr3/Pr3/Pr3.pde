@@ -130,18 +130,18 @@ void draw()
   
   _simTime += SIM_STEP;
   if(mousePressed){
-    strokeWeight(4);
-    stroke(255);
     Boolean aux=false;
     for(int u = 0; u < tam; u++)
       aux ^= triggers[u];
     if(aux){
       for(int i = 0; i < _system.getNumParticles(); i++){
         Particle p = _system._particles.get(i);
-        //if(clicada(p)){
+        if(triggers[p._id]){
           initaco = new PVector(p._s.x, p._s.y);
+          strokeWeight(4);
+          stroke(255, 80, 80, abs(mouseX+mouseY));
           line(initaco.x, initaco.y, mouseX, mouseY);
-        //}
+        }
       }
     }
   }
@@ -195,24 +195,6 @@ void mousePressed(){
   //fill(255);
   //line(initaco.x, initaco.y, initaco.x - 160, initaco.y + 160);
 }
-
-void mouseDragged()
-{
-  strokeWeight(4);
-    stroke(255);
-    line(initaco.x, initaco.y, mouseX, mouseY);
-  //fintaco = new PVector(mouseX, mouseY);
-  //for(int u = 0; u < tam; u++)
-  //if(marca[]){
-  //}
-  //se usa el taco
-  //strokeWeight(2);
-  //fill(80);
-  //rect(initaco.x, initaco.y, mouseX-initaco.x, mouseY-initaco.y);
-  
-}
-
-
 
 void keyPressed()
 {
