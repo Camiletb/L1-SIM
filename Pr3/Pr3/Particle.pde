@@ -142,15 +142,24 @@ class Particle  //<>//
     /*** ¡¡Esta función se debe modificar si la simulación necesita conversión entre coordenadas del mundo y coordenadas de pantalla!! ***/
     noStroke();
     if(triggers[_id]){
+      for(int u = 0; u < tam; u++)
+        marca[u] = tam+1;
       marca[_id]=_id;
+      marcar(_id);
       fill(180, 0, 60);
       circle(_s.x, _s.y, 2.0*_radius);
+      line(this._s.x, this._s.y, this._s.x - 160, this._s.y + 160);
     }else{
       
       fill(255);
       circle(_s.x, _s.y, 2.0*_radius);
     }
     fill(255);
+  }
+  
+  void marcar(int id){
+    //strokeWeight(2);
+    //line(this._s.x, this._s.y, this._s.x - 160, this._s.y + 160);
   }
   
   // ...

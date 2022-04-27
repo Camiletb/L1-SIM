@@ -21,9 +21,13 @@ final int [] BACKGROUND_COLOR = {10, 10, 25};
 final float PIXELS_PER_METER = 300;   // Display length that corresponds with 1 meter (pixels)
 final PVector DISPLAY_CENTER = new PVector(0.0, 0.0);   // World position that corresponds with the center of the display (m
 int tam = 5;
-Boolean randMov = false;
+Boolean randMov;
 Boolean[] triggers = new Boolean[tam];
 int[] marca = new int[tam];
+
+//taco
+PVector initaco;
+PVector fintaco;
 
 // Converts distances from world length to pixel length
 float worldToPixels(float dist)
@@ -69,10 +73,15 @@ void setup()
 
 void initSimulation(Boolean m)
 {
-  int u;
-  for (u = 0; u < tam; u++){
+  for (int u = 0; u < tam; u++){
     triggers[u] = false;
+    marca[u] = tam + 1;
   }
+  
+  //Modo de movimiento
+  randMov=false;
+  
+  //Sistema
   _system = new ParticleSystem(m);
   _planes = new ArrayList<PlaneSection>();
   p1 = new Particle(_system, 1, new PVector(200, 200), new PVector(0, 0), 1, 5);
@@ -84,7 +93,9 @@ void initSimulation(Boolean m)
   _planes.add(new PlaneSection(50, 650, 1150, 650, false)); //S
   _planes.add(new PlaneSection(50, 50, 50, 650, false)); //W
 
-  //triggers
+  //Taco
+  initaco = new PVector(mouseX, mouseY);
+  
   
   // ...
   // ...
@@ -112,13 +123,28 @@ void draw()
   // ...
   
   drawStaticEnvironment();
-  //if(randMov){ //esto dentro de init
   
-    _system.run();
-    _system.computeCollisions(_planes, _computePlaneCollisions);  
-    _system.display();  
-  //}
+  _system.run();
+  _system.computeCollisions(_planes, _computePlaneCollisions);  
+  _system.display();
+  
   _simTime += SIM_STEP;
+  if(mousePressed){
+    strokeWeight(4);
+    stroke(255);
+    Boolean aux=false;
+    for(int u = 0; u < tam; u++)
+      aux ^= triggers[u];
+    if(aux){
+      for(int i = 0; i < _system.getNumParticles(); i++){
+        Particle p = _system._particles.get(i);
+        //if(clicada(p)){
+          initaco = new PVector(p._s.x, p._s.y);
+          line(initaco.x, initaco.y, mouseX, mouseY);
+        //}
+      }
+    }
+  }
 
   // ...
   // ...
@@ -135,30 +161,58 @@ void mouseClicked()
     
     //PVector vsum = new PVector(1, 1); //Para mover la partícula en caso de v = 0
     //PVector newVel = PVector.mult(PVector.add(p._v, vsum), 3);
-    if(mouseX >= p._s.x - p._radius && mouseX <= p._s.x + p._radius){ //El puntero coincide con la bola en el eje x
-      if(mouseY>= p._s.y - p._radius && mouseY <= p._s.y + p._radius){
-        int u;
-        print("0...");
-        printArray(triggers);
-        for (u = 0; u < tam; u++){
-          
+    if(clicada(p)){
+      
+        //taco
+        initaco = new PVector(p._s.x, p._s.y);
+        
+        //trigger de la bola clicada
+        for (int u = 0; u < tam; u++)
           triggers[u] = false;
-          
-        }
-        triggers[i]=true;
-        print("1...");
+        triggers[i] = true;
         printArray(triggers);
+        printArray(marca);
         p.display();
+        
+        
+        
+      }
+   }
+}
+Boolean clicada(Particle p){
+  Boolean aux = false;
+    if(mouseX >= p._s.x - p._radius && mouseX <= p._s.x + p._radius){ //El puntero coincide con la bola en el eje x
+      if(mouseY>= p._s.y - p._radius && mouseY <= p._s.y + p._radius){ //El puntero coincide con la bola en el eje y
+        aux = true;
       }
     }
-  }
+  return aux;
+}
+
+void mousePressed(){
+  initaco = new PVector(mouseX, mouseY);
+  //strokeWeight(3);
+  //fill(255);
+  //line(initaco.x, initaco.y, initaco.x - 160, initaco.y + 160);
 }
 
 void mouseDragged()
 {
+  strokeWeight(4);
+    stroke(255);
+    line(initaco.x, initaco.y, mouseX, mouseY);
+  //fintaco = new PVector(mouseX, mouseY);
+  //for(int u = 0; u < tam; u++)
+  //if(marca[]){
+  //}
   //se usa el taco
+  //strokeWeight(2);
+  //fill(80);
+  //rect(initaco.x, initaco.y, mouseX-initaco.x, mouseY-initaco.y);
   
 }
+
+
 
 void keyPressed()
 {
@@ -175,8 +229,9 @@ void keyPressed()
     
   }
   if(key=='R' || key=='r'){
-    initSimulation(false);
-    randMov=false;
+    _system._particles.clear();
+    setup();
+    
   }
 }
   
