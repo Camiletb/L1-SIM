@@ -1,17 +1,12 @@
 class ParticleSystem 
 {
   ArrayList<Particle> _particles;
-  int _n;
-  
-  float m_bola=40;//Masa
-  float r_bola=3;//Radio de la particula
-  float dp = r_bola + 2;//Distancia entre las 2 particulas
+ 
   int id = 0;//Variable para ir asignando id a cada particula
 
   ParticleSystem()  
   {
     _particles = new ArrayList<Particle>();
-    _n = tam;
     
     int col = 100;
     int fil = _n  / col;
@@ -19,10 +14,21 @@ class ParticleSystem
     for (int i = 0; i < fil; i++){
       for (int j = 0; j < col; j++){
         PVector initVel = new PVector(0,0);//Velocidad inicial de la particula
-        PVector posicion_inicial = new PVector((r_bola + dp)*j+150, (r_bola + dp)*i + 100); //Posicion inicial de la particula
+        PVector posicion_inicial = new PVector(random(300,1200), random(100,400)); //Posicion inicial de la particula
         addParticle(id, posicion_inicial, initVel, m_bola, r_bola);//Añade la particula
+        id++;
       }
     }
+  }
+  
+  void anyadirParticula(){
+    for (int i = 0; i < 200; i++){
+      PVector initVel = new PVector(0,0);//Velocidad inicial de la particula
+      PVector posicion_inicial = new PVector(random(300,1200), random(100,400)); //Posicion inicial de la particula
+      addParticle(id, posicion_inicial, initVel, m_bola, r_bola);//Añade la particula
+      id++;
+    }
+    _n += 200;
   }
 
   void addParticle(int id, PVector initPos, PVector initVel, float mass, float radius) 
@@ -46,20 +52,34 @@ class ParticleSystem
 
   void run() 
   {
-    for (int i = _n - 1; i >= 0; i--) 
+    for (int i = 0; i < _n; i++) 
     {
       Particle p = _particles.get(i);
       p.update();
     }
   }
   
-  void computeCollisions(ArrayList<PlaneSection> planes, boolean computeParticleCollision) 
+  void updateGrid(){
+    grid.limpiar();
+    for(int i = 0; i < _n; i++){
+      Particle p = _particles.get(i);
+      p.updateGrid();
+    }
+  }
+  
+  void updateHash(){
+    hash.limpiar();
+    for(int i = 0; i < _n; i++){
+      Particle p = _particles.get(i);
+      p.updateHash();
+    }
+  }
+  
+  void computeCollisions(ArrayList<PlaneSection> planes) 
   { 
     for(Particle p : _particles){
       p.planeCollision(planes);
-
-      if (computeParticleCollision)
-        p.particleCollisionSpringModel();
+      p.particleCollisionSpringModel();
     }
   }
     
@@ -69,11 +89,22 @@ class ParticleSystem
     {
       Particle p = _particles.get(i);
       color colorparticula = color(15, 95, 222);
+      int celda;
+      
+      switch(estructuraini){
+      case NO:
+        colorparticula = color(15, 95, 222);
+      break;
+      case GRID:
+        celda = grid.getCelda(p._s);
+        colorparticula = grid._colors[celda];
+      break;
+      case HASH:
+        celda = hash.getCelda(p._s);
+        colorparticula = hash._colors[celda];
+      break;
+      }
       p.display(colorparticula);
-    }    
+    }
   }
-  
-  // ...
-  // ...
-  // ...
 }

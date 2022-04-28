@@ -15,7 +15,30 @@ class PlaneSection
     setCoefficients();
     calculateNormal(invert);
   } 
-  
+
+//Funcion que comprueba que la particula se encuentra dentro del bote.
+Boolean inside(PVector x){
+    
+    Boolean rebote = false;
+    
+    if(_pos1.x < _pos2.x){//Caso de izquierda a derecha
+      if(_pos1.y > _pos2.y){//Caso de abajo a arriba
+         if( (x.x >= _pos1.x && x.x <= _pos2.x) && (x.y >= _pos2.y && x.y <= _pos1.y))
+            rebote = true;
+      }else if(_pos1.y < _pos2.y){//Caso de arriba a abajo
+        if( (x.x >= _pos1.x && x.x <= _pos2.x) && (x.y >= _pos1.y && x.y <= _pos2.y))
+            rebote = true;
+      }else if(_pos1.y == _pos2.y){//Caso horizontal
+        if( (x.x >= _pos1.x && x.x <= _pos2.x) && (x.y >= _pos1.y || x.y <= _pos2.y))
+            rebote = true;
+      }
+    } else if(_pos1.x == _pos2.x){ //Laterales verticales
+      if( (x.x >= _pos1.x || x.x <= _pos2.x) && (x.y >= _pos1.y && x.y <= _pos2.y))
+            rebote = true;
+    }
+    return rebote;
+}
+
   PVector getPoint1()
   {
     return _pos1;
