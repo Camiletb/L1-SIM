@@ -39,10 +39,19 @@ public class DeformableSurface
 
   void createNodes(float surfacePosZ, float nodeMass)
   {
-    /* Este método debe dar valores al vector de nodos ('_nodes') en función del
-       tamaño que tenga la malla y de las propiedades de ésta (número de nodos, 
-       masa de los mismos, etc.).
-     */
+    for(int i = 0; i < _numNodesX; i++){
+      for(int j = 0; i < _numNodesY; j++){
+          float posx = (i * _lengthX / _numNodesX) -  _lengthX/2;
+          float posy = (j * _lengthY / _numNodesY) -  _lengthY/2;
+          
+          PVector s = new PVector(posx, posy, surfacePosZ);
+          PVector v = new PVector(0,0,0);
+          boolean clamped = false;
+          
+          //Falta añadir que no se muevan las particulas de los bordes.
+          _nodes[i][j] = new Particle(s, v, nodeMass, clamped);
+      }
+    }
   }
 
   void createSurfaceSprings(float Ke, float Kd, float maxForce, float breakLengthFactor)
