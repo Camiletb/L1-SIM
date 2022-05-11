@@ -39,19 +39,21 @@ public class DeformableSurface
 
   void createNodes(float surfacePosZ, float nodeMass)
   {
-    for(int i = 0; i < _numNodesX; i++){
-      for(int j = 0; i < _numNodesY; j++){
-          float posx = (i * _lengthX / _numNodesX) -  _lengthX/2;
-          float posy = (j * _lengthY / _numNodesY) -  _lengthY/2;
-          
-          PVector s = new PVector(posx, posy, surfacePosZ);
-          PVector v = new PVector(0,0,0);
+    for (int i = 0; i < _numNodesX; i++)
+      {
+        for (int j = 0; j < _numNodesY; j++) {
+  
+          PVector pos = new PVector ((i*_lengthX/_numNodesX) - _lengthX/2, (j*_lengthY/_numNodesY) - _lengthY/2, surfacePosZ);
+  
+          PVector vel = new PVector (0, 0, 0);
           boolean clamped = false;
+  
+          if ((i==0) || (j==0) || (i == _numNodesX -1) || (j == _numNodesY-1)) //Dejamos fijos los bordes de la malla
+            clamped = true;
           
-          //Falta añadir que no se muevan las particulas de los bordes.
-          _nodes[i][j] = new Particle(s, v, nodeMass, clamped);
-      }
-    }
+          _nodes[i][j] = new Particle(pos, vel, nodeMass, clamped);
+        }
+      }  
   }
 
   void createSurfaceSprings(float Ke, float Kd, float maxForce, float breakLengthFactor)

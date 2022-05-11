@@ -24,17 +24,17 @@ float SIM_STEP = 0.001;   // Simulation time-step (s)
 
 final PVector G = new PVector(0.0, 0.0, -9.81);   // Acceleration due to gravity (m/(s*s))
 
-final float NET_LENGTH_X = 600.0;    // Length of the net in the X direction (m)
-final float NET_LENGTH_Y = 400.0;    // Length of the net in the Y direction (m)
-final float NET_POS_Z = -500.0;   // Position of the net in the Z axis (m)
-final int NET_NUMBER_OF_NODES_X = 60;   // Number of nodes of the net in the X direction
+final float NET_LENGTH_X = 400.0;    // Length of the net in the X direction (m)
+final float NET_LENGTH_Y = 300.0;    // Length of the net in the Y direction (m)
+final float NET_POS_Z = -400.0;   // Position of the net in the Z axis (m)
+final int NET_NUMBER_OF_NODES_X = 50;   // Number of nodes of the net in the X direction
 final int NET_NUMBER_OF_NODES_Y = 40;   // Number of nodes of the net in the Y direction
-final float NET_NODE_MASS = 0.1;   // Mass of the nodes of the net (kg)
+final float NET_NODE_MASS = 0.00001;   // Mass of the nodes of the net (kg)
 
-final float NET_KE = 150.0;   // Ellastic constant of the net's springs (N/m) 
+final float NET_KE = 15.0;   // Ellastic constant of the net's springs (N/m) 
 final float NET_KD = 5.0;   // Damping constant of the net's springs (kg/m)
 final float NET_MAX_FORCE = 500.0;   // Maximum force allowed for the net's springs (N)
-final float NET_BREAK_LENGTH_FACTOR = 0.0;   // Maximum distance factor (measured in number of times the rest length) allowed for the net's springs
+final float NET_BREAK_LENGTH_FACTOR = 10.0;   // Maximum distance factor (measured in number of times the rest length) allowed for the net's springs
 
 boolean NET_IS_UNBREAKABLE = false;   // True if the net cannot be broken
 SpringLayout NET_SPRING_LAYOUT;   // Current spring layout
@@ -147,13 +147,13 @@ void printInfo()
     text("Frame rate = " + 1.0/_deltaTimeDraw + " fps", width*0.025, height*0.05);
     text("Elapsed time = " + _elapsedTime + " s", width*0.025, height*0.075);
     text("Simulated time = " + _simTime + " s ", width*0.025, height*0.1);
-    text("Spring layout = " + NET_SPRING_LAYOUT, width*0.025, height*0.125);
+    text("Spring layout (1, 2, 3, 4, 5) = " + NET_SPRING_LAYOUT, width*0.025, height*0.125);
     text("Ball start velocity = " + BALL_START_VEL + " m/s", width*0.025, height*0.15);
 
     if (NET_IS_UNBREAKABLE)
-      text("Net is unbreakable", width*0.025, height*0.175);
+      text("Net is unbreakable (B)", width*0.025, height*0.175);
     else   
-      text("Net is breakable", width*0.025, height*0.175);
+      text("Net is breakable (B)", width*0.025, height*0.175);
   }
   popMatrix();
 }
@@ -234,7 +234,7 @@ void keyPressed()
   if (key == '5')
     initSimulation(SpringLayout.STRUCTURAL_AND_SHEAR_AND_BEND);  
   
-  if (key == 'r')
+  if (key == 'r' || key == 'R')
     resetBall();
 
   if (keyCode == UP)
