@@ -7,9 +7,7 @@ enum SpringLayout
 {
   STRUCTURAL, 
   SHEAR, 
-  STRUCTURAL_AND_SHEAR, 
-  STRUCTURAL_AND_BEND, 
-  STRUCTURAL_AND_SHEAR_AND_BEND
+  STRUCTURAL_AND_SHEAR
 }
 
 
@@ -28,7 +26,7 @@ final float NET_LENGTH_X = 400.0;    // Length of the net in the X direction (m)
 final float NET_LENGTH_Y = 300.0;    // Length of the net in the Y direction (m)
 final float NET_POS_Z = -400.0;   // Position of the net in the Z axis (m)
 final int NET_NUMBER_OF_NODES_X = 50;   // Number of nodes of the net in the X direction
-final int NET_NUMBER_OF_NODES_Y = 40;   // Number of nodes of the net in the Y direction
+final int NET_NUMBER_OF_NODES_Y = 35;   // Number of nodes of the net in the Y direction
 final float NET_NODE_MASS = 0.00001;   // Mass of the nodes of the net (kg)
 
 final float NET_KE = 15.0;   // Ellastic constant of the net's springs (N/m) 
@@ -227,12 +225,6 @@ void keyPressed()
 
   if (key == '3')
     initSimulation(SpringLayout.STRUCTURAL_AND_SHEAR);
-
-  if (key == '4')
-    initSimulation(SpringLayout.STRUCTURAL_AND_BEND);    
-
-  if (key == '5')
-    initSimulation(SpringLayout.STRUCTURAL_AND_SHEAR_AND_BEND);  
   
   if (key == 'r' || key == 'R')
     resetBall();

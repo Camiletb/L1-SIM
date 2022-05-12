@@ -39,29 +39,83 @@ public class DeformableSurface
 
   void createNodes(float surfacePosZ, float nodeMass)
   {
-    for (int i = 0; i < _numNodesX; i++)
-      {
-        for (int j = 0; j < _numNodesY; j++) {
-  
-          PVector pos = new PVector ((i*_lengthX/_numNodesX) - _lengthX/2, (j*_lengthY/_numNodesY) - _lengthY/2, surfacePosZ);
-  
-          PVector vel = new PVector (0, 0, 0);
+    for (int i = 0; i < _numNodesX; i++){
+        for (int j = 0; j < _numNodesY; j++){
+          float posx = (i*_lengthX/_numNodesX) - _lengthX/2;
+          float posy = (j*_lengthY/_numNodesY) - _lengthY/2;
+          
+          PVector s = new PVector (posx, posy, surfacePosZ);
+          PVector v = new PVector (0, 0, 0);
           boolean clamped = false;
   
-          if ((i==0) || (j==0) || (i == _numNodesX -1) || (j == _numNodesY-1)) //Dejamos fijos los bordes de la malla
+          if ((i==0) || (i == _numNodesX -1) || (j==0) || (j == _numNodesY-1)) //Cuando se alguno de los nodos de las esquinas no se le aplicaran las fuerzas.
             clamped = true;
           
-          _nodes[i][j] = new Particle(pos, vel, nodeMass, clamped);
+          _nodes[i][j] = new Particle(s, v, nodeMass, clamped);
         }
       }  
   }
 
   void createSurfaceSprings(float Ke, float Kd, float maxForce, float breakLengthFactor)
   {
-    /* Este método debe añadir muelles a la lista de muelles de la malla ('_springsSurfaces')
-       en función de la disposición deseada para éstos dentro de la malla, y de los parámetros
-       de los muelles (Ke, Kd, etc.).
-     */
+    switch(_springLayout){
+      case STRUCTURAL:
+        for (int i = 0; i < _numNodesX; i++){
+          for (int j = 0; j < _numNodesY; j++){
+            if(i < _numNodesX - 1){//Añadimos muelle entre el nodo [i][j] con el nodo de su derecha.
+              DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j], Ke, Kd, false, maxForce, breakLengthFactor);
+              _springsSurface.add(muelle1);
+            }
+            if(j < _numNodesY - 1){//Añadimos muelle entre el nodo [i][j] con el nodo que se encuentra debajo suya.
+              DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+              _springsSurface.add(muelle2);
+            }
+          }
+        }
+        break;
+        
+      case SHEAR:
+       for (int i = 0; i < _numNodesX; i++){
+          for (int j = 0; j < _numNodesY; j++){
+            //El primer muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por abajo
+            DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+            //El segundo muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por arriba
+            DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+            
+            _springsSurface.add(muelle1);
+            _springsSurface.add(muelle2);
+            
+          }
+       }
+       break;
+       
+      case STRUCTURAL_AND_SHEAR:
+        for (int i = 0; i < _numNodesX; i++){
+          for (int j = 0; j < _numNodesY; j++){
+            //STRUCTURAL
+            if(i < _numNodesX - 1){//Añadimos muelle entre el nodo [i][j] con el nodo de su derecha.
+              DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j], Ke, Kd, false, maxForce, breakLengthFactor);
+              _springsSurface.add(muelle1);
+            }
+            if(j < _numNodesY - 1){//Añadimos muelle entre el nodo [i][j] con el nodo que se encuentra debajo suya.
+              DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+              _springsSurface.add(muelle2);
+            }
+            //SHEAR
+            if(i < _numNodesX - 1 && j < _numNodesY - 1){
+              //El primer muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por abajo
+              DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+              //El segundo muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por arriba
+              DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+              
+              _springsSurface.add(muelle1);
+              _springsSurface.add(muelle2);
+            }
+          }
+        }
+      break;
+    } 
+    
   }
 
   void update(float simStep)
