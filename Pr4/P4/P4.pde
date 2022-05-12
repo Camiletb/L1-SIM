@@ -22,12 +22,12 @@ float SIM_STEP = 0.001;   // Simulation time-step (s)
 
 final PVector G = new PVector(0.0, 0.0, -9.81);   // Acceleration due to gravity (m/(s*s))
 
-final float NET_LENGTH_X = 400.0;    // Length of the net in the X direction (m)
-final float NET_LENGTH_Y = 300.0;    // Length of the net in the Y direction (m)
-final float NET_POS_Z = -400.0;   // Position of the net in the Z axis (m)
-final int NET_NUMBER_OF_NODES_X = 50;   // Number of nodes of the net in the X direction
-final int NET_NUMBER_OF_NODES_Y = 35;   // Number of nodes of the net in the Y direction
-final float NET_NODE_MASS = 0.00001;   // Mass of the nodes of the net (kg)
+final float NET_LENGTH_X = 600.0;    // Length of the net in the X direction (m)
+final float NET_LENGTH_Y = 400.0;    // Length of the net in the Y direction (m)
+final float NET_POS_Z = -500.0;   // Position of the net in the Z axis (m)
+final int NET_NUMBER_OF_NODES_X = 60;   // Number of nodes of the net in the X direction
+final int NET_NUMBER_OF_NODES_Y = 40;   // Number of nodes of the net in the Y direction
+final float NET_NODE_MASS = 0.1;   // Mass of the nodes of the net (kg)
 
 final float NET_KE = 15.0;   // Ellastic constant of the net's springs (N/m) 
 final float NET_KD = 5.0;   // Damping constant of the net's springs (kg/m)
@@ -52,8 +52,8 @@ final float COLLISION_BREAK_LENGTH_FACTOR = 0.0;   // Maximum distance factor (m
 
 final boolean FULL_SCREEN = false;
 final int DRAW_FREQ = 50;   // Draw frequency (Hz or Frame-per-second)
-int DISPLAY_SIZE_X = 1000;   // Display width (pixels)
-int DISPLAY_SIZE_Y = 1000;   // Display height (pixels)
+int DISPLAY_SIZE_X = 800;   // Display width (pixels)
+int DISPLAY_SIZE_Y = 800;   // Display height (pixels)
 
 final float FOV = 60;   // Field of view (º)
 final float NEAR = 0.01;   // Camera near distance (m)

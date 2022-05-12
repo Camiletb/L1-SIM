@@ -77,14 +77,22 @@ public class DeformableSurface
       case SHEAR:
        for (int i = 0; i < _numNodesX; i++){
           for (int j = 0; j < _numNodesY; j++){
-            //El primer muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por abajo
-            DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
-            //El segundo muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por arriba
-            DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
-            
-            _springsSurface.add(muelle1);
-            _springsSurface.add(muelle2);
-            
+            if(j != _numNodesY - 1){
+               if(i == 0){
+                DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle1);
+              }
+              else if(i < _numNodesX - 1){
+                DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle1);
+                DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i-1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle2);
+              }
+              else if(i == _numNodesX - 1){
+                DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i-1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle1);
+              }
+            }
           }
        }
        break;
@@ -102,14 +110,21 @@ public class DeformableSurface
               _springsSurface.add(muelle2);
             }
             //SHEAR
-            if(i < _numNodesX - 1 && j < _numNodesY - 1){
-              //El primer muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por abajo
-              DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
-              //El segundo muelle une el nodo[i][j] con el nodo que se encuentra en su diagonal derecha por arriba
-              DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
-              
-              _springsSurface.add(muelle1);
-              _springsSurface.add(muelle2);
+            if(j != _numNodesY - 1){
+               if(i == 0){
+                DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle1);
+              }
+              else if(i < _numNodesX - 1){
+                DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i+1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle1);
+                DampedSpring muelle2 = new DampedSpring(_nodes[i][j], _nodes[i-1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle2);
+              }
+              else if(i == _numNodesX - 1){
+                DampedSpring muelle1 = new DampedSpring(_nodes[i][j], _nodes[i-1][j+1], Ke, Kd, false, maxForce, breakLengthFactor);
+                _springsSurface.add(muelle1);
+              }
             }
           }
         }
