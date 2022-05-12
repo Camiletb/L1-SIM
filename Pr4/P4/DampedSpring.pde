@@ -62,11 +62,6 @@ public class DampedSpring
   
   void update(float simStep)
   {
-    /* Este método debe actualizar todas las variables de la clase 
-       que cambien según avanza la simulación (_e, _l, _v, _F, etc.),
-       siguiendo las ecuaciones de un muelle con amortiguamiento lineal
-       entre dos partículas.
-     */
      float eanterior = _e.mag();
     _e = PVector.sub(_p2.getPosition(), _p1.getPosition());
     
@@ -78,23 +73,23 @@ public class DampedSpring
      _v = ( _l - eanterior) / simStep; // elongación actual
      
      //Fd = direcc. * elongacion_anterior * constante
-     PVector Fd = PVector.mult((PVector.mult(_eN, _v)), _Kd); // F damping (amortiguación)
+     Float Fd =  _v * _Kd; // F damping (amortiguación)
      
      // Fe = direcc. * (_Ke * l_actual - l_reposo)
-     PVector Fe = PVector.mult(_eN, _Ke * dist); // F eléctrica
+     Float Fe = _Ke * dist; // F eléctrica
      
-     //Fe = Fe + Fd
-      Fe.add(Fd);
       if(_repulsionOnly){
         if(_lr < _l){
-          Fe.set(0,0,0);
+          _F.set(0,0,0);
         }
       }
-     _F =Fe;
      
+      //Fe = Fe + Fd
+      _F = PVector.mult(_eN,Fd + Fe);
+      
      if(_FMax != 0){
        if(_F.mag() > _FMax){
-         //breakIt();
+         breakIt();
        }
          
        if(_l > _lMax * _lr){

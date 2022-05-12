@@ -58,6 +58,9 @@ public class DeformableSurface
 
   void createSurfaceSprings(float Ke, float Kd, float maxForce, float breakLengthFactor)
   {
+    if(_isUnbreakable){
+      maxForce = 0;
+    }
     switch(_springLayout){
       case STRUCTURAL:
         for (int i = 0; i < _numNodesX; i++){
@@ -160,15 +163,14 @@ public class DeformableSurface
     for (int i = 0; i < _numNodesX; i++){
           for (int j = 0; j < _numNodesY; j++){
             PVector distancia = PVector.sub(b.getPosition(), _nodes[i][j].getPosition());
-            String id = "" + _nodes[i][j].getId();
             
             if(distancia.mag() < b.getRadius()){
-              if(_springsCollision.get(id) == null){
-                _springsCollision.put(id, new DampedSpring(b, _nodes[i][j], Ke, Kd, true, maxForce, breakLengthFactor));
+              if(_springsCollision.get("" + _nodes[i][j].getId()) == null){
+                _springsCollision.put("" + _nodes[i][j].getId(), new DampedSpring(b, _nodes[i][j], Ke, Kd, true, maxForce, breakLengthFactor));
               }
             }
             else{
-               _springsCollision.remove(id);
+               _springsCollision.remove("" + _nodes[i][j].getId());
             }
           }
     }  
