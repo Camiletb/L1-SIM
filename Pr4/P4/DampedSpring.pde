@@ -67,6 +67,25 @@ public class DampedSpring
        siguiendo las ecuaciones de un muelle con amortiguamiento lineal
        entre dos partículas.
      */
+     float eanterior = _e.mag();
+    _e = PVector.sub(_p2.getPosition(), _p1.getPosition());
+    
+    _l = _e.mag();
+     
+    _eN = _e.copy();
+    _eN.normalize();
+     float dist = _l - _lr;
+     _v = ( _l - eanterior) / simStep; // elongación actual
+     
+     //Fd = direcc. * elongacion_anterior * constante
+     PVector Fd = PVector.mult((PVector.mult(_eN, _v)), _Kd); // F damping (amortiguación)
+     
+     // Fe = direcc. * (_Ke * l_actual - l_reposo)
+     PVector Fe = PVector.mult(_eN, _Ke * dist); // F eléctrica
+     //Fe = Fe + Fd
+      Fe.add(Fd);
+     _F =Fe;
+     //
   }
 
   void applyForces()
