@@ -32,7 +32,7 @@ final float NET_NODE_MASS = 0.1;   // Mass of the nodes of the net (kg)
 final float NET_KE = 15.0;   // Ellastic constant of the net's springs (N/m) 
 final float NET_KD = 5.0;   // Damping constant of the net's springs (kg/m)
 final float NET_MAX_FORCE = 500.0;   // Maximum force allowed for the net's springs (N)
-final float NET_BREAK_LENGTH_FACTOR = 10.0;   // Maximum distance factor (measured in number of times the rest length) allowed for the net's springs
+final float NET_BREAK_LENGTH_FACTOR = 2.0;   // Maximum distance factor (measured in number of times the rest length) allowed for the net's springs
 
 boolean NET_IS_UNBREAKABLE = false;   // True if the net cannot be broken
 SpringLayout NET_SPRING_LAYOUT;   // Current spring layout
@@ -43,9 +43,9 @@ final float BALL_MASS = 100.0;   // Mass of the sphere (kg)
 final float BALL_RADIUS = 50.0;   // Radius of the sphere (m)
 
 final float COLLISION_KE = 100.0;   // Ellastic constant of the collision springs (N/m) 
-final float COLLISION_KD = 0.0;   // Damping constant of the net's springs (kg/m)
-final float COLLISION_MAX_FORCE = 0.0;   // Maximum force allowed for the collision springs (N)
-final float COLLISION_BREAK_LENGTH_FACTOR = 0.0;   // Maximum distance factor (measured in number of times the rest length) allowed for the collision springs
+final float COLLISION_KD = 10.0;   // Damping constant of the net's springs (kg/m)
+final float COLLISION_MAX_FORCE = 500.0;   // Maximum force allowed for the collision springs (N)
+final float COLLISION_BREAK_LENGTH_FACTOR = 2.0;   // Maximum distance factor (measured in number of times the rest length) allowed for the collision springs
 
 
 // Display stuff:

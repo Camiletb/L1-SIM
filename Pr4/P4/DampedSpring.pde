@@ -82,10 +82,29 @@ public class DampedSpring
      
      // Fe = direcc. * (_Ke * l_actual - l_reposo)
      PVector Fe = PVector.mult(_eN, _Ke * dist); // F eléctrica
+     
      //Fe = Fe + Fd
       Fe.add(Fd);
+      if(_repulsionOnly){
+        if(_lr < _l){
+          Fe.set(0,0,0);
+        }
+      }
      _F =Fe;
-     //
+     
+     if(_FMax != 0){
+       if(_F.mag() > _FMax){
+         //breakIt();
+       }
+         
+       if(_l > _lMax * _lr){
+         breakIt();
+       }
+       
+     }
+     if(isBroken()){
+       _F.set(0,0,0);
+     }
   }
 
   void applyForces()
