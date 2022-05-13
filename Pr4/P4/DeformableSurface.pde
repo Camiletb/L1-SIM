@@ -58,6 +58,9 @@ public class DeformableSurface
 
   void createSurfaceSprings(float Ke, float Kd, float maxForce, float breakLengthFactor)
   {
+    if(_isUnbreakable){
+      maxForce = 0;
+    }
     switch(_springLayout){
       case STRUCTURAL:
         for (int i = 0; i < _numNodesX; i++){
@@ -157,12 +160,20 @@ public class DeformableSurface
 
   void avoidCollision(Ball b, float Ke, float Kd, float maxForce, float breakLengthFactor)
   {
-    /* Este método debe evitar la colisión entre la esfera y la malla deformable. Para ello
-       se deben crear muelles de colisión cuando se detecte una colisión. Estos muelles
-       se almacenarán en el diccionario '_springsCollision'. Para evitar que se creen muelles 
-       duplicados, el diccionario permite comprobar si un muelle ya existe previamente y 
-       así usarlo en lugar de crear uno nuevo.
-     */
+    for (int i = 0; i < _numNodesX; i++){
+          for (int j = 0; j < _numNodesY; j++){
+            PVector distancia = PVector.sub(b.getPosition(), _nodes[i][j].getPosition());
+            
+            if(distancia.mag() < b.getRadius()){
+              if(_springsCollision.get("" + _nodes[i][j].getId()) == null){
+                _springsCollision.put("" + _nodes[i][j].getId(), new DampedSpring(b, _nodes[i][j], Ke, Kd, true, maxForce, breakLengthFactor));
+              }
+            }
+            else{
+               _springsCollision.remove("" + _nodes[i][j].getId());
+            }
+          }
+    }  
   }
 
   void draw()
