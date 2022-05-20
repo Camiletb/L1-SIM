@@ -163,14 +163,15 @@ public class DeformableSurface
     for (int i = 0; i < _numNodesX; i++){
           for (int j = 0; j < _numNodesY; j++){
             PVector distancia = PVector.sub(b.getPosition(), _nodes[i][j].getPosition());
+            String id = "" + _nodes[i][j].getId();
             
             if(distancia.mag() < b.getRadius()){
-              if(_springsCollision.get("" + _nodes[i][j].getId()) == null){
-                _springsCollision.put("" + _nodes[i][j].getId(), new DampedSpring(b, _nodes[i][j], Ke, Kd, true, maxForce, breakLengthFactor));
+              if(_springsCollision.get(id) == null){
+                _springsCollision.put(id, new DampedSpring(b, _nodes[i][j], Ke, Kd, true, maxForce, breakLengthFactor));
               }
             }
             else{
-               _springsCollision.remove("" + _nodes[i][j].getId());
+               _springsCollision.remove(id);
             }
           }
     }  

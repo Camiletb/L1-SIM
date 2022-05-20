@@ -1,4 +1,4 @@
-// Use PeasyCam for 3D rendering //<>// //<>//
+// Use PeasyCam for 3D rendering //<>//
 import peasy.*;
 
 
@@ -37,9 +37,9 @@ final float NET_BREAK_LENGTH_FACTOR = 2.0;   // Maximum distance factor (measure
 boolean NET_IS_UNBREAKABLE = false;   // True if the net cannot be broken
 SpringLayout NET_SPRING_LAYOUT;   // Current spring layout
 
-final PVector BALL_START_POS = new PVector(0.0, 0.0, -200.0);   // Initial position of the sphere (m)
+final PVector BALL_START_POS = new PVector(0.0, 0.0, -300.0);   // Initial position of the sphere (m)
 PVector BALL_START_VEL = new PVector(0.0, 0.0, -100.0);   // Initial velocity of the sphere (m/s)
-final float BALL_MASS = 100.0;   // Mass of the sphere (kg)
+final float BALL_MASS = 120.0;   // Mass of the sphere (kg)
 final float BALL_RADIUS = 50.0;   // Radius of the sphere (m)
 
 final float COLLISION_KE = 100.0;   // Ellastic constant of the collision springs (N/m) 
@@ -52,8 +52,8 @@ final float COLLISION_BREAK_LENGTH_FACTOR = 2.0;   // Maximum distance factor (m
 
 final boolean FULL_SCREEN = false;
 final int DRAW_FREQ = 50;   // Draw frequency (Hz or Frame-per-second)
-int DISPLAY_SIZE_X = 800;   // Display width (pixels)
-int DISPLAY_SIZE_Y = 800;   // Display height (pixels)
+int DISPLAY_SIZE_X = 1000;   // Display width (pixels)
+int DISPLAY_SIZE_Y = 1000;   // Display height (pixels)
 
 final float FOV = 60;   // Field of view (º)
 final float NEAR = 0.01;   // Camera near distance (m)
