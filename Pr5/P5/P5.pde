@@ -61,18 +61,15 @@ void setup(){
     perspective((FOV*PI)/180, aspect, NEAR, FAR);
     camera = new PeasyCam(this, 100);
     camera.lookAt(0, 0, 0);
-    float cam[] = camera.getPosition();
-    camera.setPitchRotationMode();
+    //float cam[] = camera.getPosition();
+    camera.setPitchRotationMode(); // Rotate on the X axis
     //println("Camera: " + cam[1]);
 
     /* Escena */
-    _heightMap = new HeightMap(DISPLAY_SIZE_X, 20);
+    _heightMap = new HeightMap(100, 20);
     //initSimulation(OlaType.RADIAL);
     
     //Debug
-    strokeWeight(2);
-        fill(255);
-        ellipse(0.0,0.0,5000,5000);
         //println("Ellipse: " + );
     //drawStaticEnvironment();
   
@@ -83,6 +80,7 @@ void initSimulation(){
   _elapsedTime = 0.0;
   
   //Crear la superficie para las olas
+  _heightMap.init();
 }
 
 void resetSimulation(){
@@ -91,6 +89,7 @@ void resetSimulation(){
 
 void updateSimulation(){
   // Update wave
+  _heightMap.update();
   _simTime += SIM_STEP;
 }
 
@@ -102,6 +101,7 @@ void drawStaticEnvironment(){
 }
 
 void drawDynamicEnvironment(){
+    _heightMap.draw();
   //wave.draw();
 }
 
@@ -113,7 +113,7 @@ void draw(){
 
     background(BACKGROUND_COLOR);
     drawStaticEnvironment();    
-    //drawDynamicEnvironment();
+    drawDynamicEnvironment();
     
     if (REAL_TIME){
         float expectedSimulatedTime = TIME_ACCEL*_deltaTimeDraw;

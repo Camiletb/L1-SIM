@@ -1,7 +1,7 @@
 class HeightMap{
   private final int _size;
   private final int _nodes;
-  private final float _tamCel;
+  private final int _tamCel;
   
   //position[column][row][axis]
   private float _posdefault[][][];
@@ -23,9 +23,7 @@ class HeightMap{
     //Init
     //...
     init();
-    draw();
     
-    println("_tamCel: " + _tamCel);
     //waves
     //waveArray
   }
@@ -35,32 +33,30 @@ class HeightMap{
 
     //posini
     //float posini = _size/-2.0;                  //Punto de inicio
-    float posini = _size/-2.0;                  //Punto de inicio
+    float posini = -_size * _tamCel/2f;                  //Punto de inicio
     _pos = new float[_nodes][_nodes][3];        //Posición de cada punto de la malla
     _posdefault = new float[_nodes][_nodes][3]; //Por defecto
     
     /* Inicialmente, los puntos de la malla tienen un valor en 
     x y en z, según su desplazamiento lateral y profundidad, 
     respectivamente. Pero la altura se establece en 0. */
-    for(int i = 0; i < _nodes; i++){ // Desplazamiento lateral
-      for(int j = 0; j < _nodes; j++){ // Profundidad
+    for(int i = 0; i < _nodes-1; i++){ // Desplazamiento lateral
+      for(int j = 0; j < _nodes-1; j++){ // Profundidad
         _pos[i][j][idX] = posini + j * _tamCel; //x = desplazamiento lateral
         _pos[i][j][idY] = 0;                    //y = altura
         _pos[i][j][idZ] = posini + i * _tamCel; //z = profundidad
-        //println("Pos[" + i + "][" + j + "][" + idX + "] = " + _pos[i][j][idX]);
-        //println("Pos[" + i + "][" + j + "][" + idZ + "] = " + _pos[i][j][idZ]);
+
       }
     }
     //Clonamos pos para tener una posición por defecto
-    //_posdefault = _pos;
+    _posdefault = _pos;
   }
 
   void draw(){
     //Dibujar la malla
     //...
     stroke(255);
-    strokeWeight(5);
-    fill(255);
+    strokeWeight(1);
     for(int i=0; i<_nodes-1; i++){
       for(int j=0; j<_nodes-1; j++){
         line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i+1][j][idX], _pos[i+1][j][idY], _pos[i+1][j][idZ]);
@@ -75,14 +71,10 @@ class HeightMap{
   {
     draw();
   }
-
-  void update(){
-    draw();
-  }
   
   
   void run(){
     display();
-    update();
+    //update();
   }  
 }
