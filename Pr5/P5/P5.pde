@@ -62,8 +62,8 @@ void setup(){
     camera = new PeasyCam(this, 100);
     camera.lookAt(0, 0, 0);
     float cam[] = camera.getPosition();
-    println("Camera: " + cam[1]);
-    //camera.setDistance(2);
+    camera.setPitchRotationMode();
+    //println("Camera: " + cam[1]);
 
     /* Escena */
     _heightMap = new HeightMap(DISPLAY_SIZE_X, 20);
