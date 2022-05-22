@@ -116,6 +116,21 @@ void draw(){
 }
 
 void printInfo(){
-  
+  pushMatrix();
+  {
+    camera();
+    fill(255);
+    textSize(20);
+    
+    text("Frame rate = " + Math.round(1.0/_deltaTimeDraw*10d)/10d + " fps", width*(0.025), height*(1-0.025));
+    text("Elapsed time = " + Math.round(_elapsedTime*10d)/10d + " s", width*(0.225), height*(1-0.025));
+    text("Simulated time = " + Math.round(_simTime*10d)/10d + " s ", width*(0.425), height*(1-0.025));
+    text("Pulsa (R) para el modelo radial, (D) para el direccional o (G) para el de Gerstner.", width*0.025, height*0.05);
+    text("Cambia la amplitud con - y +.", width*0.025, height*0.075);
+    text("Para resetear pulsa x.", width*0.025, height*0.1);
+    text("Modelo actual: ", width*(0.645), height*(1-0.025));
+    
+  }
+  popMatrix();
   
 }
