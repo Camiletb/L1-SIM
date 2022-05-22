@@ -58,8 +58,9 @@ class HeightMap{
   void draw(){
     //Dibujar la malla
     //...
-    stroke(255);
-    strokeWeight(5);
+    //Draw mesh (sin textura)
+    stroke(210,80,80);
+    strokeWeight(1);
     fill(255);
     for(int i=0; i<_nodes-1; i++){
       for(int j=0; j<_nodes-1; j++){
@@ -68,21 +69,27 @@ class HeightMap{
         line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i+1][j+1][idX], _pos[i+1][j+1][idY], _pos[i+1][j+1][idZ]);
         //point(_pos[i][j][0], _pos[i][j][1], _pos[i][j][2]);
       }
+        line(_pos[_nodes-1][i][idX], _pos[_nodes-1][i][idY], _pos[_nodes-1][i][idZ], _pos[_nodes-1][i+1][idX], _pos[_nodes-1][i+1][idY], _pos[_nodes-1][i+1][idZ]);
+        line(_pos[i][_nodes-1][idX], _pos[i][_nodes-1][idY], _pos[i][_nodes-1][idZ], _pos[i+1][_nodes-1][idX], _pos[i+1][_nodes-1][idY], _pos[i+1][_nodes-1][idZ]);
     }
+
+    //con textura
+    //...
   }
 
-  void display()
+  /*void display()
   {
     draw();
-  }
+  }*/
 
   void update(){
-    draw();
+    //draw();
   }
   
   
   void run(){
-    display();
-    update();
+    //display();
+    //update();
+    draw();
   }  
 }
