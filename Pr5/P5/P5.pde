@@ -9,7 +9,7 @@ int DISPLAY_SIZE_X = 1000;
 int DISPLAY_SIZE_Y = 1000;
 final float FOV = 60;   // Field of view (º)
 final float NEAR = 0.01;   // Camera near distance (m)
-final float FAR = 1000.0;   // Camera far distance (m)
+final float FAR = 10000.0;   // Camera far distance (m)
 
 final color BACKGROUND_COLOR = color(20, 40, 60);   // Background color (RGB)
 final color MESH_COLOR = color(240, 30, 100, 100);   // Mesh lines color (RGB)
@@ -24,6 +24,9 @@ int _lastTimeDraw = 0;
 float _deltaTimeDraw = 0.0;
 float _simTime = 0.0;
 float _elapsedTime = 0.0;
+
+//Escena
+HeightMap _heightMap;
 
 /* FUNCIONES */
 
@@ -46,19 +49,32 @@ void settings()
 
 // Setup de la escena
 void setup(){
-  //size(800, 600, P3D);
-  
-  /* FrameRate */
-  frameRate(DRAW_FREQ);
-  _lastTimeDraw = millis();
-  SIM_STEP *= TIME_ACCEL;
-  
-  /* Camera */
-  float aspect = float(DISPLAY_SIZE_X)/float(DISPLAY_SIZE_Y);  
-  perspective((FOV*PI)/180, aspect, NEAR, FAR);
-  camera = new PeasyCam(this, 0);
+    //size(800, 600, P3D);
+    
+    /* FrameRate */
+    frameRate(DRAW_FREQ);
+    _lastTimeDraw = millis();
+    SIM_STEP *= TIME_ACCEL;
+    
+    /* Camera */
+    float aspect = float(DISPLAY_SIZE_X)/float(DISPLAY_SIZE_Y);  
+    perspective((FOV*PI)/180, aspect, NEAR, FAR);
+    camera = new PeasyCam(this, 100);
+    camera.lookAt(0, 0, 0);
+    float cam[] = camera.getPosition();
+    println("Camera: " + cam[1]);
+    //camera.setDistance(2);
 
-  //initSimulation(OlaType.RADIAL);
+    /* Escena */
+    _heightMap = new HeightMap(DISPLAY_SIZE_X, 20);
+    //initSimulation(OlaType.RADIAL);
+    
+    //Debug
+    strokeWeight(2);
+        fill(255);
+        ellipse(0.0,0.0,5000,5000);
+        //println("Ellipse: " + );
+    //drawStaticEnvironment();
   
 }
 
@@ -79,7 +95,9 @@ void updateSimulation(){
 }
 
 void drawStaticEnvironment(){
-
+    noStroke();
+    fill(255);
+    ellipse(0,0,1,1);
   
 }
 
@@ -88,30 +106,31 @@ void drawDynamicEnvironment(){
 }
 
 void draw(){
-  int now = millis();
-  _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
-  _elapsedTime += _deltaTimeDraw;
-  _lastTimeDraw = now;
-  
-  background(BACKGROUND_COLOR);
-  //drawDynamicEnvironment();
-  
-  if (REAL_TIME){
-    float expectedSimulatedTime = TIME_ACCEL*_deltaTimeDraw;
-    float expectedIterations = expectedSimulatedTime/SIM_STEP;
-    int iterations = 0; 
+    int now = millis();
+    _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
+    _elapsedTime += _deltaTimeDraw;
+    _lastTimeDraw = now;
 
-    for (; iterations < floor(expectedIterations); iterations++)
-      updateSimulation();
+    background(BACKGROUND_COLOR);
+    drawStaticEnvironment();    
+    //drawDynamicEnvironment();
+    
+    if (REAL_TIME){
+        float expectedSimulatedTime = TIME_ACCEL*_deltaTimeDraw;
+        float expectedIterations = expectedSimulatedTime/SIM_STEP;
+        int iterations = 0; 
 
-    if ((expectedIterations - iterations) > random(0.0, 1.0)){
-      updateSimulation();
-      iterations++;
-    }
-  } else
-      updateSimulation();
+        for (; iterations < floor(expectedIterations); iterations++)
+        updateSimulation();
 
-  printInfo();
+        if ((expectedIterations - iterations) > random(0.0, 1.0)){
+        updateSimulation();
+        iterations++;
+        }
+    } else
+        updateSimulation();
+
+    printInfo();
   
 }
 
