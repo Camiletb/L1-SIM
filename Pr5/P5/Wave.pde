@@ -1,4 +1,4 @@
-class Wave{
+abstract class Wave{
     //Parámetros de la onda
     /*Radial + Direccional + Gerstner*/
     float _A;      //amplitud
@@ -15,18 +15,26 @@ class Wave{
     float _w;  //frecuencia angular
     float _k;  //número de onda
 
-    Wave(float amplitud, float longitud, float distancia, float velocidad, PVector direccion, float inclinacion){
-        _A = amplitud;
-        _lambda = longitud;
-        _dist = distancia;
-        _vp = velocidad;
-        _Q = inclinacion;
+    PVector delta;
 
-        _f = 1/_T;            //frecuencia
-        _w = 2 * PI/_T;       //frecuencia angular
-        _k = 2 * PI/_lambda;  //número de onda
+    Wave(float amp, float lam, PVector dir, float dis, float vel){
+        _A = amp;
+        _lambda = lam;
+        _dist = dis;
+        _vp = vel;
+        //_Q = inclinacion; set/get
+
+        _f = 1/_T;
+        _w = 2 * PI/_T;
+        _k = 2 * PI/_lambda;
         _vp = _w/_k;
         _phi = _vp * _w;
+
+        _dirN = dir.normalize();
     }
-  
+    abstract PVector deltaWavePoint(); //Perturbación en la malla
+
+    PVector getDist(){
+        return this._dirN;
+    }
 }
