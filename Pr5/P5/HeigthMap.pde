@@ -26,7 +26,7 @@ class HeightMap{
     init();
     draw();
     
-    println("_tamCel: " + _tamCel);
+    //println("_tamCel: " + _tamCel);
     //waves
     waves = new ArrayList<Wave>();
     //waveArray
@@ -47,10 +47,10 @@ class HeightMap{
     respectivamente. Pero la altura se establece en 0. */
     for(int i = 0; i < _nodes; i++){ // Desplazamiento lateral
       for(int j = 0; j < _nodes; j++){ // Profundidad
-        _pos[i][j][idX] = posini + j * _tamCel; //x = desplazamiento lateral
+        _pos[i][j][idX] = posini + _tamCel/2f + j * _tamCel; //x = desplazamiento lateral
         _pos[i][j][idY] = 0;                    //y = altura
-        _pos[i][j][idZ] = posini + i * _tamCel; //z = profundidad
-        println("Pos[" + i + "][" + j + "] = " + _pos[i][j][idX]);
+        _pos[i][j][idZ] = posini + _tamCel/2f + i * _tamCel; //z = profundidad
+        //println("Pos[" + i + "][" + j + "] = " + _pos[i][j][idX]);
         //println("Pos[" + i + "][" + j + "][" + idZ + "] = " + _pos[i][j][idZ]);
       }
       _p = new PVector();
@@ -116,7 +116,7 @@ class HeightMap{
   
   void run(){
     //display();
-    //update();
+    update();
     draw();
   }  
 }
