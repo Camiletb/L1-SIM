@@ -170,3 +170,14 @@ void printInfo(){
   popMatrix();
   
 }
+
+void keyPressed(){
+  if(key == '+'){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._A += 0.2;
+  }
+  if(key == '-')
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._A -= 0.2;
+  
+}
