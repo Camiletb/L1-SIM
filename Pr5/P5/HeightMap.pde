@@ -107,7 +107,7 @@ class HeightMap{
         for(int k = 0; k < waves.size(); k++){
           delta = waves.get(k).deltaWavePoint(_p);
           //println("delta.y: " + delta.y);
-          _pos[i][j][idY] += delta.y;
+          _pos[i][j][idY] = delta.y;
           //_pos[i][j][idY] += waves.get(k).getHeight(_pos[i][j][idX], _pos[i][j][idZ]);
         }
       }
