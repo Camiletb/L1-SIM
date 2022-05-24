@@ -28,7 +28,7 @@ float _elapsedTime = 0.0;
 //Escena
 HeightMap _heightMap;
 float amplitud = 1f;
-float lambda = 2f;
+float lambda = 5f;
 float velprop = 2f;
 PVector epicentro = new PVector(0,0,0);
 
@@ -176,8 +176,27 @@ void keyPressed(){
     for(int k = 0; k < _heightMap.waves.size(); k++)
       _heightMap.waves.get(k)._A += 0.2;
   }
-  if(key == '-')
+  if(key == '-'){
     for(int k = 0; k < _heightMap.waves.size(); k++)
       _heightMap.waves.get(k)._A -= 0.2;
+  }
+  
+  if(key == 'o' || key == 'O'){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._vp += 0.2;
+  }
+  if(key == 'i' || key == 'I'){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._vp -= 0.2;
+  }
+  
+  if(key == 'l' || key == 'L'){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._lambda += 0.2;
+  }
+  if(key == 'k' || key == 'K'){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._lambda -= 0.2;
+  }
   
 }
