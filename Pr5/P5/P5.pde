@@ -92,6 +92,11 @@ void initSimulation(){
 }
 
 void resetSimulation(){
+  amplitud = 1f;
+  lambda = 5f;
+  velprop = 2f;
+  epicentro = new PVector(0,0,0);
+  initSimulation();
   
 }
 
@@ -162,7 +167,7 @@ void printInfo(){
     text("Elapsed time = " + Math.round(_elapsedTime*10d)/10d + " s", width*(0.225), height*(1-0.025));
     text("Simulated time = " + Math.round(_simTime*10d)/10d + " s ", width*(0.425), height*(1-0.025));
     text("Pulsa (R) para el modelo radial, (D) para el direccional o (G) para el de Gerstner.", width*0.025, height*0.05);
-    text("Cambia la amplitud con - y +.", width*0.025, height*0.075);
+    text("Cambia la amplitud con - y +." + _heightMap.waves.get(0)._A, width*0.025, height*0.075);
     text("Para resetear pulsa x.", width*0.025, height*0.1);
     text("Modelo actual: ", width*(0.645), height*(1-0.025));
     
@@ -172,6 +177,10 @@ void printInfo(){
 }
 
 void keyPressed(){
+  if(key == 'x' || key == 'X'){
+    resetSimulation();
+  }
+  
   if(key == '+'){
     for(int k = 0; k < _heightMap.waves.size(); k++)
       _heightMap.waves.get(k)._A += 0.2;
