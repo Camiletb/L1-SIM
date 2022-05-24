@@ -96,15 +96,14 @@ void initSimulation(){
     
     switch(mode){
       case 0:
-        _heightMap.addWave(new DirectionalWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
-        //_heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        
+        _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
       case 1:
         //_heightMap.waves.clean();
-        _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        _heightMap.addWave(new DirectionalWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
     }
-    
 }
 
 void resetSimulation(){
@@ -112,8 +111,8 @@ void resetSimulation(){
   lambda = 5f;
   velprop = 2f;
   epicentro = new PVector(0,0,0);
+  _heightMap.waves.clear();
   initSimulation();
-  
 }
 
 void updateSimulation(){
@@ -148,20 +147,17 @@ void draw(){
     drawStaticEnvironment();    
     drawDynamicEnvironment();
     if (REAL_TIME){
-      //println("Dentro del if");
         float expectedSimulatedTime = TIME_ACCEL*_deltaTimeDraw;
         float expectedIterations = expectedSimulatedTime/time;
         int iterations = 0; 
 
         for (; iterations < floor(expectedIterations); iterations++){
-          //println("Dentro del for");
           updateSimulation();
         }
 
         if ((expectedIterations - iterations) > random(0.0, 1.0)){
-          //println("Dentro del segundo if");
-        updateSimulation();
-        iterations++;
+          updateSimulation();
+          iterations++;
         }
     } else{
         updateSimulation();
@@ -227,10 +223,14 @@ void keyPressed(){
   }
   
   if(key == 'd' || key == 'D'){
-    directional = true;
+    //directional = true;
     mode = 1;
-    //initSimulation();
-    
+    resetSimulation();
+  }
+  if(key == 'r' || key == 'R'){
+    //directional = true;
+    mode = 0;
+    resetSimulation();
   }
   
 }
