@@ -17,7 +17,7 @@ final color MESH_COLOR = color(240, 30, 100, 100);   // Mesh lines color (RGB)
 //Simulación
 final boolean REAL_TIME = true;
 final float TIME_ACCEL = 1.0;
-float SIM_STEP = 0.001;
+float time = 0.001;
 
 //Time
 int _lastTimeDraw = 0;
@@ -58,7 +58,7 @@ void setup(){
     /* FrameRate */
     frameRate(DRAW_FREQ);
     _lastTimeDraw = millis();
-    SIM_STEP *= TIME_ACCEL;
+    time *= TIME_ACCEL;
     
     /* Camera */
     float aspect = float(DISPLAY_SIZE_X)/float(DISPLAY_SIZE_Y);  
@@ -72,7 +72,7 @@ void setup(){
     /* Escena */
     _heightMap = new HeightMap(60f, 30);
     //initSimulation(OlaType.RADIAL);
-    
+    initSimulation();
     //Debug
         //println("Ellipse: " + );
     //drawStaticEnvironment();
@@ -97,8 +97,9 @@ void resetSimulation(){
 
 void updateSimulation(){
   // Update wave
+  //println("Dentro de updatesimulation");
   _heightMap.update();
-  _simTime += SIM_STEP;
+  _simTime += time;
 }
 
 void drawStaticEnvironment(){
@@ -116,6 +117,7 @@ void drawDynamicEnvironment(){
 }
 
 void draw(){
+    println("Llegamos a P5.draw");
     int now = millis();
     _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
     _elapsedTime += _deltaTimeDraw;
@@ -124,23 +126,28 @@ void draw(){
     background(BACKGROUND_COLOR);
     drawStaticEnvironment();    
     drawDynamicEnvironment();
-    
     if (REAL_TIME){
+      //println("Dentro del if");
         float expectedSimulatedTime = TIME_ACCEL*_deltaTimeDraw;
-        float expectedIterations = expectedSimulatedTime/SIM_STEP;
+        float expectedIterations = expectedSimulatedTime/time;
         int iterations = 0; 
 
-        for (; iterations < floor(expectedIterations); iterations++)
-        updateSimulation();
+        for (; iterations < floor(expectedIterations); iterations++){
+          //println("Dentro del for");
+          updateSimulation();
+        }
 
         if ((expectedIterations - iterations) > random(0.0, 1.0)){
+          //println("Dentro del segundo if");
         updateSimulation();
         iterations++;
         }
-    } else
+    } else{
         updateSimulation();
+    }
 
     printInfo();
+  
   
 }
 

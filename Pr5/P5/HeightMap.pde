@@ -30,7 +30,7 @@ class HeightMap{
     //waves
     waves = new ArrayList<Wave>();
     //waveArray
-    listaWaves = new Wave[0];
+    //listaWaves = new Wave[0];
   }
   
   //Inicialización de la malla
@@ -97,13 +97,16 @@ class HeightMap{
   }*/
 
   void update(){
+    println("Dentro del update");
     PVector delta;
     for(int i = 0; i < _nodes; i++){
       for(int j = 0; j < _nodes; j++){
+        _p = new PVector(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ]);
         //_pos[i][j][idY] = _posdefault[i][j][idY];
-        for(int k = 0; k < listaWaves.length; k++){
-          _p = new PVector(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ]);
-          delta = listaWaves[k].deltaWavePoint(_p);
+        //println("waves.size: "+ waves.size());
+        for(int k = 0; k < waves.size(); k++){
+          delta = waves.get(k).deltaWavePoint(_p);
+          //println("delta.y: " + delta.y);
           _pos[i][j][idY] += delta.y;
           //_pos[i][j][idY] += waves.get(k).getHeight(_pos[i][j][idX], _pos[i][j][idZ]);
         }
@@ -114,9 +117,9 @@ class HeightMap{
   }
   
   
-  void run(){
+  /*void run(){
     //display();
     update();
     draw();
-  }  
+  } */ 
 }
