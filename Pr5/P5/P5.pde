@@ -167,8 +167,10 @@ void printInfo(){
     text("Elapsed time = " + Math.round(_elapsedTime*10d)/10d + " s", width*(0.225), height*(1-0.025));
     text("Simulated time = " + Math.round(_simTime*10d)/10d + " s ", width*(0.425), height*(1-0.025));
     text("Pulsa (R) para el modelo radial, (D) para el direccional o (G) para el de Gerstner.", width*0.025, height*0.05);
-    text("Cambia la amplitud con - y +." + _heightMap.waves.get(0)._A, width*0.025, height*0.075);
-    text("Para resetear pulsa x.", width*0.025, height*0.1);
+    text("Amplitud [-/+]:   " + Math.round(_heightMap.waves.get(0)._A*100d)/100d + "m", width*0.025, height*0.075);
+    text("Velocidad de propagación [I/O]:   " + Math.round(_heightMap.waves.get(0)._vp*100d)/100d + "m/s", width*0.025, height*0.1);
+    text("Longitud de onda [K/L]:   " + Math.round(_heightMap.waves.get(0)._lambda*100d)/100d + "m", width*0.025, height*0.125);
+    text("Reset [X].", width*0.025, height*0.15);
     text("Modelo actual: ", width*(0.645), height*(1-0.025));
     
   }
