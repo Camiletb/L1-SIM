@@ -101,12 +101,15 @@ class HeightMap{
         
         for(int k = 0; k < waves.size(); k++){
           delta = waves.get(k).deltaWavePoint(_p);
+          
           _pos[i][j][idY] = delta.y;
+          if(mode == 2){
+            _pos[i][j][idX] = delta.x;
+            _pos[i][j][idZ] = delta.z;
+          }
           //_pos[i][j][idY] += waves.get(k).getHeight(_pos[i][j][idX], _pos[i][j][idZ]);
         }
       }
     }
-    //waveArray = waves.toArray(waveArray);
-    //draw();
   }
 }

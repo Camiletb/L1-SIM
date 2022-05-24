@@ -28,8 +28,8 @@ float _elapsedTime = 0.0;
 //Escena
 HeightMap _heightMap;
 float amplitud = 1f;
-float lambda = 5f;
-float velprop = 2f;
+float lambda = 10f;
+float velprop = 4f;
 PVector epicentro = new PVector(0,0,0);
 
 //Modelos
@@ -37,6 +37,7 @@ boolean radial = true;
 boolean directional = false;
 boolean gerstner = false;
 int mode = 0;
+String type = "Radial";
 /* FUNCIONES */
 
 // Settings del Display
@@ -96,20 +97,21 @@ void initSimulation(){
     
     switch(mode){
       case 0:
-        
         _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
       case 1:
-        //_heightMap.waves.clean();
         _heightMap.addWave(new DirectionalWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        break;
+      case 2:
+        _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
     }
 }
 
 void resetSimulation(){
   amplitud = 1f;
-  lambda = 5f;
-  velprop = 2f;
+  lambda = 10f;
+  velprop = 4f;
   epicentro = new PVector(0,0,0);
   _heightMap.waves.clear();
   initSimulation();
@@ -183,7 +185,7 @@ void printInfo(){
     text("Velocidad de propagación [I/O]:   " + Math.round(_heightMap.waves.get(0)._vp*100d)/100d + "m/s", width*0.025, height*0.1);
     text("Longitud de onda [K/L]:   " + Math.round(_heightMap.waves.get(0)._lambda*100d)/100d + "m", width*0.025, height*0.125);
     text("Reset [X].", width*0.025, height*0.15);
-    text("Modelo actual: ", width*(0.645), height*(1-0.025));
+    text("Modelo actual: " + type, width*(0.645), height*(1-0.025));
     
   }
   popMatrix();
@@ -223,14 +225,24 @@ void keyPressed(){
   }
   
   if(key == 'd' || key == 'D'){
-    //directional = true;
     mode = 1;
+    type = "Directional";
     resetSimulation();
   }
   if(key == 'r' || key == 'R'){
-    //directional = true;
     mode = 0;
+    type = "Radial";
     resetSimulation();
+  }
+  if(key == 'g' || key == 'G'){
+    if(mode == 2){
+      _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+
+    }else{
+      mode = 2;
+      type = "Gerstner";
+      resetSimulation();
+    }
   }
   
 }

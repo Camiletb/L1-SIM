@@ -1,13 +1,13 @@
 abstract class Wave{
     //Parámetros de la onda
     /*Radial + Direccional + Gerstner*/
-    float _A;      //amplitud
-    float _lambda; //longitud de onda
-    float _dist;   //distancia del frente de onda al epicentro
-    float _vp;     //velocidad de propagación
-    PVector _dirN; //dirección normalizada de la onda
-    float _Q;      //factor de inclinación de la cresta de la onda
-    float _phi;    //fase de la onda
+    float _A;        //amplitud
+    float _lambda;   //longitud de onda
+    float _dist;     //distancia del frente de onda al epicentro
+    float _vp;       //velocidad de propagación
+    PVector _dirN;   //dirección normalizada de la onda
+    float _Q = 1.25; //factor de inclinación de la cresta de la onda
+    float _phi;      //fase de la onda
 
     /*Otros parámetros*/
     float _T;  //periodo
@@ -22,7 +22,7 @@ abstract class Wave{
         _lambda = lam;
         _vp = vel;
         _epi = centro;
-        //_Q = inclinacion; set/get
+        //_Q = inclinacion;
 
         _f = 1/_T;
         _w = 2 * PI/_T;
@@ -54,6 +54,9 @@ abstract class Wave{
     }
     PVector getDirN(){
         return this._dirN;
+    }
+    float getQ(){
+        return this._Q;
     }
 
     void setEpi(PVector epi){
