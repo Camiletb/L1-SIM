@@ -27,9 +27,9 @@ float _elapsedTime = 0.0;
 
 //Escena
 HeightMap _heightMap;
-float amplitud = 10f;
-float lambda = 20f;
-float velprop = 5f;
+float amplitud = 1f;
+float lambda = 2f;
+float velprop = 2f;
 PVector epicentro = new PVector(0,0,0);
 
 /* FUNCIONES */
