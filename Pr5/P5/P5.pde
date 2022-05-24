@@ -27,6 +27,10 @@ float _elapsedTime = 0.0;
 
 //Escena
 HeightMap _heightMap;
+float amplitud = 10f;
+float lambda = 20f;
+float velprop = 5f;
+PVector epicentro = new PVector(0,0,0);
 
 /* FUNCIONES */
 
@@ -66,7 +70,7 @@ void setup(){
     //println("Camera: " + cam[1]);
 
     /* Escena */
-    _heightMap = new HeightMap(100, 20);
+    _heightMap = new HeightMap(60f, 30);
     //initSimulation(OlaType.RADIAL);
     
     //Debug
@@ -81,6 +85,10 @@ void initSimulation(){
   
   //Crear la superficie para las olas
   _heightMap.init();
+
+  //_heightMap.waveArray.clear();
+    _heightMap.listaWaves = new Wave[0];
+    _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
 }
 
 void resetSimulation(){
@@ -102,6 +110,8 @@ void drawStaticEnvironment(){
 
 void drawDynamicEnvironment(){
     _heightMap.draw();
+    //_heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+    //println("Wave: " + _heightMap.waves[0]._A);
   //wave.draw();
 }
 

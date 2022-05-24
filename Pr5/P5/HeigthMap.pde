@@ -1,25 +1,26 @@
 class HeightMap{
-  private final int _size;
-  private final int _nodes;
-  private final float _tamCel;
-  
+  final float _size;
+  final int _nodes;
+  float _tamCel;
+
   //position[column][row][axis]
-  private float _posdefault[][][];
-  private float _pos[][][];
-  
-  protected ArrayList<Wave> waves;
-  private Wave waveArray[];
-  
+  float _posdefault[][][];
+  float _pos[][][];
+
+  ArrayList<Wave> waves;
+  Wave listaWaves[];
+
+  PVector _p;
   /* Las siguientes variables sólo sirven para hacer
   el código más legible. */
   int idX = 0;
   int idY = 1;
   int idZ = 2;
-  HeightMap(int size, int nodes){
+  HeightMap(float size, int nodes){
     _size = size;
     _nodes = nodes;
     _tamCel = _size/_nodes;
-    
+  
     //Init
     //...
     init();
@@ -27,7 +28,9 @@ class HeightMap{
     
     println("_tamCel: " + _tamCel);
     //waves
+    waves = new ArrayList<Wave>();
     //waveArray
+    listaWaves = new Wave[0];
   }
   
   //Inicialización de la malla
@@ -36,7 +39,7 @@ class HeightMap{
     //posini
     //float posini = _size/-2.0;                  //Punto de inicio
     float posini = _size/-2.0;                  //Punto de inicio
-    _pos = new float[_nodes][_nodes][3];        //Posición de cada punto de la malla
+    _pos = new float[_nodes][_nodes][3];        //Tamaño del vPosición de cada punto de la malla
     _posdefault = new float[_nodes][_nodes][3]; //Por defecto
     
     /* Inicialmente, los puntos de la malla tienen un valor en 
@@ -47,12 +50,12 @@ class HeightMap{
         _pos[i][j][idX] = posini + j * _tamCel; //x = desplazamiento lateral
         _pos[i][j][idY] = 0;                    //y = altura
         _pos[i][j][idZ] = posini + i * _tamCel; //z = profundidad
-        //println("Pos[" + i + "][" + j + "][" + idX + "] = " + _pos[i][j][idX]);
+        println("Pos[" + i + "][" + j + "] = " + _pos[i][j][idX]);
         //println("Pos[" + i + "][" + j + "][" + idZ + "] = " + _pos[i][j][idZ]);
       }
+      _p = new PVector();
+      //_p = _pos.copy();
     }
-    //Clonamos pos para tener una posición por defecto
-    //_posdefault = _pos;
   }
 
   void draw(){
@@ -79,12 +82,34 @@ class HeightMap{
     //...
   }
 
+  void addWave(Wave wave){
+    //Añadir una onda
+    this.waves.add(wave);
+    /*waveArray = new Wave[waves.size()];
+    for(int i=0; i<waves.size(); i++){
+      waveArray[i] = waves.get(i);
+    }*/
+  }
+
   /*void display()
   {
     draw();
   }*/
 
   void update(){
+    PVector delta;
+    for(int i = 0; i < _nodes; i++){
+      for(int j = 0; j < _nodes; j++){
+        //_pos[i][j][idY] = _posdefault[i][j][idY];
+        for(int k = 0; k < listaWaves.length; k++){
+          _p = new PVector(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ]);
+          delta = listaWaves[k].deltaWavePoint(_p);
+          _pos[i][j][idY] += delta.y;
+          //_pos[i][j][idY] += waves.get(k).getHeight(_pos[i][j][idX], _pos[i][j][idZ]);
+        }
+      }
+    }
+    //waveArray = waves.toArray(waveArray);
     //draw();
   }
   
