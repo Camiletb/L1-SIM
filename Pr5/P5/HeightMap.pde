@@ -97,13 +97,13 @@ class HeightMap{
   }*/
 
   void update(){
-    println("Dentro del update");
     PVector delta;
+    //println("waves.size: "+ waves.size());
     for(int i = 0; i < _nodes; i++){
       for(int j = 0; j < _nodes; j++){
         _p = new PVector(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ]);
         //_pos[i][j][idY] = _posdefault[i][j][idY];
-        //println("waves.size: "+ waves.size());
+        
         for(int k = 0; k < waves.size(); k++){
           delta = waves.get(k).deltaWavePoint(_p);
           //println("delta.y: " + delta.y);

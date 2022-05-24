@@ -8,8 +8,8 @@ final int DRAW_FREQ = 50;
 int DISPLAY_SIZE_X = 1000;
 int DISPLAY_SIZE_Y = 1000;
 final float FOV = 60;   // Field of view (º)
-final float NEAR = 0.01;   // Camera near distance (m)
-final float FAR = 10000.0;   // Camera far distance (m)
+final float NEAR = 0.001;   // Camera near distance (m)
+final float FAR = 100000.0;   // Camera far distance (m)
 
 final color BACKGROUND_COLOR = color(20, 40, 60);   // Background color (RGB)
 final color MESH_COLOR = color(240, 30, 100, 100);   // Mesh lines color (RGB)
@@ -70,7 +70,7 @@ void setup(){
     //println("Camera: " + cam[1]);
 
     /* Escena */
-    _heightMap = new HeightMap(60f, 30);
+    _heightMap = new HeightMap(60f, 60);
     //initSimulation(OlaType.RADIAL);
     initSimulation();
     //Debug
@@ -117,7 +117,7 @@ void drawDynamicEnvironment(){
 }
 
 void draw(){
-    println("Llegamos a P5.draw");
+    //println("Llegamos a P5.draw");
     int now = millis();
     _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
     _elapsedTime += _deltaTimeDraw;
