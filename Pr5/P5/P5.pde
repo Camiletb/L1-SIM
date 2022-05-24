@@ -32,6 +32,11 @@ float lambda = 5f;
 float velprop = 2f;
 PVector epicentro = new PVector(0,0,0);
 
+//Modelos
+boolean radial = true;
+boolean directional = false;
+boolean gerstner = false;
+int mode = 0;
 /* FUNCIONES */
 
 // Settings del Display
@@ -88,7 +93,18 @@ void initSimulation(){
 
   //_heightMap.waveArray.clear();
     _heightMap.listaWaves = new Wave[0];
-    _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+    
+    switch(mode){
+      case 0:
+        _heightMap.addWave(new DirectionalWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        //_heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        break;
+      case 1:
+        //_heightMap.waves.clean();
+        _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        break;
+    }
+    
 }
 
 void resetSimulation(){
@@ -208,6 +224,13 @@ void keyPressed(){
   if(key == 'k' || key == 'K'){
     for(int k = 0; k < _heightMap.waves.size(); k++)
       _heightMap.waves.get(k)._lambda -= 0.2;
+  }
+  
+  if(key == 'd' || key == 'D'){
+    directional = true;
+    mode = 1;
+    //initSimulation();
+    
   }
   
 }

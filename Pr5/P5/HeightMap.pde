@@ -83,12 +83,7 @@ class HeightMap{
   }
 
   void addWave(Wave wave){
-    //Añadir una onda
-    this.waves.add(wave);
-    /*waveArray = new Wave[waves.size()];
-    for(int i=0; i<waves.size(); i++){
-      waveArray[i] = waves.get(i);
-    }*/
+    this.waves.add(wave); //Añadir una onda
   }
 
   /*void display()
@@ -106,7 +101,6 @@ class HeightMap{
         
         for(int k = 0; k < waves.size(); k++){
           delta = waves.get(k).deltaWavePoint(_p);
-          //println("delta.y: " + delta.y);
           _pos[i][j][idY] = delta.y;
           //_pos[i][j][idY] += waves.get(k).getHeight(_pos[i][j][idX], _pos[i][j][idZ]);
         }
@@ -115,11 +109,4 @@ class HeightMap{
     //waveArray = waves.toArray(waveArray);
     //draw();
   }
-  
-  
-  /*void run(){
-    //display();
-    update();
-    draw();
-  } */ 
 }

@@ -5,7 +5,7 @@ class RadialWave extends Wave{
   RadialWave(float amp, float lam, float vel, PVector dir, PVector centro){
     super(amp, lam, vel, dir, centro);
     //println("vel: " + vel);
-    epi = centro.get();
+    epi = centro;
     setEpi(epi);
   }
 
