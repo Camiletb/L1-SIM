@@ -105,11 +105,12 @@ class HeightMap{
          _posdefault[i][j][idX] = posini + _tamCel/2f + j * _tamCel; //x = desplazamiento lateral
          _posdefault[i][j][idY] = 0;                    //y = altura
          _posdefault[i][j][idZ] = posini + _tamCel/2f + i * _tamCel; //z = profundidad
+         delta = new PVector(0, 0, 0);
         for(int k = 0; k < waves.size(); k++){
           /*if(mode == 2){*/
             //delta = waves.get(k).deltaWavePoint(_p = new PVector(_posdefault[i][j][idX], _posdefault[i][j][idY], _posdefault[i][j][idZ] ));
           /*} else*/
-            delta = waves.get(k).deltaWavePoint(_p);
+            delta.add(waves.get(k).deltaWavePoint(_p));
           
           
           //if(mode == 2){

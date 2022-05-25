@@ -179,13 +179,15 @@ void printInfo(){
     text("Frame rate = " + Math.round(1.0/_deltaTimeDraw*10d)/10d + " fps", width*(0.025), height*(1-0.025));
     text("Elapsed time = " + Math.round(_elapsedTime*10d)/10d + " s", width*(0.225), height*(1-0.025));
     text("Simulated time = " + Math.round(_simTime*10d)/10d + " s ", width*(0.425), height*(1-0.025));
-    text("Pulsa (R) para el modelo radial, (D) para el direccional o (G) para el de Gerstner.", width*0.025, height*0.05);
-    text("Amplitud [-/+]:   " + Math.round(_heightMap.waves.get(0)._A*100d)/100d + "m", width*0.025, height*0.075);
-    text("Velocidad de propagación [I/O]:   " + Math.round(_heightMap.waves.get(0)._vp*100d)/100d + "m/s", width*0.025, height*0.1);
-    text("Longitud de onda [K/L]:   " + Math.round(_heightMap.waves.get(0)._lambda*100d)/100d + "m", width*0.025, height*0.125);
-    text("Inclinación Q de la onda [,/.]:   " + Math.round(_heightMap.waves.get(0)._Q*100d)/100d, width*0.025, height*0.15);
-    text("Reset [X].", width*0.025, height*0.175);
+    text("Modelo radial [R], Direccional [D], De Gerstner [G]. (Añade más ondas Gerstner con [G])", width*0.025, height*0.05);
+    text("Amplitud [- / +]:   " + Math.round(_heightMap.waves.get(0)._A*100d)/100d + "m", width*0.025, height*0.075);
+    text("Velocidad de propagación [I / O]:   " + Math.round(_heightMap.waves.get(0)._vp*100d)/100d + "m/s", width*0.025, height*0.1);
+    text("Longitud de onda [K / L]:   " + Math.round(_heightMap.waves.get(0)._lambda*100d)/100d + "m", width*0.025, height*0.125);
+    text("Inclinación Q de la onda [, / .]:   " + Math.round(_heightMap.waves.get(0)._Q*100d)/100d, width*0.025, height*0.15);
+    text("En Gerstner, añade ondas con [G] o bórralas con [B].", width*0.025, height*0.175);
+    text("Reset [X].", width*0.025, height*0.2);
     text("Modelo actual: " + type, width*(0.645), height*(1-0.025));
+    text("Nº ondas: " +  + _heightMap.waves.size(), width*(0.945), height*(1-0.025));
     
   }
   popMatrix();
@@ -245,11 +247,13 @@ void keyPressed(){
     type = "Gerstner";
     resetSimulation();*/
     if(mode == 2){
-      if(4 > contWaves){
+      if(2 > contWaves){
         contWaves++;
-        _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        float dirx = random(-5f, 5f);
+        float dirz = random(-5f, 5f);
+        _heightMap.addWave(new GerstnerWave(amplitud*random(0.8, 1.4), lambda*random(1.2, 2.8), velprop*random(0.8, 1.2), new PVector(dirx, 0f, dirz), epicentro));
       }else{
-        println("No se pueden añadir más ondas de Gerstner");
+        println("No se pueden añadir más ondas de Gerstner, borra ondas con (B)");
       }
 
     }else{
@@ -257,6 +261,10 @@ void keyPressed(){
       type = "Gerstner";
       resetSimulation();
     }
+  }
+  if(key == 'b' || key == 'B'){
+    if(_heightMap.waves.size()-1 > 0)
+      _heightMap.waves.remove(_heightMap.waves.size()-1);
   }
   
 }
