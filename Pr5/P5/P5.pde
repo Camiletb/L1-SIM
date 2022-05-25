@@ -41,8 +41,9 @@ String type = "Radial";
 int contWaves = 0;
 
 PImage img;
-boolean display = true;
-int maxwaves = 3;
+boolean display = false;
+String vista = "Esqueleto";
+int maxwaves = 5;
 boolean liberacion = false;
 
 /* FUNCIONES */
@@ -197,6 +198,15 @@ void printInfo(){
     text("Reset [X].", width*0.025, height*0.2);
     text("Modelo actual: " + type, width*(0.645), height*(1-0.025));
     text("Nº ondas: " +  + _heightMap.waves.size(), width*(0.875), height*(1-0.025));
+    if(!display)
+        fill(240,80,80);
+    else
+        fill(80,210,210);
+    text("Modo de vista [V]: " + vista, width*(0.025), height*(1-0.05));
+    if(mode != 2)
+        text("     Tamaño de la malla: " + _heightMap._size + "m     Nº nodos: "+ _heightMap._nodes, width*(0.275), height*(1-0.05));
+    else
+        text("     Tamaño de la malla: " + _heightMap._size + "m     Nº nodos: "+ _heightMap._nodes + "     Ondas Gerstner máximas: "+ maxwaves, width*(0.275), height*(1-0.05));
     
   }
   popMatrix();
@@ -209,10 +219,12 @@ if(key == 'v' || key == 'V'){
     if(display){
         _heightMap = new HeightMap(20f, 75);
         maxwaves = 3;
+        vista = "Texturizada";
     }
     else{
         _heightMap = new HeightMap(60f, 60);
         maxwaves = 5;
+        vista = "Esqueleto";
     }
     resetSimulation();
   }
