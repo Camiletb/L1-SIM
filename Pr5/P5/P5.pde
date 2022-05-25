@@ -78,9 +78,7 @@ void setup(){
     perspective((FOV*PI)/180, aspect, NEAR, FAR);
     camera = new PeasyCam(this, 100);
     camera.lookAt(0, 0, 0);
-    //float cam[] = camera.getPosition();
-    camera.setPitchRotationMode(); // Rotate on the X axis
-    //println("Camera: " + cam[1]);
+    camera.setPitchRotationMode(); // Rotate on the X axis. Para un resultado más profesional. Comentando esta línea puedes desplazarte como siempre.
 
     /* Escena */
     img = loadImage("w3.png");
@@ -90,9 +88,6 @@ void setup(){
         _heightMap = new HeightMap(60f, 60);
     //initSimulation(OlaType.RADIAL);
     initSimulation();
-    //Debug
-        //println("Ellipse: " + );
-    //drawStaticEnvironment();
   
 }
 
@@ -102,9 +97,6 @@ void initSimulation(){
   
   //Crear la superficie para las olas
   _heightMap.init();
-
-  //_heightMap.waveArray.clear();
-    //_heightMap.listaWaves = new Wave[0];
     
     switch(mode){
       case 0:
@@ -130,8 +122,6 @@ void resetSimulation(){
 }
 
 void updateSimulation(){
-  // Update wave
-  //println("Dentro de updatesimulation");
   _heightMap.update();
   _simTime += time;
 }
@@ -139,7 +129,7 @@ void updateSimulation(){
 void drawStaticEnvironment(){
     noStroke();
     fill(255);
-    ellipse(0,0,1,1);
+    ellipse(0,0,0.5,0.5); //Simplemente, indica el punto (0, 0, 0) del eje de coordenadas
   
 }
 
@@ -148,7 +138,6 @@ void drawDynamicEnvironment(){
 }
 
 void draw(){
-    //println("Llegamos a P5.draw");
     int now = millis();
     _deltaTimeDraw = (now - _lastTimeDraw)/1000.0;
     _elapsedTime += _deltaTimeDraw;
@@ -280,9 +269,6 @@ if(key == 'v' || key == 'V'){
     resetSimulation();
   }
   if(key == 'g' || key == 'G'){
-    /*mode = 2;
-    type = "Gerstner";
-    resetSimulation();*/
     if(mode == 2){
         if(maxwaves-1 > contWaves){
             contWaves++;

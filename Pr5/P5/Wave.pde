@@ -6,7 +6,7 @@ abstract class Wave{
     float _dist;     //distancia del frente de onda al epicentro
     float _vp;       //velocidad de propagación
     PVector _dirN;   //dirección normalizada de la onda
-    float _Q = 0.005; //factor de inclinación de la cresta de la onda
+    float _Q = 0.005;//factor de inclinación de la cresta de la onda
     float _phi;      //fase de la onda
 
     /*Otros parámetros*/
@@ -22,7 +22,6 @@ abstract class Wave{
         _lambda = lam;
         _vp = vel;
         _epi = centro;
-        //_Q = inclinacion;
 
         _f = 1/_T;
         _w = 2 * PI/_T;
@@ -33,7 +32,6 @@ abstract class Wave{
         _dirN = dir.copy().normalize();
         _dist = db(dir.copy(), _epi);
         delta = new PVector();
-        //_epi = new PVector(0, 0);
         //println("A: " + _A + " lambda: " + _lambda + " vp: " + _vp + " Módulo dist: " + _dist + " dir normalizada: " + _dirN);
     }
     /*La siguiente función modifica el desplazamiento de un punto 
