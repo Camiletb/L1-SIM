@@ -6,6 +6,7 @@ class HeightMap{
   //position[column][row][axis]
   float _posdefault[][][];
   float _pos[][][];
+  float posini;
 
   ArrayList<Wave> waves;
   Wave listaWaves[];
@@ -20,7 +21,7 @@ class HeightMap{
     _size = size;
     _nodes = nodes;
     _tamCel = _size/_nodes;
-  
+    posini = _size/-2.0;
     //Init
     //...
     init();
@@ -38,7 +39,7 @@ class HeightMap{
 
     //posini
     //float posini = _size/-2.0;                  //Punto de inicio
-    float posini = _size/-2.0;                  //Punto de inicio
+                      //Punto de inicio
     _pos = new float[_nodes][_nodes][3];        //Tamaño del vPosición de cada punto de la malla
     _posdefault = new float[_nodes][_nodes][3]; //Por defecto
     
@@ -54,8 +55,8 @@ class HeightMap{
         //println("Pos[" + i + "][" + j + "][" + idZ + "] = " + _pos[i][j][idZ]);
       }
       _p = new PVector();
-      //_p = _pos.copy();
     }
+    _posdefault = _pos;
   }
 
   void draw(){
@@ -91,23 +92,43 @@ class HeightMap{
     draw();
   }*/
 
+
   void update(){
     PVector delta;
     //println("waves.size: "+ waves.size());
+    //println("_posdefault.x: " + _posdefault[0][0][idX]);
     for(int i = 0; i < _nodes; i++){
       for(int j = 0; j < _nodes; j++){
+        
         _p = new PVector(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ]);
         //_pos[i][j][idY] = _posdefault[i][j][idY];
-        
+         _posdefault[i][j][idX] = posini + _tamCel/2f + j * _tamCel; //x = desplazamiento lateral
+         _posdefault[i][j][idY] = 0;                    //y = altura
+         _posdefault[i][j][idZ] = posini + _tamCel/2f + i * _tamCel; //z = profundidad
         for(int k = 0; k < waves.size(); k++){
-          delta = waves.get(k).deltaWavePoint(_p);
+          /*if(mode == 2){*/
+            //delta = waves.get(k).deltaWavePoint(_p = new PVector(_posdefault[i][j][idX], _posdefault[i][j][idY], _posdefault[i][j][idZ] ));
+          /*} else*/
+            delta = waves.get(k).deltaWavePoint(_p);
           
-          _pos[i][j][idY] = delta.y;
-          if(mode == 2){
-            _pos[i][j][idX] = delta.x;
-            _pos[i][j][idZ] = delta.z;
-          }
+          
+          //if(mode == 2){
+            //_pos = _posdefault;
+            _pos[i][j][idY] = delta.y;
+            
+            PVector aux = new PVector(_posdefault[i][j][idX], _posdefault[i][j][idY], _posdefault[i][j][idZ]);
+            if(mode ==2 ){
+              _pos[i][j][idX] = aux.copy().x + delta.x;
+              _pos[i][j][idZ] = aux.copy().z + delta.z;
+              
+            }
+            //+= delta.x;
+            //_pos[i][j][idZ] += delta.z;
+            //_pos = _posdefault.add(delta.z);
+          //}
           //_pos[i][j][idY] += waves.get(k).getHeight(_pos[i][j][idX], _pos[i][j][idZ]);
+          
+          
         }
       }
     }

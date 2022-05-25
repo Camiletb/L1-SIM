@@ -38,6 +38,7 @@ boolean directional = false;
 boolean gerstner = false;
 int mode = 0;
 String type = "Radial";
+int contWaves = 0;
 /* FUNCIONES */
 
 // Settings del Display
@@ -100,7 +101,7 @@ void initSimulation(){
         _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
       case 1:
-        _heightMap.addWave(new DirectionalWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
       case 2:
         _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
@@ -113,6 +114,7 @@ void resetSimulation(){
   lambda = 10f;
   velprop = 4f;
   epicentro = new PVector(0,0,0);
+  contWaves = 0;
   _heightMap.waves.clear();
   initSimulation();
 }
@@ -133,9 +135,6 @@ void drawStaticEnvironment(){
 
 void drawDynamicEnvironment(){
     _heightMap.draw();
-    //_heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
-    //println("Wave: " + _heightMap.waves[0]._A);
-  //wave.draw();
 }
 
 void draw(){
@@ -235,8 +234,16 @@ void keyPressed(){
     resetSimulation();
   }
   if(key == 'g' || key == 'G'){
+    mode = 2;
+    type = "Gerstner";
+    resetSimulation();
     if(mode == 2){
-      _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+      if(5 >= contWaves){
+        contWaves++;
+        _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+      }else{
+        println("No se pueden añadir más ondas de Gerstner");
+      }
 
     }else{
       mode = 2;

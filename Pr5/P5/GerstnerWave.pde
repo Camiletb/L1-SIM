@@ -13,9 +13,11 @@ class GerstnerWave extends Wave{
     //PVector d = PVector.sub(epi, p);
     //s = d.mag();
     //Sacar el vector normalizado de propagación
-    delta.x = _Q * _A * getDirN().x * cos(2*PI/getLambda() * (getDirN().dot(p) + (getVp() * _simTime)));
+    delta.x = 0.003 * _A * getDirN().x * cos(2*PI/getLambda() * (getDirN().dot(p) + (getVp() * _simTime)));
+    //delta.x = 0;
     delta.y = _A * sin(2*PI/getLambda() * (getDirN().dot(p) + (getVp() * _simTime)));
-    delta.z = _Q * _A * getDirN().z *  cos(2*PI/getLambda() * (getDirN().dot(p) + (getVp() * _simTime)));
+    //delta.z = 0;
+    delta.z = 0.003* _Q * _A * getDirN().z *  cos(2*PI/getLambda() * (getDirN().dot(p) + (getVp() * _simTime)));
 
     return delta;
   }
