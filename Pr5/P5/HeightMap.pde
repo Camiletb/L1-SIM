@@ -11,6 +11,9 @@ class HeightMap{
   ArrayList<Wave> waves;
   Wave listaWaves[];
 
+  float _tex[][][];
+  //float mapCasted;
+
   PVector _p;
   /* Las siguientes variables sólo sirven para hacer
   el código más legible. */
@@ -43,6 +46,9 @@ class HeightMap{
     _pos = new float[_nodes][_nodes][3];        //Tamaño del vPosición de cada punto de la malla
     _posdefault = new float[_nodes][_nodes][3]; //Por defecto
     
+    _tex = new float[_nodes][_nodes][2];
+    float mapCasted = (float)_size;
+    //println("mapCasted: " + mapCasted);
     /* Inicialmente, los puntos de la malla tienen un valor en 
     x y en z, según su desplazamiento lateral y profundidad, 
     respectivamente. Pero la altura se establece en 0. */
@@ -51,6 +57,9 @@ class HeightMap{
         _pos[i][j][idX] = posini + _tamCel/2f + j * _tamCel; //x = desplazamiento lateral
         _pos[i][j][idY] = 0;                    //y = altura
         _pos[i][j][idZ] = posini + _tamCel/2f + i * _tamCel; //z = profundidad
+
+        _tex[i][j][0] =  (float)((j*_tamCel) /mapCasted )* img.width;
+        _tex[i][j][1] =  (float)((i*_tamCel) /mapCasted )* img.height;
         //println("Pos[" + i + "][" + j + "] = " + _pos[i][j][idX]);
         //println("Pos[" + i + "][" + j + "][" + idZ + "] = " + _pos[i][j][idZ]);
       }
@@ -61,22 +70,38 @@ class HeightMap{
 
   void draw(){
     //Dibujar la malla
-    //...
-    //Draw mesh (sin textura)
-    stroke(210,80,80);
-    strokeWeight(1);
-    fill(255);
-    for(int i=0; i<_nodes-1; i++){
-      for(int j=0; j<_nodes-1; j++){
-        line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i+1][j][idX], _pos[i+1][j][idY], _pos[i+1][j][idZ]);
-        line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i][j+1][idX], _pos[i][j+1][idY], _pos[i][j+1][idZ]);
-        line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i+1][j+1][idX], _pos[i+1][j+1][idY], _pos[i+1][j+1][idZ]);
-        //point(_pos[i][j][0], _pos[i][j][1], _pos[i][j][2]);
+    if(display){
+      noStroke();
+      for(int i=0; i<_nodes-1; i++){
+        beginShape(QUAD_STRIP);
+        texture(img);
+        for(int j=0; j<_nodes-1; j++){
+          
+          PVector posactual = new PVector(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ]);
+          PVector posnext = new PVector(_pos[i+1][j][idX], _pos[i+1][j][idY], _pos[i+1][j][idZ]);
+          //PVector posnext2 = new PVector(_pos[i+1][j+1][idX], _pos[i+1][j+1][idY], _pos[i+1][j+1][idZ]);
+          vertex(posactual.x, posactual.y, posactual.z, _tex[i][j][0], _tex[i][j][1]);
+          vertex(posnext.x, posnext.y, posnext.z, _tex[i+1][j][0], _tex[i][j][1]);
+        }
+        endShape();
       }
-      //Unir los puntos de la última columna de la matriz (desplazamiento lateral) (x máxima)
-      line(_pos[_nodes-1][i][idX], _pos[_nodes-1][i][idY], _pos[_nodes-1][i][idZ], _pos[_nodes-1][i+1][idX], _pos[_nodes-1][i+1][idY], _pos[_nodes-1][i+1][idZ]);
-      //Unir los puntos de la última fila de la matriz (z máxima)
-      line(_pos[i][_nodes-1][idX], _pos[i][_nodes-1][idY], _pos[i][_nodes-1][idZ], _pos[i+1][_nodes-1][idX], _pos[i+1][_nodes-1][idY], _pos[i+1][_nodes-1][idZ]);
+    }else {
+      //Draw mesh (sin textura)
+      stroke(210,80,80);
+      strokeWeight(1);
+      fill(255);
+      for(int i=0; i<_nodes-1; i++){
+        for(int j=0; j<_nodes-1; j++){
+          line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i+1][j][idX], _pos[i+1][j][idY], _pos[i+1][j][idZ]);
+          line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i][j+1][idX], _pos[i][j+1][idY], _pos[i][j+1][idZ]);
+          line(_pos[i][j][idX], _pos[i][j][idY], _pos[i][j][idZ], _pos[i+1][j+1][idX], _pos[i+1][j+1][idY], _pos[i+1][j+1][idZ]);
+          //point(_pos[i][j][0], _pos[i][j][1], _pos[i][j][2]);
+        }
+        //Unir los puntos de la última columna de la matriz (desplazamiento lateral) (x máxima)
+        line(_pos[_nodes-1][i][idX], _pos[_nodes-1][i][idY], _pos[_nodes-1][i][idZ], _pos[_nodes-1][i+1][idX], _pos[_nodes-1][i+1][idY], _pos[_nodes-1][i+1][idZ]);
+        //Unir los puntos de la última fila de la matriz (z máxima)
+        line(_pos[i][_nodes-1][idX], _pos[i][_nodes-1][idY], _pos[i][_nodes-1][idZ], _pos[i+1][_nodes-1][idX], _pos[i+1][_nodes-1][idY], _pos[i+1][_nodes-1][idZ]);
+      }
     }
 
     //con textura

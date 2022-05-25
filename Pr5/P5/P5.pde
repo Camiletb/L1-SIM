@@ -9,7 +9,7 @@ int DISPLAY_SIZE_X = 1000;
 int DISPLAY_SIZE_Y = 1000;
 final float FOV = 60;   // Field of view (º)
 final float NEAR = 0.001;   // Camera near distance (m)
-final float FAR = 100000.0;   // Camera far distance (m)
+final float FAR = 1000.0;   // Camera far distance (m)
 
 final color BACKGROUND_COLOR = color(20, 40, 60);   // Background color (RGB)
 final color MESH_COLOR = color(240, 30, 100, 100);   // Mesh lines color (RGB)
@@ -39,8 +39,13 @@ boolean gerstner = false;
 int mode = 0;
 String type = "Radial";
 int contWaves = 0;
-/* FUNCIONES */
 
+PImage img;
+boolean display = true;
+int maxwaves = 3;
+boolean liberacion = false;
+
+/* FUNCIONES */
 // Settings del Display
 void settings()
 {
@@ -77,7 +82,11 @@ void setup(){
     //println("Camera: " + cam[1]);
 
     /* Escena */
-    _heightMap = new HeightMap(60f, 60);
+    img = loadImage("w3.png");
+    if(display)
+        _heightMap = new HeightMap(20f, 75);
+    else
+        _heightMap = new HeightMap(60f, 60);
     //initSimulation(OlaType.RADIAL);
     initSimulation();
     //Debug
@@ -94,7 +103,7 @@ void initSimulation(){
   _heightMap.init();
 
   //_heightMap.waveArray.clear();
-    _heightMap.listaWaves = new Wave[0];
+    //_heightMap.listaWaves = new Wave[0];
     
     switch(mode){
       case 0:
@@ -195,6 +204,18 @@ void printInfo(){
 }
 
 void keyPressed(){
+if(key == 'v' || key == 'V'){
+    display = !display;
+    if(display){
+        _heightMap = new HeightMap(20f, 75);
+        maxwaves = 3;
+    }
+    else{
+        _heightMap = new HeightMap(60f, 60);
+        maxwaves = 5;
+    }
+    resetSimulation();
+  }
   if(key == 'x' || key == 'X'){
     resetSimulation();
   }
@@ -220,6 +241,10 @@ void keyPressed(){
   if(key == 'l' || key == 'L'){
     for(int k = 0; k < _heightMap.waves.size(); k++)
       _heightMap.waves.get(k)._lambda += 0.2;
+  }
+  if(key == 'k' || key == 'K'){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._lambda -= 0.2;
   }
   
   if(key == '.'){
@@ -247,14 +272,22 @@ void keyPressed(){
     type = "Gerstner";
     resetSimulation();*/
     if(mode == 2){
-      if(2 > contWaves){
-        contWaves++;
-        float dirx = random(-5f, 5f);
-        float dirz = random(-5f, 5f);
-        _heightMap.addWave(new GerstnerWave(amplitud*random(0.8, 1.4), lambda*random(1.2, 2.8), velprop*random(0.8, 1.2), new PVector(dirx, 0f, dirz), epicentro));
-      }else{
-        println("No se pueden añadir más ondas de Gerstner, borra ondas con (B)");
-      }
+        if(maxwaves-1 > contWaves){
+            contWaves++;
+            float dirx = random(-5f, 5f);
+            float dirz = random(-5f, 5f);
+            _heightMap.addWave(new GerstnerWave(amplitud*random(0.8, 1.4), lambda*random(1.2, 2.8), velprop*random(0.8, 1.2), new PVector(dirx, 0f, dirz), epicentro));
+            /*if(liberacion == true)
+                text("Una onda ha sido borrada. Ondas totales: " +  + _heightMap.waves.size(), width*(0.5), height*(1-0.225));
+            else
+                text("Una onda ha sido añadida. Ondas totales: " +  + _heightMap.waves.size(), width*(0.5), height*(1-0.225));*/
+        }else{
+            println("No se pueden añadir más ondas de Gerstner, borra ondas con (B)");
+        }
+
+        if(_deltaTimeDraw < 20.0){
+            liberacion = true;
+        }
 
     }else{
       mode = 2;
@@ -262,9 +295,13 @@ void keyPressed(){
       resetSimulation();
     }
   }
-  if(key == 'b' || key == 'B'){
-    if(_heightMap.waves.size()-1 > 0)
+  if(key == 'b' || key == 'B' /*|| liberacion*/){
+    if(_heightMap.waves.size()-1 > 0){
+
       _heightMap.waves.remove(_heightMap.waves.size()-1);
-  }
-  
+      contWaves--;
+      /*if(_deltaTimeDraw > 30.0)
+        liberacion = false;*/
+    }
+  }  
 }
