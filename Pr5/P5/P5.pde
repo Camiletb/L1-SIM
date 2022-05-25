@@ -100,13 +100,13 @@ void initSimulation(){
     
     switch(mode){
       case 0:
-        _heightMap.addWave(new RadialWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        _heightMap.addWave(new RadialWave(amplitud*random(0.8, 1.2), lambda*random(0.8, 1.2), velprop*random(0.8, 1.2), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), epicentro));
         break;
       case 1:
-        _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        _heightMap.addWave(new GerstnerWave(amplitud*random(0.8, 1.2), lambda*random(0.8, 1.2), velprop*random(0.8, 1.2), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), epicentro));
         break;
       case 2:
-        _heightMap.addWave(new GerstnerWave(amplitud*1.5, lambda*3, velprop, new PVector(7f, 0f, 5f), epicentro));
+        _heightMap.addWave(new GerstnerWave(amplitud*1.5*random(0.8, 1.2), lambda*3*random(0.8, 1.2), velprop*random(0.8, 1.2), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), epicentro));
         break;
     }
 }
