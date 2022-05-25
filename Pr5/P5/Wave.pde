@@ -6,7 +6,7 @@ abstract class Wave{
     float _dist;     //distancia del frente de onda al epicentro
     float _vp;       //velocidad de propagación
     PVector _dirN;   //dirección normalizada de la onda
-    float _Q = 0.1; //factor de inclinación de la cresta de la onda
+    float _Q = 0.005; //factor de inclinación de la cresta de la onda
     float _phi;      //fase de la onda
 
     /*Otros parámetros*/

@@ -104,7 +104,7 @@ void initSimulation(){
         _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
       case 2:
-        _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
+        _heightMap.addWave(new GerstnerWave(amplitud*1.5, lambda*3, velprop, new PVector(7f, 0f, 5f), epicentro));
         break;
     }
 }
@@ -183,7 +183,8 @@ void printInfo(){
     text("Amplitud [-/+]:   " + Math.round(_heightMap.waves.get(0)._A*100d)/100d + "m", width*0.025, height*0.075);
     text("Velocidad de propagación [I/O]:   " + Math.round(_heightMap.waves.get(0)._vp*100d)/100d + "m/s", width*0.025, height*0.1);
     text("Longitud de onda [K/L]:   " + Math.round(_heightMap.waves.get(0)._lambda*100d)/100d + "m", width*0.025, height*0.125);
-    text("Reset [X].", width*0.025, height*0.15);
+    text("Inclinación Q de la onda [,/.]:   " + Math.round(_heightMap.waves.get(0)._Q*100d)/100d, width*0.025, height*0.15);
+    text("Reset [X].", width*0.025, height*0.175);
     text("Modelo actual: " + type, width*(0.645), height*(1-0.025));
     
   }
@@ -218,9 +219,15 @@ void keyPressed(){
     for(int k = 0; k < _heightMap.waves.size(); k++)
       _heightMap.waves.get(k)._lambda += 0.2;
   }
-  if(key == 'k' || key == 'K'){
+  
+  if(key == '.'){
     for(int k = 0; k < _heightMap.waves.size(); k++)
-      _heightMap.waves.get(k)._lambda -= 0.2;
+      _heightMap.waves.get(k)._Q += 0.05;
+  }
+  
+  if(key == ','){
+    for(int k = 0; k < _heightMap.waves.size(); k++)
+      _heightMap.waves.get(k)._Q -= 0.05;
   }
   
   if(key == 'd' || key == 'D'){
@@ -234,11 +241,11 @@ void keyPressed(){
     resetSimulation();
   }
   if(key == 'g' || key == 'G'){
-    mode = 2;
+    /*mode = 2;
     type = "Gerstner";
-    resetSimulation();
+    resetSimulation();*/
     if(mode == 2){
-      if(5 >= contWaves){
+      if(4 > contWaves){
         contWaves++;
         _heightMap.addWave(new GerstnerWave(amplitud, lambda, velprop, new PVector(7f, 0f, 5f), epicentro));
       }else{
