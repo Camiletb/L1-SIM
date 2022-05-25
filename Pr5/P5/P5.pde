@@ -187,7 +187,7 @@ void printInfo(){
     text("En Gerstner, añade ondas con [G] o bórralas con [B].", width*0.025, height*0.175);
     text("Reset [X].", width*0.025, height*0.2);
     text("Modelo actual: " + type, width*(0.645), height*(1-0.025));
-    text("Nº ondas: " +  + _heightMap.waves.size(), width*(0.945), height*(1-0.025));
+    text("Nº ondas: " +  + _heightMap.waves.size(), width*(0.875), height*(1-0.025));
     
   }
   popMatrix();
