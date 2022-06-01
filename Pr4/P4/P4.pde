@@ -52,8 +52,8 @@ final float COLLISION_BREAK_LENGTH_FACTOR = 2.0;   // Maximum distance factor (m
 
 final boolean FULL_SCREEN = false;
 final int DRAW_FREQ = 50;   // Draw frequency (Hz or Frame-per-second)
-int DISPLAY_SIZE_X = 1000;   // Display width (pixels)
-int DISPLAY_SIZE_Y = 1000;   // Display height (pixels)
+int DISPLAY_SIZE_X = 750;   // Display width (pixels)
+int DISPLAY_SIZE_Y = 750;   // Display height (pixels)
 
 final float FOV = 60;   // Field of view (º)
 final float NEAR = 0.01;   // Camera near distance (m)
