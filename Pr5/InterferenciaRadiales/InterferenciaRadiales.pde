@@ -6,7 +6,7 @@ PeasyCam camera;
 final boolean FULL_SCREEN = false;
 final int DRAW_FREQ = 50;
 int DISPLAY_SIZE_X = 1000;
-int DISPLAY_SIZE_Y = 1000;
+int DISPLAY_SIZE_Y = 700;
 final float FOV = 60;   // Field of view (º)
 final float NEAR = 0.001;   // Camera near distance (m)
 final float FAR = 1000.0;   // Camera far distance (m)
@@ -81,7 +81,7 @@ void setup(){
     camera.setPitchRotationMode(); // Rotate on the X axis. Para un resultado más profesional. Comentando esta línea puedes desplazarte como siempre.
 
     /* Escena */
-    img = loadImage("w3.png");
+    img = loadImage("wata.jpg");
     if(display)
         _heightMap = new HeightMap(20f, 75);
     else
@@ -100,7 +100,8 @@ void initSimulation(){
     
     switch(mode){
       case 0:
-        _heightMap.addWave(new RadialWave(amplitud*random(0.8, 1.2), lambda*random(0.8, 1.2), velprop*random(0.8, 1.2), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), epicentro));
+        _heightMap.addWave(new RadialWave(amplitud*random(0.8, 1.2), lambda*random(0.2, 0.4), velprop*random(1.2, 1.6), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), new PVector(20f, 0f, 20f)));
+        _heightMap.addWave(new RadialWave(amplitud*random(0.8, 1.2), lambda*random(0.2, 0.4), velprop*random(0.8, 1.2), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), new PVector(-20f, 0f, 20f)));
         break;
       case 1:
         _heightMap.addWave(new GerstnerWave(amplitud*random(0.8, 1.2), lambda*random(0.8, 1.2), velprop*random(0.8, 1.2), new PVector(random(-7f, 7f), 0f, random(-7f, 7f)), epicentro));
