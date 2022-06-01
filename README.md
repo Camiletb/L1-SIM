@@ -1,7 +1,7 @@
 # Lab de simulación Curso 21/22
 ##### Por Camilo E. y Pablo G.
+## Tabla de contenidos
 ```
-Tabla de contenidos
 L1-SIM/
 ├─ Pr1/
 │  ├─ Problema1/
