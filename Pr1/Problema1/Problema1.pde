@@ -68,7 +68,8 @@ final PVector C2 = new PVector(0, sin(theta)* L);
 final PVector s0 = new PVector((C1.x / 2),(C2.y/2));
 final float Ra = 0.0; //Rozamiento aire
 final float Rp = 0.0; //Rozamiento plano
-boolean plano = true;;
+boolean plano = true;
+float L1, L2;
 
 
 

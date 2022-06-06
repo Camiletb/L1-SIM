@@ -9,7 +9,7 @@ ParticleSystem _system;   // Particle system
 ArrayList<PlaneSection> _planes;    // Planes representing the limits
 
 int DISPLAY_SIZE_X = 1500;   // Display width (pixels)
-int DISPLAY_SIZE_Y = 1200;   // Display height (pixels)
+int DISPLAY_SIZE_Y = 800;   // Display height (pixels)
 final int [] BACKGROUND_COLOR = {10, 10, 25};
 
 boolean puerta = false;
@@ -146,5 +146,8 @@ void keyPressed()
   if(key == 'M' || key == 'm'){
     _output.flush();
     _output.close();
+  }
+  if(key == 'R' || key == 'r'){
+    setup();
   }
 }
